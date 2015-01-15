@@ -63,7 +63,10 @@ Abstract here
 
 \section{Problem Requirements}
 
-- specifications as examples
+To develop a set of general programming problems that can be useful for conducting experiments using a wide range of program synthesis systems, we will first define requirements for the problems.
+
+This benchmark suite targets program synthesis systems that use example inputs and their corresponding outputs as the specifications for the desired program. In the context of genetic programming, we call these input/output pairs \textit{fitness cases} for the problem. Thus, a problem must be defined on a range of inputs that have known correct outputs; it cannot simply ask to calculate a specific value. For example, a problem that requires the program to calculate the number of prime numbers less than 1000 would not qualify, since it only has one answer; but, a similar problem that requires the program to calculate the number of prime numbers less than an input integer $n$ would meet this requirement, since we could then provide example inputs for $n$ and their corresponding desired outputs. This requirement also ensures that two sets of fitness cases can be generated: a \textit{training set} of cases used to search for programs that solve the problem, and a \textit{test set} of cases used to test programs that pass the training set to see if they generalize to unseen data.
+
 
 - non-trivial -- challenges typical of general programming by humans, as well as the types of problems we’d want a general program synthesis system to perform
 
@@ -71,6 +74,7 @@ The first is that the problems are non-trivial, and present challenges typical o
 
 - unbiased (toward a particular synthesis method)
 
+The second property is that the benchmarks should not be biased toward a particular method of synthesis. We will do our best to impartially choose any problems that meet the constraints of program synthesis from examples laid out in the introduction.
 
 
 
