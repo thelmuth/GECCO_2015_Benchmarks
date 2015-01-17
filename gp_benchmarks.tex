@@ -3,8 +3,8 @@
 
 \usepackage{tabulary}
 \usepackage[hyphens]{url}
-%\usepackage[hidelinks]{hyperref}
 \usepackage{rotating}
+\usepackage{underscore}
 
 \graphicspath{{./Figures/}}
 
@@ -61,31 +61,27 @@ Abstract here
 \section{Methods}
 
 
-\section{Problem Requirements}
+\section{Problem Requirements} \label{requirements}
 
-To develop a set of general programming problems that can be useful for conducting experiments using a wide range of program synthesis systems, we will first define requirements for the problems.
+To develop a set of general programming problems that can be useful for conducting experiments using a wide range of program synthesis systems, we will first define requirements for the problems. some of these requirements overlap by those described in the GP benchmarks papers \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}; some of their requirements don't fit this paper because of the specific problem domain we're targeting.
 
 This benchmark suite targets program synthesis systems that use example inputs and their corresponding outputs as the specifications for the desired program. In the context of genetic programming, we call these input/output pairs \textit{fitness cases} for the problem. Thus, a problem must be defined on a range of inputs that have known correct outputs; it cannot simply ask to calculate a specific value. For example, a problem that requires the program to calculate the number of prime numbers less than 1000 would not qualify, since it only has one answer; but, a similar problem that requires the program to calculate the number of prime numbers less than an input integer $n$ would meet this requirement, since we could then provide example inputs for $n$ and their corresponding desired outputs. This requirement also ensures that two sets of fitness cases can be generated: a \textit{training set} of cases used to search for programs that solve the problem, and a \textit{test set} of cases used to test programs that pass the training set to see if they generalize to unseen data.
 
+Problems in the suite should present challenges typical of real general program synthesis applications. The goal of a benchmark problem is to measure the characteristics of a system on a problem that mimics some aspects of the real applications on which it is expected to function. In order to test general program synthesis from examples, we want to choose benchmark problems that require a range of programming constructs and data types. Additionally, they should require a variety of sizes and shapes for solution programs, not limited to artificially small programs. Such a benchmark suite will not likely include problems that significantly challenge advanced human programmers, but should at least prove challenging to new programmers.
 
-- non-trivial -- challenges typical of general programming by humans, as well as the types of problems we’d want a general program synthesis system to perform
+Finally, the benchmarks should not be biased toward a particular method of synthesis. The problems presented here should be accessible to many forms of program synthesis, including a variety of genetic programming systems as well as other analytic and search-based program synthesis systems. Since systems generate programs in a variety of languages, problems that require a specific language feature or non-standard data type (such as Java objects) will be avoided. The only requirements on the synthesis system are that it needs to be able to generate programs that make use of the necessary data types, it takes input/output pairs as program specifications, and it is able to return results as well as print outputs.
 
-The first is that the problems are non-trivial, and present challenges typical of real general program synthesis applications. The goal of any benchmark problem is to measure the characteristics of a system on a problem that mimics some aspects of the real applications on which it is expected to function. In order to test general program synthesis from examples, we want to choose benchmark problems that require a range of programming constructs and data types. Additionally, they should require a variety of sizes and shapes for solution programs, not limited to artificially small programs. Such a benchmark suite will not likely include problems that provide significant difficultly for advanced human programmers, but should at least prove challenging to new programmers.
+\section{Problem Descriptions} \label{descriptionsSection}
 
-- unbiased (toward a particular synthesis method)
+This section describes the problems in this benchmark suite, which were all originally introductory computer science programming problems. These problems require a good range of difficulties and test whether a system can perform at a similar level to a human who is learning to program. They also require a wide range of programming constructs and use a variety of data types. By selecting external sources for problems and then using all problems that meet the requirements we defined in Section \ref{requirements}, we hopefully avoid biasing the selection of problems toward those solvable by our system.
 
-The second property is that the benchmarks should not be biased toward a particular method of synthesis. We will do our best to impartially choose any problems that meet the constraints of program synthesis from examples laid out in the introduction.
+We have selected two sources for problems: iJava \cite{iJava}, an interactive textbook for introductory computer science, and IntroClass \cite{ManyBugsAndIntroClass, Brun13TRgptest}, a set of problems originally used as benchmarks for automatic program repair. Below we describe each of these sources in further detail, along with the problems selected from each source.
 
+\subsection{iJava}
 
+In this section, we will describe the problems from iJava \cite{iJava, Moll:2011:IOI:1968521.1968535}. iJava is an interactive introductory computer science textbook that contains a number of automatically graded programming problems. These problems work well for automatic program synthesis from examples, since they are often automatically graded by testing programs against a range of inputs. 
 
-\section{Problems}
-To fulfill the requirements... chose problems from intro CS classes
-
-
-
-\subsection{Descriptions - iJava}
-
-In this section, we will describe the problems from iJava \cite{iJava, Moll:2011:IOI:1968521.1968535}. We used version 3.1 of the text---some problems might have different numbers or might not appear in other versions. Each problem has the question or project number that inspired it beside it.
+The problems we selected come from iJava edition 3.1---in other editions, some problems might have different numbers or might not appear. iJava does contain some problems that vary slightly but otherwise test very similar programming skills; in these cases, we chose one representative problem from the group. This ensures a reasonable distribution of problem requirements. Below, we present a natural language description as might be described to human programmers for the 23 problems chosen from iJava, and provide the question or project number associated with the problem in iJava 3.1.
 
 \subsubsection*{1. Number IO (Q 3.5.1)}
 Given an integer and a float, print their sum.
@@ -177,9 +173,9 @@ average sentence length: 7.452423455 \\
 A word is any string of consecutive non-whitespace characters (including sentence terminators). Every input will contain at least one sentence terminator (period, exclamation point, or question mark). The average number of words is the number of words in the file divided by the number of sentence terminator characters.
 
 
-\subsection{Descriptions - Repair Paper}
+\subsection{IntroClass}
 
-In this section, we will describe the problems from the Repair Paper \cite{ManyBugsAndIntroClass, Brun13TRgptest}. These problems have the same names in those papers, so no problem number.
+In this section, we will describe the problems from the IntroClass dataset \cite{ManyBugsAndIntroClass, Brun13TRgptest}. This set of 6 problems was designed for the purpose of benchmarking automatic software defect repair systems. As such, the authors of this dataset provide a number of buggy programs written by students trying to solve each problem, taken from students in an introductory computer science class. For the purposes of automatic program synthesis from scratch, we will use the problems themselves but not the accompanying buggy programs. Since these problems were designed for automatic defect repair, they all can be tested on a range of inputs, and require outputs to be printed.
 
 \subsubsection*{24. Checksum}
 Given a string, compute the integer values of the characters in the string, sum them, take the sum modulo 64, add the integer value of the space character, and then convert that integer back into its corresponding character (the checksum). The program must print \texttt{Check sum is X}, where $X$ is replaced by the correct checksum character.
@@ -199,131 +195,413 @@ Given 4 integers, print the smallest of them.
 \subsubsection*{29. Syllables}
 Given a string containing symbols, spaces, digits, and lowercase letters, count the number of occurrences of vowels (a, e, i, o, u, y) in the string and print that number as $X$ in \texttt{The number of syllables is X}.
 
+\section{Synthesis Problem Specifications}
 
+The natural language descriptions of the benchmark problems in Section \ref{descriptionsSection} contain insufficient details to implement the specifications in a program synthesis system. In this section we discuss issues related to defining problems so that they are interpretable by program synthesis systems. These specifications will allow the benchmark problems to be implemented in a variety of systems and should be as technique-independent as possible, while ensuring that different implementations are solving the ``same problem''.
 
 \begin{table*}[t]
 \centering
-\caption{Problem test cases. Inputs, input limits, outputs, and numbers of training and test cases.}
-\begin{tabular}{|r >{\raggedright}p{2.6cm} | >{\raggedright}p{2cm} >{\raggedright}p{5.5cm} >{\raggedright}p{2.5cm} rr|}
+\caption{For each problem, the types of the inputs and outputs, and the limits imposed on the inputs. Any printed outputs should be printed by the program to standard output.The column Train indicates the number of training cases we recommend for during synthesis, and Test indicates the number of unseen test cases we recommend for testing generalization of programs that pass all of the training cases.}
+\label{testCasesTable}
+%{\renewcommand{\arraystretch}{1}%
+\begin{tabular}{|l | >{\raggedright}p{7.4cm} l rr|}
 \hline
-\# & Name & Inputs & Input Limits & Outputs & Train & Test \\
+\textbf{Name} & \textbf{Inputs} & \textbf{Outputs} & \textbf{Train} & \textbf{Test} \\
 \hline
 \hline
-1 & Number IO & integer, float & $[-100, 100]$ & printed float & 25 & 1000 \\
+Number IO & integer in $[-100, 100]$, float in $[-100.0, 100.0]$ & printed float & 25 & 1000 \\
 \hline
-2 & Small Or Large & integer & $[-10000, 10000]$ & printed string & 100 & 1000 \\
+Small Or Large & integer in $[-10000, 10000]$ & printed string & 100 & 1000 \\
 \hline
-3 & For Loop Index & 3 integers & $[-500, 500]$, stepSize $[1, 10]$ & printed integers & 100 & 1000 \\
+For Loop Index & integers \texttt{start} and \texttt{end} in $[-500, 500]$, \texttt{step} in $[1, 10]$ & printed integers & 100 & 1000 \\
 \hline
-4 & Compare String Lengths & 3 strings & string of length $[0, 49]$ & boolean & 100 & 1000 \\
+Compare String Lengths & 3 strings of length $[0, 49]$ & boolean & 100 & 1000 \\
 \hline
-5 & Double Letters & string & string of length $[0, 20]$ & printed string & 100 & 1000 \\
+Double Letters & string of length $[0, 20]$ & printed string & 100 & 1000 \\
 \hline
-6 & Collatz Numbers & integer & $[1, 10000]$ & integer & 200 & 2000 \\
+Collatz Numbers & integer in $[1, 10000]$ & integer & 200 & 2000 \\
 \hline
-7 & Replace Space with Newline & string & string of length $[0, 20]$ & printed string, integer & 100 & 1000 \\
+Replace Space with Newline & string of length $[0, 20]$ & printed string, integer & 100 & 1000 \\
 \hline
-8 & String Differences & 2 strings & string of length $[0, 10]$ & printed string & 200 & 2000 \\
+String Differences & 2 strings of length $[0, 10]$ & printed string & 200 & 2000 \\
 \hline
-9 & Even Squares & integer & $[1, 9999]$ & printed string & 100 & 1000 \\
+Even Squares & integer in $[1, 9999]$ & printed string & 100 & 1000 \\
 \hline
-10 & Wallis Pi & integer & $[1, 200]$ & float & 150 & 50 \\
+Wallis Pi & integer in $[1, 200]$ & float & 150 & 50 \\
 \hline
-11 & String Lengths Backwards & vector of strings & vector of length $[0, 50]$ of strings of length $[0, 50]$ & printed string & 100 & 1000 \\
+String Lengths Backwards & vector of length $[0, 50]$ of strings of length $[0, 50]$ & printed string & 100 & 1000 \\
 \hline
-12 & Last Index of Zero & vector of integers & vector of integers of length $[1, 50]$ with each integer in $[-50, 50]$ & integer & 150 & 1000 \\
+Last Index of Zero & vector of integers of length $[1, 50]$ with each integer in $[-50, 50]$ & integer & 150 & 1000 \\
 \hline
-13 & Vector Average & vector of floats & vector of floats of length $[1,50]$ with each float in $[-1000.0, 1000.0]$ & float & 100 & 1000 \\
+Vector Average & vector of floats of length $[1,50]$ with each float in $[-1000.0, 1000.0]$ & float & 100 & 1000 \\
 \hline
-14 & Count Odds & vector of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & integer & 200 & 2000 \\
+Count Odds & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & integer & 200 & 2000 \\
 \hline
-15 & Mirror Image & 2 vectors of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & boolean & 100 & 1000 \\
+Mirror Image & 2 vectors of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & boolean & 100 & 1000 \\
 \hline
-16 & Super Anagrams & 2 strings & string of length $[0, 20]$ & boolean & 200 & 2000 \\
+Super Anagrams & 2 strings of length $[0, 20]$ & boolean & 200 & 2000 \\
 \hline
-17 & Sum of Squares & integer & $[1, 100]$ & integer & 50 & 50 \\
+Sum of Squares & integer in $[1, 100]$ & integer & 50 & 50 \\
 \hline
-18 & Vectors Summed & 2 vectors of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & vector of integers & 150 & 1500 \\
+Vectors Summed & 2 vectors of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & vector of integers & 150 & 1500 \\
 \hline
-19 & X-Word Lines & string, integer & integer $[1, 10]$, string of length $[0, 100]$ & printed string & 150 & 2000 \\
+X-Word Lines & integer in $[1, 10]$, string of length $[0, 100]$ & printed string & 150 & 2000 \\
 \hline
-20 & Pig Latin & string & string of length $[0, 50]$ & printed string & 200 & 1000 \\
+Pig Latin & string of length $[0, 50]$ & printed string & 200 & 1000 \\
 \hline
-21 & Negative To Zero & vector of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & vector of integers & 200 & 2000 \\
+Negative To Zero & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & vector of integers & 200 & 2000 \\
 \hline
-22 & Scrabble Score & string & string of length $[0, 20]$ & integer & 200 & 1000 \\
+Scrabble Score & string of length $[0, 20]$ & integer & 200 & 1000 \\
 \hline
-23 & Word Stats & file & file containing $[1, 100]$ chars & printed string & 100 & 1000 \\
+Word Stats & file containing $[1, 100]$ chars & printed string & 100 & 1000 \\
 \hline
-24 & Checksum & string & string of length $[0, 50]$ & printed string & 100 & 1000 \\
+Checksum & string of length $[0, 50]$ & printed string & 100 & 1000 \\
 \hline
-25 & Digits & integer & $[-9999999999, 9999999999]$ & printed integers & 100 & 1000 \\
+Digits & integer in $[-9999999999, 9999999999]$ & printed integers & 100 & 1000 \\
 \hline
-26 & Grade & 5 integers & $[0, 100]$ & printed string & 200 & 2000 \\
+Grade & 5 integers in $[0, 100]$ & printed string & 200 & 2000 \\
 \hline
-27 & Median & 3 integers & $[-100, 100]$ & printed integer & 100 & 1000 \\
+Median & 3 integers in $[-100, 100]$ & printed integer & 100 & 1000 \\
 \hline
-28 & Smallest & 4 integers & $[-100, 100]$ & printed integer & 100 & 1000 \\
+Smallest & 4 integers in $[-100, 100]$ & printed integer & 100 & 1000 \\
 \hline
-29 & Syllables & string & string of length $[0, 20]$ & printed string & 100 & 1000\\
+Syllables & string of length $[0, 20]$ & printed string & 100 & 1000\\
 \hline
 \end{tabular}
 \end{table*}
 
+%\begin{table*}[h]
+%\centering
+%\caption{Problem test cases. Inputs, input limits, outputs, and numbers of training and test cases.}
+%\label{testCasesTable}
+%%{\renewcommand{\arraystretch}{1}%
+%\begin{tabular}{|>{\raggedright}p{2.6cm} >{\raggedright}p{2cm} >{\raggedright}p{5.5cm} >{\raggedright}p{2.5cm} rr|}
+%\hline
+%\textbf{Name} & \textbf{Inputs} & \textbf{Input Limits} & \textbf{Outputs} & \textbf{Train} & \textbf{Test} \\
+%\hline
+%\hline
+%Number IO & integer, float & $[-100, 100]$ & printed float & 25 & 1000 \\
+%\hline
+%Small Or Large & integer & $[-10000, 10000]$ & printed string & 100 & 1000 \\
+%\hline
+%For Loop Index & 3 integers & $[-500, 500]$, stepSize $[1, 10]$ & printed integers & 100 & 1000 \\
+%\hline
+%Compare String Lengths & 3 strings & string of length $[0, 49]$ & boolean & 100 & 1000 \\
+%\hline
+%Double Letters & string & string of length $[0, 20]$ & printed string & 100 & 1000 \\
+%\hline
+%Collatz Numbers & integer & $[1, 10000]$ & integer & 200 & 2000 \\
+%\hline
+%Replace Space with Newline & string & string of length $[0, 20]$ & printed string, integer & 100 & 1000 \\
+%\hline
+%String Differences & 2 strings & string of length $[0, 10]$ & printed string & 200 & 2000 \\
+%\hline
+%Even Squares & integer & $[1, 9999]$ & printed string & 100 & 1000 \\
+%\hline
+%Wallis Pi & integer & $[1, 200]$ & float & 150 & 50 \\
+%\hline
+%String Lengths Backwards & vector of strings & vector of length $[0, 50]$ of strings of length $[0, 50]$ & printed string & 100 & 1000 \\
+%\hline
+%Last Index of Zero & vector of integers & vector of integers of length $[1, 50]$ with each integer in $[-50, 50]$ & integer & 150 & 1000 \\
+%\hline
+%Vector Average & vector of floats & vector of floats of length $[1,50]$ with each float in $[-1000.0, 1000.0]$ & float & 100 & 1000 \\
+%\hline
+%Count Odds & vector of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & integer & 200 & 2000 \\
+%\hline
+%Mirror Image & 2 vectors of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & boolean & 100 & 1000 \\
+%\hline
+%Super Anagrams & 2 strings & string of length $[0, 20]$ & boolean & 200 & 2000 \\
+%\hline
+%Sum of Squares & integer & $[1, 100]$ & integer & 50 & 50 \\
+%\hline
+%Vectors Summed & 2 vectors of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & vector of integers & 150 & 1500 \\
+%\hline
+%X-Word Lines & string, integer & integer $[1, 10]$, string of length $[0, 100]$ & printed string & 150 & 2000 \\
+%\hline
+%Pig Latin & string & string of length $[0, 50]$ & printed string & 200 & 1000 \\
+%\hline
+%Negative To Zero & vector of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & vector of integers & 200 & 2000 \\
+%\hline
+%Scrabble Score & string & string of length $[0, 20]$ & integer & 200 & 1000 \\
+%\hline
+%Word Stats & file & file containing $[1, 100]$ chars & printed string & 100 & 1000 \\
+%\hline
+%Checksum & string & string of length $[0, 50]$ & printed string & 100 & 1000 \\
+%\hline
+%Digits & integer & $[-9999999999, 9999999999]$ & printed integers & 100 & 1000 \\
+%\hline
+%Grade & 5 integers & $[0, 100]$ & printed string & 200 & 2000 \\
+%\hline
+%Median & 3 integers & $[-100, 100]$ & printed integer & 100 & 1000 \\
+%\hline
+%Smallest & 4 integers & $[-100, 100]$ & printed integer & 100 & 1000 \\
+%\hline
+%Syllables & string & string of length $[0, 20]$ & printed string & 100 & 1000\\
+%\hline
+%\end{tabular}
+%\end{table*}
 
-\begin{table*}[h]
+%\begin{table*}[h]
+%\centering
+%\caption{Problem test cases. Inputs, input limits, outputs, and numbers of training and test cases.}
+%\label{testCasesTable}
+%%{\renewcommand{\arraystretch}{1}%
+%\begin{tabular}{|r >{\raggedright}p{2.6cm} | >{\raggedright}p{2cm} >{\raggedright}p{5.5cm} >{\raggedright}p{2.5cm} rr|}
+%\hline
+%\textbf{N} & \textbf{Name} & \textbf{Inputs} & \textbf{Input Limits} & \textbf{Outputs} & \textbf{Train} & \textbf{Test} \\
+%\hline
+%\hline
+%1 & Number IO & integer, float & $[-100, 100]$ & printed float & 25 & 1000 \\
+%\hline
+%2 & Small Or Large & integer & $[-10000, 10000]$ & printed string & 100 & 1000 \\
+%\hline
+%3 & For Loop Index & 3 integers & $[-500, 500]$, stepSize $[1, 10]$ & printed integers & 100 & 1000 \\
+%\hline
+%4 & Compare String Lengths & 3 strings & string of length $[0, 49]$ & boolean & 100 & 1000 \\
+%\hline
+%5 & Double Letters & string & string of length $[0, 20]$ & printed string & 100 & 1000 \\
+%\hline
+%6 & Collatz Numbers & integer & $[1, 10000]$ & integer & 200 & 2000 \\
+%\hline
+%7 & Replace Space with Newline & string & string of length $[0, 20]$ & printed string, integer & 100 & 1000 \\
+%\hline
+%8 & String Differences & 2 strings & string of length $[0, 10]$ & printed string & 200 & 2000 \\
+%\hline
+%9 & Even Squares & integer & $[1, 9999]$ & printed string & 100 & 1000 \\
+%\hline
+%10 & Wallis Pi & integer & $[1, 200]$ & float & 150 & 50 \\
+%\hline
+%11 & String Lengths Backwards & vector of strings & vector of length $[0, 50]$ of strings of length $[0, 50]$ & printed string & 100 & 1000 \\
+%\hline
+%12 & Last Index of Zero & vector of integers & vector of integers of length $[1, 50]$ with each integer in $[-50, 50]$ & integer & 150 & 1000 \\
+%\hline
+%13 & Vector Average & vector of floats & vector of floats of length $[1,50]$ with each float in $[-1000.0, 1000.0]$ & float & 100 & 1000 \\
+%\hline
+%14 & Count Odds & vector of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & integer & 200 & 2000 \\
+%\hline
+%15 & Mirror Image & 2 vectors of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & boolean & 100 & 1000 \\
+%\hline
+%16 & Super Anagrams & 2 strings & string of length $[0, 20]$ & boolean & 200 & 2000 \\
+%\hline
+%17 & Sum of Squares & integer & $[1, 100]$ & integer & 50 & 50 \\
+%\hline
+%18 & Vectors Summed & 2 vectors of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & vector of integers & 150 & 1500 \\
+%\hline
+%19 & X-Word Lines & string, integer & integer $[1, 10]$, string of length $[0, 100]$ & printed string & 150 & 2000 \\
+%\hline
+%20 & Pig Latin & string & string of length $[0, 50]$ & printed string & 200 & 1000 \\
+%\hline
+%21 & Negative To Zero & vector of integers & vector of integers of length $[0,50]$ with each integer in $[-1000, 1000]$ & vector of integers & 200 & 2000 \\
+%\hline
+%22 & Scrabble Score & string & string of length $[0, 20]$ & integer & 200 & 1000 \\
+%\hline
+%23 & Word Stats & file & file containing $[1, 100]$ chars & printed string & 100 & 1000 \\
+%\hline
+%24 & Checksum & string & string of length $[0, 50]$ & printed string & 100 & 1000 \\
+%\hline
+%25 & Digits & integer & $[-9999999999, 9999999999]$ & printed integers & 100 & 1000 \\
+%\hline
+%26 & Grade & 5 integers & $[0, 100]$ & printed string & 200 & 2000 \\
+%\hline
+%27 & Median & 3 integers & $[-100, 100]$ & printed integer & 100 & 1000 \\
+%\hline
+%28 & Smallest & 4 integers & $[-100, 100]$ & printed integer & 100 & 1000 \\
+%\hline
+%29 & Syllables & string & string of length $[0, 20]$ & printed string & 100 & 1000\\
+%\hline
+%\end{tabular}
+%\end{table*}
+
+Table \ref{testCasesTable} presents information related to the sets of training and test data for each problem. These recommendations, like the rest in this section, are not set in stone; instead, they present guidelines that should be followed where possible. Adhering to these guidelines closely will create results with more legitimate comparability to the results presented here, as well as other uses of these benchmark problems. The table describes the data types of the inputs and outputs and gives reasonable ranges for program inputs. Note that some problems specify that outputs are printed to standard output, a requirement exhibited often in human-written code but rarely seen in automatic program synthesis previously. These problems explicitly required the printing of results in their original sources.
+
+We also provide recommendations for numbers of example cases to use in the train and test sets for each problem in Table \ref{testCasesTable}. For most problems, we recommend between 100 and 200 training cases, depending on the difficulty of the problem as well as the dimensionality of the input space. A few problems use fewer, either because they have limited input space or are simple enough to solve with fewer cases. The number of test cases, which are used to test generalization of solution programs to unseen data, is usually recommended to be ten times as large as the training set; again, there are exceptions for problems with limited input spaces. The method of producing the training and test cases is system-specific; we recommend a combination of hand-chosen edge cases with randomly generated cases, and will describe our method in more detail in the next section (GIVE SPECIFIC SECTION).
+
+\begin{table*}[t]
 \centering
-\caption{Data types. In terminals column, chars are represented in the Clojure style, starting with a backslash, and strings are surrounded by double quotation marks. The last row shows the number of Push instructions that primarily use each data type.}
-\begin{tabular}{|l|ccccccccccc|p{6cm}|}
+\caption{Instructions and data types used in our PushGP implementation of each problem. The column ``\# Instructions'' reports the number of instructions, terminals, and ERCs used for each problem. The middle columns show which data types were used for each problem. For example, the Number IO problem used all instructions that use integers, floats, and printing. The last column lists the constants and ERCs used for the problem. Here, char constants are represented in the Clojure style, starting with a backslash, and strings are surrounded by double quotation marks. The ``Problems Using Type'' row simply counts how many problems use each data type. The ``Instructions for Type'' row shows the number of Push instructions that primarily use each data type; some use multiple types but are only counted once (e.g. \texttt{integer\_fromfloat}, which requires both integer and float to be used).}
+\label{tableDataTypes}
+\begin{tabular}{|>{\raggedright}p{3.1cm}|c|ccccccccccc|>{\raggedright}p{5.5cm}|}
 \hline
-Problem                    & \begin{sideways}exec\end{sideways} & \begin{sideways}integer\end{sideways} & \begin{sideways}float\end{sideways} & \begin{sideways}boolean\end{sideways} & \begin{sideways}char\end{sideways} &  \begin{sideways}string\end{sideways} & \begin{sideways}vector of integers \- \end{sideways} & \begin{sideways}vector of floats\end{sideways} & \begin{sideways}vector of strings\end{sideways} & \begin{sideways}print\end{sideways} & \begin{sideways}file input\end{sideways} & Terminals (besides inputs) \\
+\textbf{Problem} & \begin{sideways}\textbf{\# Instructions} \- \end{sideways} & \begin{sideways}\textbf{exec}\end{sideways} & \begin{sideways}\textbf{integer}\end{sideways} & \begin{sideways}\textbf{float}\end{sideways} & \begin{sideways}\textbf{boolean}\end{sideways} & \begin{sideways}\textbf{char}\end{sideways} &  \begin{sideways}\textbf{string}\end{sideways} & \begin{sideways}\textbf{vector of integers} \- \end{sideways} & \begin{sideways}\textbf{vector of floats}\end{sideways} & \begin{sideways}\textbf{vector of strings}\end{sideways} & \begin{sideways}\textbf{print}\end{sideways} & \begin{sideways}\textbf{file input}\end{sideways} & \textbf{Terminals (besides inputs)} \tabularnewline
 \hline
-Number IO                  &      & x       & x     &         &      &        &                    &                  &                   & x     &            & integer ERC, float ERC                                                                                                                                                                                                      \\
-Small Or Large             & x    & x       &       & x       &      & x      &                    &                  &                   & x     &            & ``small'', ``large'', integer ERC                                                                                                                                                                                               \\
-For Loop Index             & x    & x       &       & x       &      &        &                    &                  &                   & x     &            &                                                                                                                                                                                                                             \\
-Compare String Lengths     & x    & x       &       & x       &      & x      &                    &                  &                   &       &            & boolean ERC                                                                                                                                                                                                                 \\
-Double Letters             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash !                                                                                                                                                                                                            \\
-Collatz Numbers            & x    & x       & x     & x       &      &        &                    &                  &                   &       &            & 0, 1, integer ERC                                                                                                                                                                                                           \\
-Replace Space with Newline & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash space, \textbackslash newline, string ERC, char ERC                                                                                                                                                          \\
-String Differences         & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash space, \textbackslash newline, integer ERC                                                                                                                                                                   \\
-Even Squares               & x    & x       &       & x       &      &        &                    &                  &                   & x     &            &                                                                                                                                                                                                                             \\
-Wallis Pi                  & x    & x       & x     & x       &      &        &                    &                  &                   &       &            & 2 integer ERCs, 2 float ERCs                                                                                                                                                                                                \\
-String Lengths Backwards   & x    & x       &       & x       &      & x      &                    &                  & x                 & x     &            & integer ERC                                                                                                                                                                                                                 \\
-Last Index of Zero         & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0                                                                                                                                                                                                                           \\
-Vector Average             & x    & x       & x     &         &      &        &                    & x                &                   &       &            &                                                                                                                                                                                                                             \\
-Count Odds                 & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0, 1, 2, integer ERC                                                                                                                                                                                                        \\
-Mirror Image               & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & boolean ERC                                                                                                                                                                                                                 \\
-Super Anagrams             & x    & x       &       & x       & x    & x      &                    &                  &                   &       &            & boolean ERC, char ERC, integer ERC                                                                                                                                                                                          \\
-Sum of Squares             & x    & x       &       & x       &      &        &                    &                  &                   &       &            & 0, 1, integer ERC                                                                                                                                                                                                           \\
-Vectors Summed             & x    & x       &       &         &      &        & x                  &                  &                   &       &            & {[}{]}, integer ERC                                                                                                                                                                                                         \\
-X-Word Lines               & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash newline, \textbackslash space                                                                                                                                                                                \\
-Pig Latin                  & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``ay'', \textbackslash space, \textbackslash a, \textbackslash e, \textbackslash i, \textbackslash o, \textbackslash u, ``aeiou'', string ERC, char ERC                                                                         \\
-Negative To Zero           & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0, {[}{]}                                                                                                                                                                                                                   \\
-Scrabble Score             & x    & x       &       & x       & x    & x      & x                  &                  &                   &       &            & vector containing Scrabble values (indexed by ASCII values)                                                                                                                                                                 \\
-Word Stats                 & x    & x       & x     & x       & x    & x      & x                  & x                & x                 & x     & x          & \textbackslash ., \textbackslash ?, \textbackslash !, \textbackslash space, \textbackslash tab, \textbackslash newline, {[}{]}, ``words of length '', ``: '', ``number of sentences: '', ``average sentence length: '', integer ERC \\
-Checksum                   & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``Check sum is '', \textbackslash space, 64, integer ERC, char ERC                                                                                                                                                            \\
-Digits                     & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash newline, integer ERC {[}-10, 10{]}                                                                                                                                                                           \\
-Grade                      & x    & x       &       & x       &      & x      &                    &                  &                   & x     &            & ``Student has a '', `` grade.'', ``A'', ``B'', ``C'', ``D'', ``F'', integer ERC                                                                                                                                                           \\
-Median                     & x    & x       &       & x       &      &        &                    &                  &                   & x     &            & integer ERC                                                                                                                                                                                                                 \\
-Smallest                   & x    & x       &       & x       &      &        &                    &                  &                   & x     &            & integer ERC                                                                                                                                                                                                                 \\
-Syllables                  & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``The number of syllables is '', ``aeiouy'', \textbackslash a, \textbackslash e, \textbackslash i, \textbackslash o, \textbackslash u, \textbackslash y, char ERC, string ERC                                                   \\
 \hline
-Count                      & 28   & 29      & 5     & 26      & 11   & 15     & 7                  & 2                & 2                 & 17    & 1          & \\
-Number of Instructions	& 26		& 28	& 	31	& 	19	& 	17	& 	39	& 	31	& 	31	& 	31	& 	10	& 	4	& \\
+Number IO                  & 50              &      & x       & x     &         &      &        &                    &                  &                   & x     &            & integer ERC, float ERC                                                                                                                                                                                                      \tabularnewline
+\hline
+Small Or Large             & 103             & x    & x       &       & x       &      & x      &                    &                  &                   & x     &            & ``small'', ``large'', integer ERC                                                                                                                                                                                               \tabularnewline
+\hline
+For Loop Index             & 74              & x    & x       &       & x       &      &        &                    &                  &                   & x     &            &                                                                                                                                                                                                                             \tabularnewline
+\hline
+Compare String Lengths     & 98              & x    & x       &       & x       &      & x      &                    &                  &                   &       &            & boolean ERC                                                                                                                                                                                                                 \tabularnewline
+\hline
+Double Letters             & 132             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash !                                                                                                                                                                                                            \tabularnewline
+\hline
+Collatz Numbers            & 102             & x    & x       & x     & x       &      &        &                    &                  &                   &       &            & 0, 1, integer ERC                                                                                                                                                                                                           \tabularnewline
+\hline
+Replace Space with Newline & 135             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash space, \textbackslash newline, string ERC, char ERC                                                                                                                                                          \tabularnewline
+\hline
+String Differences         & 135             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash space, \textbackslash newline, integer ERC                                                                                                                                                                   \tabularnewline
+\hline
+Even Squares               & 72              & x    & x       &       & x       &      &        &                    &                  &                   & x     &            &                                                                                                                                                                                                                             \tabularnewline
+\hline
+Wallis Pi                  & 103             & x    & x       & x     & x       &      &        &                    &                  &                   &       &            & 2 integer ERCs, 2 float ERCs                                                                                                                                                                                                \tabularnewline
+\hline
+String Lengths Backwards   & 134             & x    & x       &       & x       &      & x      &                    &                  & x                 & x     &            & integer ERC                                                                                                                                                                                                                 \tabularnewline
+\hline
+Last Index of Zero         & 101             & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0                                                                                                                                                                                                                           \tabularnewline
+\hline
+Vector Average             & 88              & x    & x       & x     &         &      &        &                    & x                &                   &       &            &                                                                                                                                                                                                                             \tabularnewline
+\hline
+Count Odds                 & 104             & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0, 1, 2, integer ERC                                                                                                                                                                                                        \tabularnewline
+\hline
+Mirror Image               & 102             & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & boolean ERC                                                                                                                                                                                                                 \tabularnewline
+\hline
+Super Anagrams             & 129             & x    & x       &       & x       & x    & x      &                    &                  &                   &       &            & boolean ERC, char ERC, integer ERC                                                                                                                                                                                          \tabularnewline
+\hline
+Sum of Squares             & 71              & x    & x       &       & x       &      &        &                    &                  &                   &       &            & 0, 1, integer ERC                                                                                                                                                                                                           \tabularnewline
+\hline
+Vectors Summed             & 68              & x    & x       &       &         &      &        & x                  &                  &                   &       &            & {[}{]}, integer ERC                                                                                                                                                                                                         \tabularnewline
+\hline
+X-Word Lines               & 134             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash newline, \textbackslash space                                                                                                                                                                                \tabularnewline
+\hline
+Pig Latin                  & 141             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``ay'', \textbackslash space, \textbackslash a, \textbackslash e, \textbackslash i, \textbackslash o, \textbackslash u, ``aeiou'', string ERC, char ERC                                                                         \tabularnewline
+\hline
+Negative To Zero           & 102             & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0, {[}{]}                                                                                                                                                                                                                   \tabularnewline
+\hline
+Scrabble Score             & 158             & x    & x       &       & x       & x    & x      & x                  &                  &                   &       &            & vector containing Scrabble values (indexed by ASCII values)                                                                                                                                                                 \tabularnewline
+\hline
+Word Stats                 & 281             & x    & x       & x     & x       & x    & x      & x                  & x                & x                 & x     & x          & \textbackslash ., \textbackslash ?, \textbackslash !, \textbackslash space, \textbackslash tab, \textbackslash newline, {[}{]}, ``words of length '', ``: '', ``number of sentences: '', ``average sentence length: '', integer ERC \tabularnewline
+\hline
+Checksum                   & 136             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``Check sum is '', \textbackslash space, 64, integer ERC, char ERC                                                                                                                                                            \tabularnewline
+\hline
+Digits                     & 133             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash newline, integer ERC {[}-10, 10{]}                                                                                                                                                                           \tabularnewline
+\hline
+Grade                      & 112             & x    & x       &       & x       &      & x      &                    &                  &                   & x     &            & ``Student has a '', `` grade.'', ``A'', ``B'', ``C'', ``D'', ``F'', integer ERC                                                                                                                                                           \tabularnewline
+\hline
+Median                     & 75              & x    & x       &       & x       &      &        &                    &                  &                   & x     &            & integer ERC                                                                                                                                                                                                                 \tabularnewline
+\hline
+Smallest                   & 76              & x    & x       &       & x       &      &        &                    &                  &                   & x     &            & integer ERC                                                                                                                                                                                                                 \tabularnewline
+\hline
+Syllables                  & 141             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``The number of syllables is '', ``aeiouy'', \textbackslash a, \textbackslash e, \textbackslash i, \textbackslash o, \textbackslash u, \textbackslash y, char ERC, string ERC                                                   \tabularnewline
+\hline
+\hline
+Problems Using Type                      &                 & 28   & 29      & 5     & 26      & 11   & 15     & 7                  & 2                & 2                 & 17    & 1          &                                                                                                                                                                                                                             \tabularnewline
+\hline
+Instructions for Type     &                 & 28   & 28      & 31    & 19      & 17   & 39     & 31                 & 31               & 31                & 10    & 4          &                                                                                                                                                                                                                             \tabularnewline
 \hline
 \end{tabular}
 \end{table*}
 
-Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. 
+%\begin{table*}[t]
+%\centering
+%\caption{Data types. In terminals column, chars are represented in the Clojure style, starting with a backslash, and strings are surrounded by double quotation marks. The last row shows the number of Push instructions that primarily use each data type. ``\# Instructions'' includes instructions, terminals, and ERCs.}
+%\label{tableDataTypes}
+%\begin{tabular}{|l|ccccccccccc|c|>{\raggedright}p{5cm}|}
+%\hline
+%Problem                    & \begin{sideways}exec\end{sideways} & \begin{sideways}integer\end{sideways} & \begin{sideways}float\end{sideways} & \begin{sideways}boolean\end{sideways} & \begin{sideways}char\end{sideways} &  \begin{sideways}string\end{sideways} & \begin{sideways}vector of integers \- \end{sideways} & \begin{sideways}vector of floats\end{sideways} & \begin{sideways}vector of strings\end{sideways} & \begin{sideways}print\end{sideways} & \begin{sideways}file input\end{sideways} & \begin{sideways}\# Instructions \- \end{sideways} & Terminals (besides inputs) \tabularnewline
+%\hline
+%Number IO                  &      & x       & x     &         &      &        &                    &                  &                   & x     &  & 50 & integer ERC, float ERC                                                                                                                                                                                                      \tabularnewline
+%Small Or Large             & x    & x       &       & x       &      & x      &                    &                  &                   & x     &  & 103            & ``small'', ``large'', integer ERC                                                                                                                                                                                               \tabularnewline
+%For Loop Index             & x    & x       &       & x       &      &        &                    &                  &                   & x     &  & 74           &                                                                                                                                                                                                                             \tabularnewline
+%Compare String Lengths     & x    & x       &       & x       &      & x      &                    &                  &                   &       &  & 98            & boolean ERC                                                                                                                                                                                                                 \tabularnewline
+%Double Letters             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &  & 132            & \textbackslash !                                                                                                                                                                                                            \tabularnewline
+%Collatz Numbers            & x    & x       & x     & x       &      &        &                    &                  &                   &       &  & 102           & 0, 1, integer ERC                                                                                                                                                                                                           \tabularnewline
+%Replace Space with Newline & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &  & 135           & \textbackslash space, \textbackslash newline, string ERC, char ERC                                                                                                                                                          \tabularnewline
+%String Differences         & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &  & 135            & \textbackslash space, \textbackslash newline, integer ERC                                                                                                                                                                   \tabularnewline
+%Even Squares               & x    & x       &       & x       &      &        &                    &                  &                   & x     &  & 72            &                                                                                                                                                                                                                             \tabularnewline
+%Wallis Pi                  & x    & x       & x     & x       &      &        &                    &                  &                   &       &  & 103            & 2 integer ERCs, 2 float ERCs                                                                                                                                                                                                \tabularnewline
+%String Lengths Backwards   & x    & x       &       & x       &      & x      &                    &                  & x                 & x     &  & 134            & integer ERC                                                                                                                                                                                                                 \tabularnewline
+%Last Index of Zero         & x    & x       &       & x       &      &        & x                  &                  &                   &       &  & 101            & 0                                                                                                                                                                                                                           \tabularnewline
+%Vector Average             & x    & x       & x     &         &      &        &                    & x                &                   &       &  & 88            &                                                                                                                                                                                                                             \tabularnewline
+%Count Odds                 & x    & x       &       & x       &      &        & x                  &                  &                   &       &  & 104            & 0, 1, 2, integer ERC                                                                                                                                                                                                        \tabularnewline
+%Mirror Image               & x    & x       &       & x       &      &        & x                  &                  &                   &       &  & 102           & boolean ERC                                                                                                                                                                                                                 \tabularnewline
+%Super Anagrams             & x    & x       &       & x       & x    & x      &                    &                  &                   &       &  & 129            & boolean ERC, char ERC, integer ERC                                                                                                                                                                                          \tabularnewline
+%Sum of Squares             & x    & x       &       & x       &      &        &                    &                  &                   &       &  & 71           & 0, 1, integer ERC                                                                                                                                                                                                           \tabularnewline
+%Vectors Summed             & x    & x       &       &         &      &        & x                  &                  &                   &       &  & 68           & {[}{]}, integer ERC                                                                                                                                                                                                         \tabularnewline
+%X-Word Lines               & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &  & 134           & \textbackslash newline, \textbackslash space                                                                                                                                                                                \tabularnewline
+%Pig Latin                  & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &  & 141           & ``ay'', \textbackslash space, \textbackslash a, \textbackslash e, \textbackslash i, \textbackslash o, \textbackslash u, ``aeiou'', string ERC, char ERC                                                                         \tabularnewline
+%Negative To Zero           & x    & x       &       & x       &      &        & x                  &                  &                   &       &  & 102           & 0, {[}{]}                                                                                                                                                                                                                   \tabularnewline
+%Scrabble Score             & x    & x       &       & x       & x    & x      & x                  &                  &                   &       &  & 158           & vector containing Scrabble values (indexed by ASCII values)                                                                                                                                                                 \tabularnewline
+%Word Stats                 & x    & x       & x     & x       & x    & x      & x                  & x                & x                 & x     & x & 281          & \textbackslash ., \textbackslash ?, \textbackslash !, \textbackslash space, \textbackslash tab, \textbackslash newline, {[}{]}, ``words of length '', ``: '', ``number of sentences: '', ``average sentence length: '', integer ERC \tabularnewline
+%Checksum                   & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &  & 136           & ``Check sum is '', \textbackslash space, 64, integer ERC, char ERC                                                                                                                                                            \tabularnewline
+%Digits                     & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &  & 133           & \textbackslash newline, integer ERC {[}-10, 10{]}                                                                                                                                                                           \tabularnewline
+%Grade                      & x    & x       &       & x       &      & x      &                    &                  &                   & x     &  & 112           & ``Student has a '', `` grade.'', ``A'', ``B'', ``C'', ``D'', ``F'', integer ERC                                                                                                                                                           \tabularnewline
+%Median                     & x    & x       &       & x       &      &        &                    &                  &                   & x     &  & 75           & integer ERC                                                                                                                                                                                                                 \tabularnewline
+%Smallest                   & x    & x       &       & x       &      &        &                    &                  &                   & x     &  & 76           & integer ERC                                                                                                                                                                                                                 \tabularnewline
+%Syllables                  & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &  & 141           & ``The number of syllables is '', ``aeiouy'', \textbackslash a, \textbackslash e, \textbackslash i, \textbackslash o, \textbackslash u, \textbackslash y, char ERC, string ERC                                                   \tabularnewline
+%\hline
+%Problems Using Type                      & 28   & 29      & 5     & 26      & 11   & 15     & 7                  & 2                & 2                 & 17    & 1          &  & \tabularnewline
+%Instructions for Type	& 26		& 28	& 	31	& 	19	& 	17	& 	39	& 	31	& 	31	& 	31	& 	10	& 	4	&  & \tabularnewline
+%\hline
+%\end{tabular}
+%\end{table*}
 
-Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. 
+%\begin{table*}[h]
+%\centering
+%\caption{Data types. In terminals column, chars are represented in the Clojure style, starting with a backslash, and strings are surrounded by double quotation marks. The last row shows the number of Push instructions that primarily use each data type.}
+%\label{tableDataTypes}
+%\begin{tabular}{|l|ccccccccccc|p{6cm}|}
+%\hline
+%Problem                    & \begin{sideways}exec\end{sideways} & \begin{sideways}integer\end{sideways} & \begin{sideways}float\end{sideways} & \begin{sideways}boolean\end{sideways} & \begin{sideways}char\end{sideways} &  \begin{sideways}string\end{sideways} & \begin{sideways}vector of integers \- \end{sideways} & \begin{sideways}vector of floats\end{sideways} & \begin{sideways}vector of strings\end{sideways} & \begin{sideways}print\end{sideways} & \begin{sideways}file input\end{sideways} & Terminals (besides inputs) \\
+%\hline
+%Number IO                  &      & x       & x     &         &      &        &                    &                  &                   & x     &            & integer ERC, float ERC                                                                                                                                                                                                      \\
+%Small Or Large             & x    & x       &       & x       &      & x      &                    &                  &                   & x     &            & ``small'', ``large'', integer ERC                                                                                                                                                                                               \\
+%For Loop Index             & x    & x       &       & x       &      &        &                    &                  &                   & x     &            &                                                                                                                                                                                                                             \\
+%Compare String Lengths     & x    & x       &       & x       &      & x      &                    &                  &                   &       &            & boolean ERC                                                                                                                                                                                                                 \\
+%Double Letters             & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash !                                                                                                                                                                                                            \\
+%Collatz Numbers            & x    & x       & x     & x       &      &        &                    &                  &                   &       &            & 0, 1, integer ERC                                                                                                                                                                                                           \\
+%Replace Space with Newline & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash space, \textbackslash newline, string ERC, char ERC                                                                                                                                                          \\
+%String Differences         & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash space, \textbackslash newline, integer ERC                                                                                                                                                                   \\
+%Even Squares               & x    & x       &       & x       &      &        &                    &                  &                   & x     &            &                                                                                                                                                                                                                             \\
+%Wallis Pi                  & x    & x       & x     & x       &      &        &                    &                  &                   &       &            & 2 integer ERCs, 2 float ERCs                                                                                                                                                                                                \\
+%String Lengths Backwards   & x    & x       &       & x       &      & x      &                    &                  & x                 & x     &            & integer ERC                                                                                                                                                                                                                 \\
+%Last Index of Zero         & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0                                                                                                                                                                                                                           \\
+%Vector Average             & x    & x       & x     &         &      &        &                    & x                &                   &       &            &                                                                                                                                                                                                                             \\
+%Count Odds                 & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0, 1, 2, integer ERC                                                                                                                                                                                                        \\
+%Mirror Image               & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & boolean ERC                                                                                                                                                                                                                 \\
+%Super Anagrams             & x    & x       &       & x       & x    & x      &                    &                  &                   &       &            & boolean ERC, char ERC, integer ERC                                                                                                                                                                                          \\
+%Sum of Squares             & x    & x       &       & x       &      &        &                    &                  &                   &       &            & 0, 1, integer ERC                                                                                                                                                                                                           \\
+%Vectors Summed             & x    & x       &       &         &      &        & x                  &                  &                   &       &            & {[}{]}, integer ERC                                                                                                                                                                                                         \\
+%X-Word Lines               & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash newline, \textbackslash space                                                                                                                                                                                \\
+%Pig Latin                  & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``ay'', \textbackslash space, \textbackslash a, \textbackslash e, \textbackslash i, \textbackslash o, \textbackslash u, ``aeiou'', string ERC, char ERC                                                                         \\
+%Negative To Zero           & x    & x       &       & x       &      &        & x                  &                  &                   &       &            & 0, {[}{]}                                                                                                                                                                                                                   \\
+%Scrabble Score             & x    & x       &       & x       & x    & x      & x                  &                  &                   &       &            & vector containing Scrabble values (indexed by ASCII values)                                                                                                                                                                 \\
+%Word Stats                 & x    & x       & x     & x       & x    & x      & x                  & x                & x                 & x     & x          & \textbackslash ., \textbackslash ?, \textbackslash !, \textbackslash space, \textbackslash tab, \textbackslash newline, {[}{]}, ``words of length '', ``: '', ``number of sentences: '', ``average sentence length: '', integer ERC \\
+%Checksum                   & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``Check sum is '', \textbackslash space, 64, integer ERC, char ERC                                                                                                                                                            \\
+%Digits                     & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & \textbackslash newline, integer ERC {[}-10, 10{]}                                                                                                                                                                           \\
+%Grade                      & x    & x       &       & x       &      & x      &                    &                  &                   & x     &            & ``Student has a '', `` grade.'', ``A'', ``B'', ``C'', ``D'', ``F'', integer ERC                                                                                                                                                           \\
+%Median                     & x    & x       &       & x       &      &        &                    &                  &                   & x     &            & integer ERC                                                                                                                                                                                                                 \\
+%Smallest                   & x    & x       &       & x       &      &        &                    &                  &                   & x     &            & integer ERC                                                                                                                                                                                                                 \\
+%Syllables                  & x    & x       &       & x       & x    & x      &                    &                  &                   & x     &            & ``The number of syllables is '', ``aeiouy'', \textbackslash a, \textbackslash e, \textbackslash i, \textbackslash o, \textbackslash u, \textbackslash y, char ERC, string ERC                                                   \\
+%\hline
+%Problems Using Type                      & 28   & 29      & 5     & 26      & 11   & 15     & 7                  & 2                & 2                 & 17    & 1          & \\
+%Instructions for Type	& 26		& 28	& 	31	& 	19	& 	17	& 	39	& 	31	& 	31	& 	31	& 	10	& 	4	& \\
+%\hline
+%\end{tabular}
+%\end{table*}
 
-Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. 
+The question of which instructions to make available for a synthesis system to use for each problem is a complex one. It is important to not cherry pick a small set of instructions that are known to be sufficient to solve a problem; such a selection may be difficult for a real-world problem, where it might not be clear which instructions will be useful. On the other hand, using all available instructions for every problem expands the search space and may make problems more difficult than necessary. Our recommendation is to compromise between these approaches. In our PushGP system, we first annotated each Push instruction as to which data types it required; for example, an \texttt{integer\_eq} instruction requires integers and booleans, since it takes integers as inputs and returns a boolean. Then, for each problem we selected which data types might be useful, and used all instructions that met the requirements for the problem's data types. This method requires the user to only specify what data types might be necessary to solve the problem, limiting the number of instructions without cherry picking.
+
+In Table \ref{tableDataTypes} we present the data types we chose for each problem. The ``exec'' column signifies instructions that use Push's exec stack, which typically perform control flow manipulations such as conditionals, iteration, subfunctions defined through tagging (CITE TAGGING). The ``print'' column includes instructions that print data to standard output, and ``file input'' includes a small set of file reading instructions.
+
+Table \ref{tableDataTypes} also gives the terminals used for each problem, which encompass constants and ephemeral random constants (ERCs). ERCs allow for the creation of random constants in randomly generated code during initialization and mutation. 
+
+The second column in Table \ref{tableDataTypes} gives the number of instructions and terminals we used in our implementation of the benchmark problems in PushGP. The number of instructions used in other implementations of these problems will likely vary somewhat depending on the language in which programs are synthesized. These instructions should include a wide range of general purpose programming instructions similar to those used in modern high-level programming languages. The high numbers of instructions used for these general programming problems differs from most prior applications of GP and other program synthesis techniques, which often use small, domain-specific instruction sets.
+
+\section{Experiment}
+
+Now a table of GP parameters \ref{tableGPParameters}.
+
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
 
 \begin{table}[h]
 \centering
 \caption{GP Parameters}
-\begin{tabular}{|>{\raggedright}p{2.5cm} | >{\raggedleft}p{0.6cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}|}
+\label{tableGPParameters}
+\begin{tabular}{|>{\raggedright}m{2.5cm} | >{\raggedleft}p{0.6cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}|}
 \hline
 Problem                    & Max Prog Size & Eval Limit & Max Gens & Program Evaluation Budget \tabularnewline
 \hline
@@ -360,17 +638,16 @@ Syllables                  & 800           & 1600           & 300      & 30,000,
 \end{tabular}
 \end{table}
 
-Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. 
+And a table of results \ref{tableResults}.
 
-Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. 
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
 
-Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. Text above here. 
-
-\section{Experimental Results}
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
 
 \begin{table}[h]
 \centering
 \caption{Results. Bold means significant?}
+\label{tableResults}
 \begin{tabular}{|l|rrr|}
 \hline
 Problem                    & Lexicase & Tourney & IFS \\
@@ -392,13 +669,13 @@ Count Odds                 & 8        & 0       & 0   \\
 Mirror Image               & 78       & 46      & 64  \\
 Super Anagrams             & 0        & 0       & 0   \\
 Sum of Squares             & 0        & 3       & 1   \\
-Vectors Summed             & 0        &         &     \\
+Vectors Summed             & 0        & -       & -   \\
 X-Word Lines               & 8        & 0       & 0   \\
 Pig Latin                  & 0        & 0       & 0   \\
 Negative To Zero           & 45       & 10      & 8   \\
-Scrabble Score             &          &         &     \\
-Word Stats                 & 0        & 0       &     \\
-Checksum                   &          &         &     \\
+Scrabble Score             & -        & -       & -   \\
+Word Stats                 & 0        & 0       & -   \\
+Checksum                   & -        & -       & -   \\
 Digits                     & 7        & 0       & 1   \\
 Grade                      & 4        & 0       & 0   \\
 Median                     & 45       & 7       & 43  \\
@@ -408,6 +685,35 @@ Syllables                  & 18       & 1       & 7   \\
 \end{tabular}
 \end{table}
 
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+
+Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+
+\section{Conclusions}
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. Conclusions goes here; this is filler text. 
+
+The end.
 
 
 %ACKNOWLEDGMENTS are optional
