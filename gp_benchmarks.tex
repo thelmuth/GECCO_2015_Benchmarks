@@ -69,11 +69,13 @@ This benchmark suite targets program synthesis systems that use example inputs a
 
 Problems in the suite should present challenges typical of real general program synthesis applications. The goal of a benchmark problem is to measure the characteristics of a system on a problem that mimics some aspects of the real applications on which it is expected to function. In order to test general program synthesis from examples, we want to choose benchmark problems that require a range of programming constructs and data types. Additionally, they should require a variety of sizes and shapes for solution programs, not limited to artificially small programs. Such a benchmark suite will not likely include problems that significantly challenge advanced human programmers, but should at least prove challenging to new programmers.
 
-Finally, the benchmarks should not be biased toward a particular method of synthesis. The problems presented here should be accessible to many forms of program synthesis, including a variety of genetic programming systems as well as other analytic and search-based program synthesis systems. Since systems generate programs in a variety of languages, problems that require a specific language feature or non-standard data type (such as Java objects) will be avoided. The only requirements on the synthesis system are that it needs to be able to generate programs that make use of the necessary data types, it takes input/output pairs as program specifications, and it is able to return results as well as print outputs.
+Finally, the benchmarks should not be biased toward a particular method of synthesis. The problems presented here should be accessible to many forms of program synthesis, including a variety of genetic programming systems as well as other analytic and search-based program synthesis systems. Since systems generate programs in a variety of languages, problems that require a specific language feature or non-standard data type (such as Java objects) will be avoided.
+
+The only requirements on the synthesis system are that it needs to be able to generate programs that make use of the necessary data types, it takes input/output pairs as program specifications, and it is able to return results as well as print outputs. (MAKE THIS CLEARER)
 
 \section{Problem Descriptions} \label{descriptionsSection}
 
-This section describes the problems in this benchmark suite, which were all originally introductory computer science programming problems. These problems require a good range of difficulties and test whether a system can perform at a similar level to a human who is learning to program. They also require a wide range of programming constructs and use a variety of data types. By selecting external sources for problems and then using all problems that meet the requirements we defined in Section \ref{requirements}, we hopefully avoid biasing the selection of problems toward those solvable by our system.
+This section describes the problems in this benchmark suite, which we chose to take exclusively from introductory computer science programming problems. This level of programming problems tests whether a system can perform at a similar level to a human who is learning to program. They also require a wide range of programming constructs and use a variety of data types. By selecting external sources for problems and then using all problems that meet the requirements we defined in Section \ref{requirements}, we hopefully avoid biasing the selection of problems toward those solvable by our system.
 
 We have selected two sources for problems: iJava \cite{iJava}, an interactive textbook for introductory computer science, and IntroClass \cite{ManyBugsAndIntroClass, Brun13TRgptest}, a set of problems originally used as benchmarks for automatic program repair. Below we describe each of these sources in further detail, along with the problems selected from each source.
 
@@ -114,7 +116,7 @@ Given 2 strings (without whitespace) as input, find the indices at which the str
 \subsubsection*{9. Even Squares (Q 5.4.1)}
 Given an integer $n$, print all of the positive even perfect squares less than $n$ on separate lines.
 
-\subsubsection*{10. Wallis Pi (Projet 6.4))}
+\subsubsection*{10. Wallis Pi (Project 6.4))}
 John Wallis gave the following infinite product that converges to $\pi/4$:
 \[
 (2/3)\times(4/3)\times(4/5)\times(6/5)\times(6/7)\times(8/7)\times(8/9)\times(10/9)...
@@ -131,7 +133,7 @@ Given a vector of integers, at least one of which is 0, return the index of the 
 Given a vector of floats, return the average of those floats. Results are rounded to 4 decimal places.
 
 \subsubsection*{14. Count Odds (Q 7.7.12)}
-Given a vector of integers, return the number of integers that are odd. (DOES NOT INCLUDE AN EVEN OR ODD INSTRUCTION. SHOULD WE SAY THIS?)
+Given a vector of integers, return the number of integers that are odd, without use of a specific \texttt{even} or \texttt{odd} instruction.
 
 \subsubsection*{15. Mirror Image (Q 7.7.15)}
 Given two vectors, return true if one vector is the reverse of the other, and false otherwise.
