@@ -18,7 +18,8 @@
 \widowpenalty = 10000
 % --- End of Author Metadata ---
 
-\title{GP Benchmarks}
+%      IntroProg Benchmark Suite for General Program Synthesis
+\title{General Program Synthesis Benchmark Suite}
 
 \numberofauthors{2} 
 
@@ -591,13 +592,17 @@ The second column in Table \ref{tableDataTypes} gives the number of instructions
 
 \section{Experiment}
 
-Now a table of GP parameters \ref{tableGPParameters}.
+Where the relevance of a benchmark suite is determined by how well its problems reflect potential applications of the test systems, its utility is based on how well it differentiates between different approaches. We aim to include problems with a large range of difficulties, from those that can be solved reliably to those that extend beyond the abilities of current program synthesis systems. More importantly, we hope to include problems that are solved more often with some systems or settings than others, allowing us to compare their performances on these problems.
 
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+In this section we present a simple experiment showing the utility of the benchmark suite presented here. This experiment compares three parent selection algorithms: lexicase selection, tournament selection, and implicit fitness sharing.
 
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+Lexicase selection \cite{Helmuth:2014:ieeeTEC, Spector:2012:APM:2330784.2330846}, %maybe remove the second citation here if need space?
+ unlike tournament selection and implicit fitness sharing, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training cases to select individuals that perform as well as possible on a subset of the training cases even if they exhibit poor performance on other cases. Lexicase selection has been shown to increase performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
 
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+Implicit fitness sharing (IFS) is a modification of tournament selection designed to encourage diversity preservation in the population \cite{McKay:2000:GECCO}. In IFS, more reward is given to individuals for solving training cases that are solved by fewer members of the population. Most of the problems here produce non-binary error values, for which we use the non-binary adaptation of IFS found in \cite{Krawiec:2013:EvoIASP}. As required by this method, we normalize error values to $[0, 1]$ by dividing each error by a maximum allowed error value, which differs per problem. 
+
+
+
 
 \begin{table}[h]
 \centering
@@ -640,11 +645,7 @@ Syllables                  & 800           & 1600           & 300      & 30,000,
 \end{tabular}
 \end{table}
 
-And a table of results \ref{tableResults}.
-
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
-
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+Now a table of GP parameters \ref{tableGPParameters}.
 
 \begin{table}[h]
 \centering
@@ -687,13 +688,9 @@ Syllables                  & 18       & 1       & 7   \\
 \end{tabular}
 \end{table}
 
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
+And a table of results \ref{tableResults}.
 
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
 
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
-
-Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text. Description of experiments goes here; this is filler text.
 
 \section{Conclusions}
 
@@ -727,7 +724,7 @@ Omitted for blind review.
 % initial runs of your .tex file to
 % produce the bibliography for the citations in your paper.
 \bibliographystyle{abbrv}
-\bibliography{gp_benchmarks_references}  % sigproc.bib is the name of the Bibliography in this case
+\bibliography{gpBenchmarksReferences}  % sigproc.bib is the name of the Bibliography in this case
 % You must have a proper ".bib" file
 %  and remember to run:
 % latex bibtex latex latex
