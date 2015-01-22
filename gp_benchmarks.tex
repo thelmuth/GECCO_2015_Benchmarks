@@ -597,14 +597,13 @@ Where the relevance of a benchmark suite is determined by how well its problems 
 In this section we present a simple experiment showing the utility of the benchmark suite presented here. This experiment compares three parent selection algorithms: lexicase selection, tournament selection, and implicit fitness sharing.
 
 Lexicase selection \cite{Helmuth:2014:ieeeTEC, Spector:2012:APM:2330784.2330846}, %maybe remove the second citation here if need space?
- unlike tournament selection and implicit fitness sharing, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training cases to select individuals that perform as well as possible on a subset of the training cases even if they exhibit poor performance on other cases. Lexicase selection has been shown to increase performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
+ unlike tournament selection and implicit fitness sharing, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training cases to select individuals that perform as well as possible on a subset of the training cases even if they exhibit poor performance on other cases. Lexicase selection has been shown to improve performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
 
-Implicit fitness sharing (IFS) is a modification of tournament selection designed to encourage diversity preservation in the population \cite{McKay:2000:GECCO}. In IFS, more reward is given to individuals for solving training cases that are solved by fewer members of the population. Most of the problems here produce non-binary error values, for which we use the non-binary adaptation of IFS found in \cite{Krawiec:2013:EvoIASP}. As required by this method, we normalize error values to $[0, 1]$ by dividing each error by a maximum allowed error value, which differs per problem. 
+Implicit fitness sharing (IFS) is a modification of tournament selection designed to encourage diversity preservation in the population \cite{McKay:2000:GECCO}. IFS selection greatly rewards individuals for solving training cases that are solved by few members of the population, and gives less reward for solving cases that are solved by more of the population. Most of the problems here produce non-binary error values, for which we use the non-binary adaptation of IFS found in \cite{Krawiec:2013:EvoIASP}. As required by this method, we normalize error values to $[0, 1]$ by dividing each error by a maximum allowed error value, which differs per problem. 
 
+Talk about PushGP here, or before here in this section?? Or in a section before this one??
 
-
-
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \caption{GP Parameters}
 \label{tableGPParameters}
@@ -645,9 +644,9 @@ Syllables                  & 800           & 1600           & 300      & 30,000,
 \end{tabular}
 \end{table}
 
-Now a table of GP parameters \ref{tableGPParameters}.
+Now a table of GP parameters \ref{tableGPParameters}. GP PARAMS PARAGRAPH ETC.
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \caption{Results. Bold means significant?}
 \label{tableResults}
@@ -659,36 +658,39 @@ Number IO                  & \textbf{98}       & 68      & 72  \\
 Small Or Large             & 5        & 3       & 3   \\
 For Loop Index             & 1        & 0       & 0   \\
 Compare String Lengths     & 7        & 3       & 6   \\
-Double Letters             & 6        & 0       & 0   \\
+Double Letters             & 6        & 0       & 0   \\ %significant using fisher, not with pairwise prop test
 Collatz Numbers            & 0        & 0       & 0   \\
-Replace Space with Newline & 51       & 8       & 16  \\
+Replace Space with Newline & \textbf{51}       & 8       & 16  \\
 String Differences         & 0        & 0       & 0   \\
-Even Squares               & 0        & 0       & 0   \\
+Even Squares               & ND2     & ND0     & ND0 \\
 Wallis Pi                  & 0        & 0       & 0   \\
-String Lengths Backwards   & 66       & 7       & 10  \\
-Last Index of Zero         & 21       & 8       & 4   \\
+String Lengths Backwards   & \textbf{66}       & 7       & 10  \\
+Last Index of Zero         & \textbf{21}       & 8       & 4   \\
 Vector Average             & 16       & 14      & 13  \\
-Count Odds                 & 8        & 0       & 0   \\
-Mirror Image               & 78       & 46      & 64  \\
+Count Odds                 & \textbf{8}        & 0       & 0   \\
+Mirror Image               & \textbf{78}       & 46      & 64  \\
 Super Anagrams             & 0        & 0       & 0   \\
 Sum of Squares             & 0        & 3       & 1   \\
-Vectors Summed             & 0        & -       & -   \\
-X-Word Lines               & 8        & 0       & 0   \\
+Vectors Summed             & 1        & 0       & 0   \\
+X-Word Lines               & \textbf{8}        & 0       & 0   \\
 Pig Latin                  & 0        & 0       & 0   \\
-Negative To Zero           & 45       & 10      & 8   \\
-Scrabble Score             & -        & -       & -   \\
-Word Stats                 & 0        & 0       & -   \\
-Checksum                   & -        & -       & -   \\
+Negative To Zero           & \textbf{45}       & 10      & 8   \\
+Scrabble Score             & ND2      & ND0     &     \\
+Word Stats                 & ND0      & ND0     &     \\
+Checksum                   &          &         &     \\
 Digits                     & 7        & 0       & 1   \\
 Grade                      & 4        & 0       & 0   \\
 Median                     & 45       & 7       & 43  \\
-Smallest                   & 81       & 75      & 98  \\
+Smallest                   & 81       & 75      & \textbf{98}  \\
 Syllables                  & 18       & 1       & 7   \\
 \hline
 \end{tabular}
 \end{table}
 
-And a table of results \ref{tableResults}.
+And a table of results \ref{tableResults}. Tell what tells us about parent selection
+
+
+More importantly, paragraph about what the data tells us about the benchmark problems.
 
 
 
