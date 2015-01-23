@@ -648,7 +648,7 @@ Now a table of GP parameters \ref{tableGPParameters}. GP PARAMS PARAGRAPH ETC.
 
 \begin{table}[t]
 \centering
-\caption{Results. Bold means significant?}
+\caption{Number of successful runs out of 100 for each setting, where ``Tourney'' is size 7 tournament selection and ``IFS'' is implicit fitness sharing with size 7 tournaments. For each problem, bold indicates significant improvement over the other two at $p < 0.05$ based on a pairwise chi-square test with Holm correction\protect\footnotemark, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5.}
 \label{tableResults}
 \begin{tabular}{|l|rrr|}
 \hline
@@ -658,11 +658,11 @@ Number IO                  & \textbf{98}       & 68      & 72  \\
 Small Or Large             & 5        & 3       & 3   \\
 For Loop Index             & 1        & 0       & 0   \\
 Compare String Lengths     & 7        & 3       & 6   \\
-Double Letters             & 6        & 0       & 0   \\ %significant using fisher, not with pairwise prop test
+Double Letters             & 6        & 0       & 0   \\ 
 Collatz Numbers            & 0        & 0       & 0   \\
 Replace Space with Newline & \textbf{51}       & 8       & 16  \\
 String Differences         & 0        & 0       & 0   \\
-Even Squares               & ND2     & ND0     & ND0 \\
+Even Squares               & ND2      & 0       & 0   \\
 Wallis Pi                  & 0        & 0       & 0   \\
 String Lengths Backwards   & \textbf{66}       & 7       & 10  \\
 Last Index of Zero         & \textbf{21}       & 8       & 4   \\
@@ -675,22 +675,68 @@ Vectors Summed             & 1        & 0       & 0   \\
 X-Word Lines               & \textbf{8}        & 0       & 0   \\
 Pig Latin                  & 0        & 0       & 0   \\
 Negative To Zero           & \textbf{45}       & 10      & 8   \\
-Scrabble Score             & ND2      & ND0     &     \\
-Word Stats                 & ND0      & ND0     &     \\
-Checksum                   &          &         &     \\
+Scrabble Score             & 2        & 0       & ND0    \\
+Word Stats                 & ND0      & ND0     &  NS   \\
+Checksum                   & 0         & 0        & 0    \\
 Digits                     & 7        & 0       & 1   \\
 Grade                      & 4        & 0       & 0   \\
 Median                     & 45       & 7       & 43  \\
 Smallest                   & 81       & 75      & \textbf{98}  \\
 Syllables                  & 18       & 1       & 7   \\
 \hline
+Problems Solved (UPDATE)           & 21       & 13      & 14   \\
+\hline
 \end{tabular}
 \end{table}
 
-And a table of results \ref{tableResults}. Tell what tells us about parent selection
+\footnotetext{(MAKE SURE THIS IS ON THE RIGHT PAGE) In particular, we used R's \texttt{pairwise.prop.test} and \texttt{pairwise.fisher.test}.}
+
+Table \ref{tableResults} displays the results of our parent selection experiment. Over the 29 problems, PushGP had at least one successful run on seven more problems than IFS and 8 more than tournament selection.
+(UPDATE THESE NUMBERS WITH FINAL RESULTS)
+Additionally, there were 8 problems where using lexicase achieved a significantly higher number of successful runs, where IFS showed significant improvement on just one problem and tournament selection none. These results indicate the utility of lexicase selection for general program synthesis problems.
 
 
-More importantly, paragraph about what the data tells us about the benchmark problems.
+The data in Table \ref{tableResults} only reflect solution problems that generalize by achieving zero error on the unseen test set. Some problems seem to lend themselves to generalization more than others; for example, PushGP using lexicase selection found 14 programs with zero error on the training set for the Super Anagrams problem, none of which generalized to the test set. For lexicase, five problems resulted in 20 or more runs that passed the training set that did not generalize (Small Or Large,
+Compare String Lengths,
+Last Index of Zero,
+Negative To Zero,
+Median),
+and five problems with between 10 and 20 runs that did not generalize (String Lengths Backwards,
+Mirror Image,
+Digits,
+Smallest,
+Super Anagrams).
+These 10 problems show an important area for future study: how to evolve programs that generalize to unseen data for general program synthesis problems.
+
+%Problems with >= 20 non-generalizing using lexicase:
+%Small Or Large
+%Compare String Lengths
+%Last Index of Zero
+%Negative To Zero
+%Median
+%
+%Problems with [10, 20] non-generalizing using lexicase:
+%String Lengths Backwards
+%Mirror Image
+%Digits
+%Smallest
+%Super Anagrams (none generalize)
+
+More importantly, paragraph(s) about what the data tells us about the benchmark problems:
+- good at differentiating between different techniques
+- range of difficulties, from some solved very frequently to others not solved at all
+
+(talk here about things:
+which problems do we not solve at all?
+which problems solvable by lexicase but not others?
+which problems lend themselves to solutions that generalize / don't generalize?)
+
+minimum size of a solution found by GP
+probably should use simplified programs
+gives idea of how large would need to search with something like brute-force search
+
+
+
 
 
 
