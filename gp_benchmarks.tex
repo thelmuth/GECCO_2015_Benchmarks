@@ -61,14 +61,16 @@ Author omitted\\
 Recent interest in the use and development of non-trivial benchmark problems in genetic programming has uncovered the lack of useful general program synthesis (sometimes called ``traditional programming'') benchmark problems. Most genetic programming benchmark problems prescribe small, domain-specific instruction sets; general program synthesis instead requires the type of programming expected of human programmers using higher-level programming languages. Problems of this type require a range of programming ``skills'', such as the utilization of control flow and modularity and the employment of large, diverse instruction sets covering multiple data types and data structures. In this paper, we present a suite of 29 new general programming benchmark problems, systematically selected from sources of introductory computer science programming problems. While we primarily intend to use this benchmark suite with genetic programming systems, we designed it with sufficient generality for any program synthesis system that takes program specifications from input/output examples. Our program descriptions and statistical recommendations allow the implementation and application of these problems in any program synthesis system; we also present a reference implementation. We finally present results from an illustrative experiment, showing the range of difficulties presented in the problems as well as the utility of the benchmark suite.
 \end{abstract}
 
-% A category with the (minimum) three required fields
-\category{H.4}{Information Systems Applications}{Miscellaneous}
-%A category including the fourth, optional field follows...
-\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+\category{I.2.2}{Artificial Intelligence}{Automatic Programming}[Program synthesis]
 
-\terms{Theory}
+%% A category with the (minimum) three required fields
+%\category{H.4}{Information Systems Applications}{Miscellaneous}
+%%A category including the fourth, optional field follows...
+%\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
 
-\keywords{ACM proceedings, \LaTeX, text tagging}
+%\terms{Theory}
+
+\keywords{program synthesis; genetic programming; benchmark}
 
 \section{Introduction}
 
@@ -79,36 +81,34 @@ The GP community has recently discussed the need for better benchmarks \cite{McD
 
 
 
-\section{Methods}
+\section{Methods of Comparison}
 
-The goal of each of the general programming problems presented in this benchmark suite is to synthesize a program that perfectly maps the given inputs to the desired outputs. As such, when measuring the performance of a system on these problems, we only care about finding perfect solution programs; incremental improvements in programs provide no utility unless they result in a program that passes all tests. This goal reflects the type of general programming problem we exemplify in this benchmark suite, where problems in other domains may require performance measured by other methods. 
+The goal of a general programming problem is to synthesize a program that perfectly maps the given inputs to the desired outputs. This goal reflects the desired outcome for general program synthesis; a program that passes most, but not all, of a set of test cases usually is unhelpful for this type of problem. When measuring the performance of a system on the problems in this suite, we only care about finding perfect solution programs; incremental improvements in programs provide no utility unless they result in a program that passes all tests.
 
-The success rate of a system measures how often a stochastic algorithm finds a successful program across a set of runs; we recommend the use of this statistic for the types of general program synthesis problems in this suite\footnote{When using a deterministic synthesis algorithm, other statistics must be used such as whether a successful program is found within a set period of time.}.
-A successful program must not only achieve zero error on all of the example data used to train the program (the ``training set''), but also a set of withheld generalization data (the ``test set''). Since we do not want to require formal specifications for the problem, this test set is the best way to test whether a program actually solves the problem or instead memorizes the training set.
+``Success rate'' measures how often a stochastic algorithm finds a successful program across a set of runs; we recommend this statistic when comparing systems or settings on the types of general program synthesis problems in this suite\footnote{When using a deterministic synthesis algorithm, other statistics must be used such as whether a successful program is found within a set period of time.}; a more thorough argument for success rate can be found in \cite{Helmuth:2014:GECCO}.
+In order to be considered successful, a program must not only achieve zero error on all of the example data used to train the program (the ``training set''), but also a set of withheld generalization data (the ``test set''). Since we do not want to require formal specifications for the problem, this test set is the best way to test whether a program actually solves the problem or instead memorizes the training set.
 
-%should we cite WC paragraph for having a more detailed discussion of these things somewhere in here?
+%should we cite WC paragraph for having a more detailed discussion of these things somewhere in here? --> DONE: cited mid-paragraph above
 
 [THIS PARAGRAPH TAKEN FROM WC PAPER; SHOULD WE HAVE SOMETHING LIKE IT HERE?] We argue more generally that the ability to solve a general program synthesis benchmark problem perfectly does not indicate the triviality of the problem. If our goal is to someday have GP or other synthesis systems generate complex software that performs important functionality without having to be coded by humans, we would hope that such a system would pass all of its tests before going into use. The purpose of general program synthesis benchmark problems is to compare the performances of GP methods on general program synthesis problems; as such, we would expect GP to be able to solve them in order to have a hope of solving real programming problems.
 
+%Statistical procedure -- maybe leave out? Would talk about chi-square tests and Fisher's exact test. (leaving out for now)
 
-
-Statistical procedure
-
-the limits of cross-system comparability (see Lee's email)
-- Computational budget
+When using this benchmark suite to compare different settings within one system, we recommend limiting computation with a computational budget based on the maximum number of program evaluations allowed in a run. This ensures that the methods receive similar computational work. On the other hand, using benchmark problems to perform cross-system comparisons can lead to complications without care. There are steps one can take to improve comparability but it will never be absolute, because there will probably be many unavoidable differences between systems that will play out in complicated ways for specific problems. In many cases, the interesting question to ask vis-a-vis a particular system on a particular problem is whether it can solve it at all, and if so, then whether it can solve it reasonably reliably; more subtle claims may be difficult to justify. Trying to compare computational effort, runtime, etc. is likely to be unhelpful. Nonetheless, we aim here to describe specifications that will allow for as much cross-system comparability as possible. % A lot of this paragraph is copied from a Lee email; it sounded good, so I kept it with minor editing.
 
 
 \section{Requirements} \label{requirements}
 
-To develop a set of general programming problems that can be useful for conducting experiments using a wide range of program synthesis systems, we will first define requirements for the problems. some of these requirements overlap by those described in the GP benchmarks papers \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}; some of their requirements don't fit this paper because of the specific problem domain we're targeting.
+In this section we describe the requirements we used when selecting problems for this benchmark suite, as well as the requirements for a program synthesis systems to be applied to the problems. Some of our requirements overlap with those described in the GP benchmarks papers \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}, such as being varied, relevant, realistically difficult, representation-independent, and precisely-defined. Other proposed requirements have less relevance to this set of problems because of the general program synthesis domain we target.
 
-This benchmark suite targets program synthesis systems that use example inputs and their corresponding outputs as the specifications for the desired program. In the context of genetic programming, we call these input/output pairs \textit{fitness cases} for the problem. Thus, a problem must be defined on a range of inputs that have known correct outputs; it cannot simply ask to calculate a specific value. For example, a problem that requires the program to calculate the number of prime numbers less than 1000 would not qualify, since it only has one answer; but, a similar problem that requires the program to calculate the number of prime numbers less than an input integer $n$ would meet this requirement, since we could then provide example inputs for $n$ and their corresponding desired outputs. This requirement also ensures that two sets of fitness cases can be generated: a \textit{training set} of cases used to search for programs that solve the problem, and a \textit{test set} of cases used to test programs that pass the training set to see if they generalize to unseen data.
+This benchmark suite targets program synthesis systems that use example inputs and their corresponding outputs as the specifications for the desired program. In the context of genetic programming, we call these input/output pairs \textit{fitness cases} for the problem. Thus, a problem must be defined on a range of inputs that have known correct outputs; it cannot simply ask to calculate a specific value. For example, a problem that requires the program to calculate the number of prime numbers less than 1000 would not qualify, since it only has one answer; but, a similar problem that requires the program to calculate the number of prime numbers less than an input integer $n$ would meet this requirement, since we could then provide example inputs for $n$ and their corresponding desired outputs. This requirement also ensures that fitness cases can be generated to fill the training and test set, as required to ensure generalization of successful programs.
 
 Problems in the suite should present challenges typical of real general program synthesis applications. The goal of a benchmark problem is to measure the characteristics of a system on a problem that mimics some aspects of the real applications on which it is expected to function. In order to test general program synthesis from examples, we want to choose benchmark problems that require a range of programming constructs and data types. Additionally, they should require a variety of sizes and shapes for solution programs, not limited to artificially small programs. Such a benchmark suite will not likely include problems that significantly challenge advanced human programmers, but should at least prove challenging to new programmers.
 
 Finally, the benchmarks should not be biased toward a particular method of synthesis. The problems presented here should be accessible to many forms of program synthesis, including a variety of genetic programming systems as well as other analytic and search-based program synthesis systems. Since systems generate programs in a variety of languages, problems that require a specific language feature or non-standard data type (such as Java objects) will be avoided.
 
-The only requirements on the synthesis system are that it needs to be able to generate programs that make use of the necessary data types, it takes input/output pairs as program specifications, and it is able to return results as well as print outputs. (MAKE THIS CLEARER)
+For a synthesis system to be applicable to the problems in this suite, it needs to take input/output examples as program specifications. It must be able to produce programs that manipulate the data types necessary to solve the problems, which includes the ability to print outputs and return functional results. Any synthesis system that meets these requirements may be applied to these problems.
+
 
 \section{Problem Descriptions} \label{descriptionsSection}
 
@@ -304,7 +304,7 @@ Given 4 integers, print the smallest of them.
 \subsubsection*{29. Syllables}
 Given a string containing symbols, spaces, digits, and lowercase letters, count the number of occurrences of vowels (a, e, i, o, u, y) in the string and print that number as $X$ in \texttt{The number of syllables is X}.
 
-\section{Synthesis Problem Specifications} \label{synthProbSpec}
+\section{Synthesis Problem\\Specifications} \label{synthProbSpec}
 
 The natural language descriptions of the benchmark problems in Section \ref{descriptionsSection} contain insufficient details to implement the specifications in a program synthesis system. In this section we discuss issues related to defining problems so that they are interpretable by program synthesis systems. These specifications will allow the benchmark problems to be implemented in a variety of systems and should be as technique-independent as possible, while ensuring that different implementations are solving the ``same problem''.
 
@@ -491,7 +491,7 @@ Double Letters             & 6        & 0       & 0   \\
 Collatz Numbers            & 0        & 0       & 0   \\
 Replace Space with Newline & \textbf{51}       & 8       & 16  \\
 String Differences         & 0        & 0       & 0   \\
-Even Squares               & ND2      & 0       & 0   \\
+Even Squares               & 2        & 0       & 0   \\
 Wallis Pi                  & 0        & 0       & 0   \\
 String Lengths Backwards   & \textbf{66}       & 7       & 10  \\
 Last Index of Zero         & \textbf{21}       & 8       & 4   \\
@@ -558,10 +558,10 @@ Of the seven problems on which PushGP found no generalizing solution, most are n
 
 
 
-(Should we give the minimum size of a solution found by GP?
-probably should use simplified programs.
-gives idea of how large would need to search with something like brute-force search.)
-
+%(Should we give the minimum size of a solution found by GP?
+%probably should use simplified programs.
+%gives idea of how large would need to search with something like brute-force search.)
+% -- probably not enough space, though it's interesting. I looked into it, and minimum sizes tend to be between 6 and 20, though a few were higher up to 53.
 
 
 
