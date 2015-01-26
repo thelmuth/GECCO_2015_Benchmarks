@@ -74,15 +74,28 @@ Recent interest in the use and development of non-trivial benchmark problems in 
 
 
 
+[THE FOLLOWING HAS BEEN COPIED FROM THE INTRO OF THE WC PAPER; SOMETHING ALONG THESE LINES BUT CONDENSED BELONGS IN THE INTRO.]
+The GP community has recently discussed the need for better benchmarks \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}. These discussions provide recommended benchmarks for some problem domains, but not for traditional programming problems (which they call ``algorithmic programming'' problems), despite the traditional programming category receiving the second most votes in a community survey asking what types of problems a GP benchmark suite should contain \cite{White:2013:BGB:2441218.2441242}. Traditional programming problems mimic the programming of human programmers, requiring multiple data types, control flow, and a large instruction set. Automating human programming tasks has long been a goal of GP, as articulated in Koza's first book \cite{koza:book} for example. The absence of traditional programming problems among current recommended benchmarks is unfortunate and should be addressed.
+
+
+
 \section{Methods}
 
-Computational budget
+The goal of each of the general programming problems presented in this benchmark suite is to synthesize a program that perfectly maps the given inputs to the desired outputs. As such, when measuring the performance of a system on these problems, we only care about finding perfect solution programs; incremental improvements in programs provide no utility unless they result in a program that passes all tests. This goal reflects the type of general programming problem we exemplify in this benchmark suite, where problems in other domains may require performance measured by other methods. 
 
-Performance measures (success only counts if it's on train and test data).
+The success rate of a system measures how often a stochastic algorithm finds a successful program across a set of runs; we recommend the use of this statistic for the types of general program synthesis problems in this suite\footnote{When using a deterministic synthesis algorithm, other statistics must be used such as whether a successful program is found within a set period of time.}.
+A successful program must not only achieve zero error on all of the example data used to train the program (the ``training set''), but also a set of withheld generalization data (the ``test set''). Since we do not want to require formal specifications for the problem, this test set is the best way to test whether a program actually solves the problem or instead memorizes the training set.
+
+%should we cite WC paragraph for having a more detailed discussion of these things somewhere in here?
+
+[THIS PARAGRAPH TAKEN FROM WC PAPER; SHOULD WE HAVE SOMETHING LIKE IT HERE?] We argue more generally that the ability to solve a general program synthesis benchmark problem perfectly does not indicate the triviality of the problem. If our goal is to someday have GP or other synthesis systems generate complex software that performs important functionality without having to be coded by humans, we would hope that such a system would pass all of its tests before going into use. The purpose of general program synthesis benchmark problems is to compare the performances of GP methods on general program synthesis problems; as such, we would expect GP to be able to solve them in order to have a hope of solving real programming problems.
+
+
 
 Statistical procedure
 
 the limits of cross-system comparability (see Lee's email)
+- Computational budget
 
 
 \section{Requirements} \label{requirements}
