@@ -112,19 +112,135 @@ For a synthesis system to be applicable to the problems in this suite, it needs 
 
 \section{Problem Descriptions} \label{descriptionsSection}
 
-This section describes the problems in this benchmark suite, which we chose to take exclusively from introductory computer science programming problems. This level of programming problems tests whether a system can perform at a similar level to a human who is learning to program. They also require a wide range of programming constructs and use a variety of data types. By selecting external sources for problems and then using all problems that meet the requirements we defined in Section \ref{requirements}, we hopefully avoid biasing the selection of problems toward those solvable by our system.
+This section describes the problems in this benchmark suite, which we chose to take exclusively from introductory computer science programming problems. This type of problem tests whether a system can perform at a similar level to a human who is learning to program. They also require a wide range of programming constructs and use a variety of data types. By selecting external sources for problems and then using all problems that meet the requirements we defined in Section \ref{requirements}, we hopefully avoid biasing the selection of problems toward those solvable by our system.
 
 We have selected two sources for problems: iJava \cite{iJava}, an interactive textbook for introductory computer science, and IntroClass \cite{ManyBugsAndIntroClass, Brun13TRgptest}, a set of problems originally used as benchmarks for automatic program repair. Below we describe each of these sources in further detail, along with the problems selected from each source.
 
 \subsection{iJava}
 
-In this section, we will describe the problems from iJava \cite{iJava, Moll:2011:IOI:1968521.1968535}. iJava is an interactive introductory computer science textbook that contains a number of automatically graded programming problems. These problems work well for automatic program synthesis from examples, since they are often automatically graded by testing programs against a range of inputs.
+In this section, we will describe the problems from iJava \cite{iJava, Moll:2011:IOI:1968521.1968535}. iJava is an interactive introductory computer science textbook that contains a number of automatically graded programming problems. These problems work well for general program synthesis from examples, since they are often graded by testing programs against a range of inputs.
 
-The problems we selected come from iJava edition 3.1---in other editions, some problems might have different numbers or might not appear. iJava does contain some problems that vary slightly but otherwise test very similar programming skills; in these cases, we chose one representative problem from the group. This ensures a reasonable distribution of problem requirements. Below, we present a natural language description as might be described to human programmers for the 23 problems chosen from iJava, and provide the question or project number associated with the problem in iJava 3.1.
+The problems we selected appear in iJava edition 3.1. iJava contains some sections of problems that vary slightly but otherwise test very similar programming skills; in these cases, we chose one representative problem from the group, ensuring a reasonable distribution of problem requirements. Below, we present a natural language description as might be described to human programmers for the 23 problems chosen from iJava, and provide the question or project number associated with the problem in iJava 3.1.
+
+
+\subsubsection*{1. Number IO (Q 3.5.1)}
+Given an integer and a float, print their sum.
+
+\subsubsection*{2. Small or Large (Q 4.6.3)}
+Given an integer $n$ in the range $[-10000, 10000]$, print ``small'' if $n < 1000$ and ``large'' if $n \ge 2000$ (and nothing if $1000 \le n < 2000$).
+
+\subsubsection*{3. For Loop Index (Q 4.11.7)}
+Given 3 integer inputs $start, finish,$ and $stepSize$, print the integers represented by the Java for loop: \\
+\texttt{for(i = start; i < finish; i += stepSize) \\ \- \- \- \- System.out.println(i);}
+
+\subsubsection*{4. Compare String Lengths (Q 4.11.13)}
+Given three strings $n1$, $n2$, and $n3$, return true if $length(n1) < length(n2) < length(n3)$, and false otherwise.
+
+\subsubsection*{5. Double Letters (Project 4.1)}
+Given a string, print the string, doubling every letter character, and tripling every exclamation point. All other non-alphabetic and non-exclamation characters should be printed a single time each.
+
+\subsubsection*{6. Collatz Numbers (Project 4.2)}
+Given an integer, find the number of terms in the Collatz sequence starting from that integer.
+
+\subsubsection*{7. Replace Space with Newline (Project 4.3)}
+Given a string input, print the string, replacing spaces with newlines. Also, return the integer count of the non-whitespace characters. The input string will not have tabs or newlines, but may have multiple spaces in a row.
+
+\subsubsection*{8. String Differences (Project 4.4)}
+Given 2 strings (without whitespace) as input, find the indices at which the strings have different characters, stopping at the end of the shorter one. For each such index, print a line containing the index as well as the character in each string. For example, if the strings are ``dealer'' and ``dollars'', the program should report this: \\
+\texttt{\centerline{1 e o} \\
+\centerline{2 a l} \\
+\centerline{4 e a}}
+
+\subsubsection*{9. Even Squares (Q 5.4.1)}
+Given an integer $n$, print all of the positive even perfect squares less than $n$ on separate lines.
+
+\subsubsection*{10. Wallis Pi (Project 6.4))}
+John Wallis gave the following infinite product that converges to $\pi/4$:
+\[
+\frac{2}{3}\times \frac{4}{3}\times \frac{4}{5}\times \frac{6}{5}\times \frac{6}{7}\times \frac{8}{7}\times \frac{8}{9}\times \frac{10}{9} \times ...
+\]
+Given an integer input $n$, compute an approximation of this product out to $n$ terms. Results are rounded to 5 decimal places.
+
+\subsubsection*{11. String Lengths Backwards (Q 7.2.5)}
+Given a vector of strings, print the length of each string in the vector starting with the last and ending with the first.
+
+\subsubsection*{12. Last Index of Zero (Q 7.7.8)}
+Given a vector of integers, at least one of which is 0, return the index of the last occurrence of 0 in the vector.
+
+\subsubsection*{13. Vector Average (Q 7.7.11)}
+Given a vector of floats, return the average of those floats. Results are rounded to 4 decimal places.
+
+\subsubsection*{14. Count Odds (Q 7.7.12)}
+Given a vector of integers, return the number of integers that are odd, without use of a specific \texttt{even} or \texttt{odd} instruction.
+
+\subsubsection*{15. Mirror Image (Q 7.7.15)}
+Given two vectors, return true if one vector is the reverse of the other, and false otherwise.
+
+\subsubsection*{16. Super Anagrams (Project 7.3)}
+Given strings $x$ and $y$ of lowercase letters, return true if $y$ is a super anagram of $x$, which is the case if every character in $x$ is in $y$. To be true, $y$ may contain extra characters, but must have at least as many copies of each character as $x$ does.
+
+\subsubsection*{17. Sum of Squares (Q 8.5.4)}
+Given integer $n$, return the sum of squaring each integer in the range $[1, n]$.
+
+\subsubsection*{18. Vectors Summed (Q 8.7.6)}
+Given two vectors of integers, return a vector of integers that contains the sum of the input vectors at each index.
+
+\subsubsection*{19. X-Word Lines (Project 8.1)}
+Given an integer $X$  and a string that likely contains spaces and newlines, print the string with exactly $X$ words per line. The last line may have fewer than $X$ words.
+
+\subsubsection*{20. Pig Latin (Project 8.2)}
+Given a string containing lowercase words separated by single spaces, print the string with each word translated to pig Latin. More specifically, if a word starts with a vowel, it should have ``ay'' added to its end; otherwise, the first letter is moved to the end of the word, followed by ``ay''.
+
+\subsubsection*{21. Negative To Zero (Q 9.6.8)}
+Given a vector of integers, return the vector where all negative integers have been replaced by 0.
+
+\subsubsection*{22. Scrabble Score (Project 10.1)}
+Given a string of visible characters, return the Scrabble score for that string. Each letter has a corresponding value according to normal Scrabble rules, and non-letter characters are worth zero.
+
+\subsubsection*{23. Word Stats (Project 10.5)}
+Given a file, print the number of words containing $n$ characters for $n$ from 1 to the length of the longest word, in the format:
+\texttt{ \\
+words of length 1: 12 \\
+words of length 2: 3 \\
+words of length 3: 8 \\
+... \\
+} %this looks terrible -- is there something better?
+At the end of the output, print a line that gives the number of sentences, and line that gives the average number of words per sentence, using the form:
+\texttt{ \\
+number of sentences: 4 \\
+average sentence length: 7.452423455 \\
+} %this looks terrible -- is there something better?
+A word is any string of consecutive non-whitespace characters (including sentence terminators). Every input will contain at least one sentence terminator (period, exclamation point, or question mark). The average number of words is the number of words in the file divided by the number of sentence terminator characters.
+
+\subsection{IntroClass}
+
+In this section, we will describe the problems from the IntroClass dataset \cite{ManyBugsAndIntroClass, Brun13TRgptest}. This set of 6 problems was designed for the purpose of benchmarking automatic software defect repair systems. As such, the authors of this dataset provide a number of buggy programs written by students trying to solve each problem, taken from students in an introductory computer science class. For the purposes of automatic program synthesis from scratch, we will use the problems themselves but not the accompanying buggy programs. Since these problems were designed for automatic defect repair, they all can be tested on a range of inputs, and require outputs to be printed.
+
+\subsubsection*{24. Checksum}
+Given a string, compute the integer values of the characters in the string, sum them, take the sum modulo 64, add the integer value of the space character, and then convert that integer back into its corresponding character (the checksum character). The program must print \texttt{Check sum is X}, where $X$ is replaced by the correct checksum character.
+
+\subsubsection*{25. Digits}
+Given an integer, print that integer's digits each on their own line starting with the least significant digit. A negative integer should have the negative sign printed before the most significant digit.
+
+\subsubsection*{26. Grade}
+Given 5 integers, the first four represent the lower numeric thresholds for achieving an A, B, C, and D, and will be distinct and in descending order. The fifth represents the student's numeric grade. The program must print \texttt{Student has a X grade.}, where $X$ is A, B, C, D, or F depending on the thresholds and their numeric grade.
+
+\subsubsection*{27. Median}
+Given 3 integers, print their median.
+
+\subsubsection*{28. Smallest}
+Given 4 integers, print the smallest of them.
+
+\subsubsection*{29. Syllables}
+Given a string containing symbols, spaces, digits, and lowercase letters, count the number of occurrences of vowels (a, e, i, o, u, y) in the string and print that number as $X$ in \texttt{The number of syllables is X}.
+
+\section{Synthesis Problem\\Specifications} \label{synthProbSpec}
+
+The natural language descriptions of the benchmark problems in Section \ref{descriptionsSection} contain insufficient details to implement specifications for each desired program in a program synthesis system. In this section we discuss issues related to defining problems so that they are interpretable by program synthesis systems. These specifications will allow the benchmark problems to be implemented in a variety of systems and should be technique-independent, while ensuring that different implementations are solving the ``same problem''.
 
 \begin{table*}[t]
 \centering
-\caption{For each problem, the types of the inputs and outputs, and the limits imposed on the inputs. Any printed outputs should be printed by the program to standard output.The column Train indicates the number of training cases we recommend for during synthesis, and Test indicates the number of unseen test cases we recommend for testing generalization of programs that pass all of the training cases. (NOTE: CURRENT RESULTS FOR SUM OF SQUARES USES 20 TRAIN CASES; KEEP 50 ONLY IF NEW RUNS BETTER.)}
+\caption{For each problem, the types of the inputs and outputs, and the limits imposed on the inputs. Any printed outputs should be printed by the program to standard output. The columns Train and Test indicate the recommended sizes of the training set and test set respectively. (NB: RESULTS FOR SUM OF SQUARES USES 20 TRAIN CASES; KEEP 50 ONLY IF NEW RUNS BETTER.)}
 \label{testCasesTable}
 %{\renewcommand{\arraystretch}{1}%
 \begin{tabular}{|l | >{\raggedright}p{7.4cm} l rr|}
@@ -193,122 +309,32 @@ Syllables & string of length $[0, 20]$ & printed string & 100 & 1000\\
 \end{tabular}
 \end{table*}
 
-\subsubsection*{1. Number IO (Q 3.5.1)}
-Given an integer and a float, print their sum.
+Table \ref{testCasesTable} presents information related to the sets of training and test data for each problem. These recommendations, like the rest in this section, are not set in stone; instead, they present guidelines that should be followed where possible. Adhering to these guidelines closely will create results with more legitimate comparability to the results presented here. The table describes the data types of the inputs and outputs and gives reasonable ranges for program inputs. Note that some problems specify that outputs are printed to standard output, a requirement exhibited often in human-written code but rarely seen in automatic program synthesis previously. These problems explicitly required the printing of results in their original sources.
 
-\subsubsection*{2. Small or Large (Q 4.6.3)}
-Given an integer $n$ in the range $[-10000, 10000]$, print "small" if $n < 1000$ and "large" if $n \ge 2000$ (and nothing if $1000 \le n < 2000$).
+We also provide recommendations for numbers of example cases to use in the train and test sets for each problem in Table \ref{testCasesTable}. For most problems, we recommend between 100 and 200 training cases, depending on the difficulty of the problem as well as the dimensionality of the input space. A few problems use fewer, either because they have limited input space or are simple enough to solve with fewer cases. The size of the test set used to test generalization of solution programs to unseen data is usually recommended to be ten times as large as the training set; again, there are exceptions for problems with limited input spaces. The method of producing the training and test cases is system-specific; we recommend a combination of hand-chosen edge cases with randomly generated cases, and will describe our method in more detail in Section \ref{systemParamsSection}.
 
-\subsubsection*{3. For Loop Index (Q 4.11.7)}
-Given 3 integer inputs $start, finish,$ and $stepSize$, print the integers represented by the Java for loop: \\
-\texttt{for(i = start; i < finish; i += stepSize) \\ \- \- \- \- System.out.println(i);}
+% Table 2 prior location
 
-\subsubsection*{4. Compare String Lengths (Q 4.11.13)}
-Given three strings $n1$, $n2$, and $n3$, return true if $length(n1) < length(n2) < length(n3)$, and false otherwise.
+The question of which instructions to make available for a synthesis system to use for each problem is a complex one. It is important to not cherry pick a small set of instructions that are known to be sufficient to solve a problem; such a selection may be difficult for a real-world problem, where it might not be clear which instructions will be useful. On the other hand, using all available instructions for every problem expands the search space and may make problems more difficult than necessary. Our recommendation is to compromise between these approaches by first determining what data types are required for each instruction in the instruction set, and then deciding which data types could be useful in solving each problem and using the relevant instructions. For example, an instruction that compares the equality of two integers and returns a boolean would be included if the problem could potentially make use of integers and booleans. By specifying only the data type requirements for a problem, we can limit the number of instructions without cherry picking. 
 
-\subsubsection*{5. Double Letters (Project 4.1)}
-Given a string, print the string, doubling every letter character, and tripling every exclamation point. All other non-alphabetic and non-exclamation characters should be printed a single time each.
 
-\subsubsection*{6. Collatz Numbers (Project 4.2)}
-Given an integer, find the number of terms in the Collatz sequence starting from that integer.
+\section{System Parameters} \label{systemParamsSection}
 
-\subsubsection*{7. Replace Space with Newline (Project 4.3)}
-Given a string input, print the string, replacing spaces with newlines. Also, return the integer count of the non-whitespace characters. The input string will not have tabs or newlines, but may have multiple spaces in a row.
+Where Section \ref{synthProbSpec} gave technique-independent recommendations for specifying the benchmark problems, this section will give more detail about the system-specific parameters and decisions that must be made in order to implement these problems in a given program synthesis system. This discussion will focus on genetic programming as the synthesis technique, but will also have relevance to non-evolutionary techniques. In this discussion we will give examples from our reference implementation, the PushGP genetic programming system.
 
-\subsubsection*{8. String Differences (Project 4.4)}
-Given 2 strings (without whitespace) as input, find the indices at which the strings have different characters, stopping at the end of the shorter one. For each such index, print a line containing the index as well as the character in each string. For example, if the strings are ``dealer'' and ``dollars'', the program should report this: \\
-\texttt{\centerline{1 e o} \\
-\centerline{2 a l} \\
-\centerline{4 e a}}
+PushGP evolves programs in Push, a stack-based programming language designed specifically for GP \cite{spector2:2001:gecco, spector:2002:GPEM, 1068292}. % Maybe remove one or two of these citations?
+Push provides many tools important for general program synthesis, such as multiple data types, control flow, and the use of input/output examples as specifications. While we chose PushGP as the reference implementation of these problems and for our example experiment, we emphasize that these are just examples, and that the problems here could be used in any system that meets the requirements in Section \ref{requirements}.
 
-\subsubsection*{9. Even Squares (Q 5.4.1)}
-Given an integer $n$, print all of the positive even perfect squares less than $n$ on separate lines.
+The reference implementation of these problems in PushGP can be found in the GitHub repository\footnote{PUT REPOSITORY WEBSITE HERE}. In the rest of this section, we will describe some of the major decisions necessary for implementing these benchmark problems. As we will not have space to discuss every parameter and implementation choice, the problem files in the reference implementation can be used to illustrate the details we omit.
 
-\subsubsection*{10. Wallis Pi (Project 6.4))}
-John Wallis gave the following infinite product that converges to $\pi/4$:
-\[
-(2/3)\times(4/3)\times(4/5)\times(6/5)\times(6/7)\times(8/7)\times(8/9)\times(10/9)...
-\]
-Given an integer input $n$, compute an approximation of this product out to $n$ terms. Results are rounded to 5 decimal places.
+When generating input examples to use for training and testing data, we use a combination of hand-picked edge cases that remain constant across runs and randomly generated inputs that vary each run. For each problem, we specify one or more ``data domains'' \cite{Helmuth:2014:GECCO}, which consist of either a set of hard-coded inputs or a random input generator, as well as the number of training and test cases that should come from each domain. Details of generating inputs from data domains can be found in \cite{Helmuth:2014:GECCO}, and our reference implementation gives our choices for data domains for each problem\footnotemark[1] (CORRECT?).
 
-\subsubsection*{11. String Lengths Backwards (Q 7.2.5)}
-Given a vector of strings, print the length of each string in the vector starting with the last and ending with the first.
+When using this benchmark with genetic programming, we need not only the example input/output cases, but also a method of measuring how well a particular program performs on each case---the \textit{fitness function}. Fitness functions for these problems must not only match their respective output types, but must also give reasonable measurement of program performance, tailored to the problem. %maybe take out that last part.
+Still, we can present some generalities of our chosen fitness functions before pointing to the reference implementation for details.
 
-\subsubsection*{12. Last Index of Zero (Q 7.7.8)}
-Given a vector of integers, at least one of which is 0, return the index of the last occurrence of 0 in the vector.
+Many of the problems in this suite print results to standard output. We treat these outputs as strings and usually use Levenshtein distance as the fitness function. Levenshtein distance is a string edit distance metric that we use to compare the desired output string and the one printed by the program. Other problems produce numeric outputs, including returned integers and floats as well as printed versions of each. For these problems we use absolute error for fitness. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a boolean fitness of 0 for right and 1 for wrong. Finally, some problems require very specific fitness functions, such as vector edit distance or string formatting requirements.
 
-\subsubsection*{13. Vector Average (Q 7.7.11)}
-Given a vector of floats, return the average of those floats. Results are rounded to 4 decimal places.
-
-\subsubsection*{14. Count Odds (Q 7.7.12)}
-Given a vector of integers, return the number of integers that are odd, without use of a specific \texttt{even} or \texttt{odd} instruction.
-
-\subsubsection*{15. Mirror Image (Q 7.7.15)}
-Given two vectors, return true if one vector is the reverse of the other, and false otherwise.
-
-\subsubsection*{16. Super Anagrams (Project 7.3)}
-Given strings $x$ and $y$ of lowercase letters, return true if $y$ is a super anagram of $x$, which is the case if every character in $x$ is in $y$. To be true, $y$ may contain extra characters, but must have at least as many copies of each character as $x$ does.
-
-\subsubsection*{17. Sum of Squares (Q 8.5.4)}
-Given integer $n$, return the sum of squaring each integer in the range $[1, n]$.
-
-\subsubsection*{18. Vectors Summed (Q 8.7.6)}
-Given two vectors of integers, return a vector of integers that contains the sum of the input vectors at each index.
-
-\subsubsection*{19. X-Word Lines (Project 8.1)}
-Given an integer $X$  and a string that likely contains spaces and newlines, print the string with exactly $X$ words per line. The last line may have fewer than $X$ words.
-
-\subsubsection*{20. Pig Latin (Project 8.2)}
-Given a string containing lowercase words separated by single spaces, print the string with each word translated to pig Latin. More specifically, if a word starts with a vowel, it should have ``ay'' added to its end; otherwise, the first letter is moved to the end of the word, followed by ``ay''.
-
-\subsubsection*{21. Negative To Zero (Q 9.6.8)}
-Given a vector of integers, return the vector where all negative integers have been replaced by 0.
-
-\subsubsection*{22. Scrabble Score (Project 10.1)}
-Given a string of visible characters, return the Scrabble score for that string. Each letter has a corresponding value according to normal Scrabble rules, and non-letter characters are worth zero.
-
-\subsubsection*{23. Word Stats (Project 10.5)}
-Given a file, print the number of words containing $n$ characters for $n$ from 1 to the length of the longest word, in the format:
-\texttt{ \\
-words of length 1: 12 \\
-words of length 2: 3 \\
-words of length 3: 8 \\
-... \\
-} %this looks terrible -- is there something better?
-At the end of the output, print a line that gives the number of sentences, and line that gives the average number of words per sentence, using the form:
-\texttt{ \\
-number of sentences: 4 \\
-average sentence length: 7.452423455 \\
-} %this looks terrible -- is there something better?
-A word is any string of consecutive non-whitespace characters (including sentence terminators). Every input will contain at least one sentence terminator (period, exclamation point, or question mark). The average number of words is the number of words in the file divided by the number of sentence terminator characters.
-
-\subsection{IntroClass}
-
-In this section, we will describe the problems from the IntroClass dataset \cite{ManyBugsAndIntroClass, Brun13TRgptest}. This set of 6 problems was designed for the purpose of benchmarking automatic software defect repair systems. As such, the authors of this dataset provide a number of buggy programs written by students trying to solve each problem, taken from students in an introductory computer science class. For the purposes of automatic program synthesis from scratch, we will use the problems themselves but not the accompanying buggy programs. Since these problems were designed for automatic defect repair, they all can be tested on a range of inputs, and require outputs to be printed.
-
-\subsubsection*{24. Checksum}
-Given a string, compute the integer values of the characters in the string, sum them, take the sum modulo 64, add the integer value of the space character, and then convert that integer back into its corresponding character (the checksum). The program must print \texttt{Check sum is X}, where $X$ is replaced by the correct checksum character.
-
-\subsubsection*{25. Digits}
-Given an integer, print that integer's digits each on their own line starting with the least significant digit. A negative integer should have the negative sign printed before the most significant digit.
-
-\subsubsection*{26. Grade}
-Given 5 integers, the first four represent the lower numeric thresholds for achieving an A, B, C, and D, and will be distinct and in descending order. The fifth represents the student's numeric grade. The program must print \texttt{Student has a X grade.}, where $X$ is A, B, C, D, or F depending on the thresholds and their numeric grade.
-
-\subsubsection*{27. Median}
-Given 3 integers, print their median.
-
-\subsubsection*{28. Smallest}
-Given 4 integers, print the smallest of them.
-
-\subsubsection*{29. Syllables}
-Given a string containing symbols, spaces, digits, and lowercase letters, count the number of occurrences of vowels (a, e, i, o, u, y) in the string and print that number as $X$ in \texttt{The number of syllables is X}.
-
-\section{Synthesis Problem\\Specifications} \label{synthProbSpec}
-
-The natural language descriptions of the benchmark problems in Section \ref{descriptionsSection} contain insufficient details to implement the specifications in a program synthesis system. In this section we discuss issues related to defining problems so that they are interpretable by program synthesis systems. These specifications will allow the benchmark problems to be implemented in a variety of systems and should be as technique-independent as possible, while ensuring that different implementations are solving the ``same problem''.
-
-% Table 1 location before
+Some problems produce results that can better be handled by multiple error functions per training or test case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we simply produce multiple fitness values for a single case. Additionally, some problems may not necessitate the use of multiple fitness values per case, but we have found better performance when we use them.
 
 \begin{table*}%[t]
 \centering
@@ -384,34 +410,6 @@ Instructions for Type     &                 & 28   & 28      & 31    & 19      &
 \hline
 \end{tabular}
 \end{table*}
-
-Table \ref{testCasesTable} presents information related to the sets of training and test data for each problem. These recommendations, like the rest in this section, are not set in stone; instead, they present guidelines that should be followed where possible. Adhering to these guidelines closely will create results with more legitimate comparability to the results presented here. The table describes the data types of the inputs and outputs and gives reasonable ranges for program inputs. Note that some problems specify that outputs are printed to standard output, a requirement exhibited often in human-written code but rarely seen in automatic program synthesis previously. These problems explicitly required the printing of results in their original sources.
-
-We also provide recommendations for numbers of example cases to use in the train and test sets for each problem in Table \ref{testCasesTable}. For most problems, we recommend between 100 and 200 training cases, depending on the difficulty of the problem as well as the dimensionality of the input space. A few problems use fewer, either because they have limited input space or are simple enough to solve with fewer cases. The size of the test set used to test generalization of solution programs to unseen data is usually recommended to be ten times as large as the training set; again, there are exceptions for problems with limited input spaces. The method of producing the training and test cases is system-specific; we recommend a combination of hand-chosen edge cases with randomly generated cases, and will describe our method in more detail in Section \ref{systemParamsSection}.
-
-% Table 2 prior location
-
-The question of which instructions to make available for a synthesis system to use for each problem is a complex one. It is important to not cherry pick a small set of instructions that are known to be sufficient to solve a problem; such a selection may be difficult for a real-world problem, where it might not be clear which instructions will be useful. On the other hand, using all available instructions for every problem expands the search space and may make problems more difficult than necessary. Our recommendation is to compromise between these approaches by first determining what data types are required for each instruction in the instruction set, and then deciding which data types could be useful in solving each problem and using the relevant instructions. For example, an instruction that compares the equality of two integers and returns a boolean would be included if the problem could potentially make use of integers and booleans. By specifying only the data type requirements for a problem, we can limit the number of instructions without cherry picking. 
-
-
-\section{System Parameters} \label{systemParamsSection}
-
-Where Section \ref{synthProbSpec} gave technique-independent recommendations for specifying the benchmark problems, this section will give more detail about the system-specific parameters and decisions that must be made in order to implement these problems in a given program synthesis system. This discussion will focus on genetic programming as the synthesis technique, but will also have relevance to non-evolutionary techniques. In this discussion we will give examples from our reference implementation, the PushGP genetic programming system.
-
-PushGP evolves programs in Push, a stack-based programming language designed specifically for GP \cite{spector2:2001:gecco, spector:2002:GPEM, 1068292}. % Maybe remove one or two of these citations?
-Push provides many tools important for general program synthesis, such as multiple data types, control flow, and the use of input/output examples as specifications. While we chose PushGP as the reference implementation of these problems and for our example experiment, we emphasize that these are just examples, and that the problems here could be used in any system that meets the requirements in Section \ref{requirements}.
-
-The reference implementation of these problems in PushGP can be found in the GitHub repository\footnote{PUT REPOSITORY WEBSITE HERE}. In the rest of this section, we will describe some of the major decisions necessary for implementing these benchmark problems. As we will not have space to discuss every parameter and implementation choice, the problem files in the reference implementation can be used to illustrate the details we omit.
-
-When generating input examples to use for training and testing data, we use a combination of hand-picked edge cases that remain constant across runs and randomly generated inputs that vary each run. For each problem, we specify one or more ``data domains'' \cite{Helmuth:2014:GECCO}, which consist of either a set of hard-coded inputs or a random input generator, as well as the number of training and test cases that should come from each domain. Details of generating inputs from data domains can be found in \cite{Helmuth:2014:GECCO}, and our reference implementation gives our choices for data domains for each problem\footnotemark[1] (CORRECT?).
-
-When using this benchmark with genetic programming, we need not only the example input/output cases, but also a method of measuring how well a particular program performs on each case---the \textit{fitness function}. Fitness functions for these problems must not only match their respective output types, but must also give reasonable measurement of program performance, tailored to the problem. %maybe take out that last part.
-Still, we can present some generalities of our chosen fitness functions before pointing to the reference implementation for details.
-
-Many of the problems in this suite print results to standard output. We treat these outputs as strings and usually use Levenshtein distance as the fitness function. Levenshtein distance is a string edit distance metric that we use to compare the desired output string and the one printed by the program. Other problems produce numeric outputs, including returned integers and floats as well as printed versions of each. For these problems we use absolute error for fitness. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a boolean fitness of 0 for right and 1 for wrong. Finally, some problems require very specific fitness functions, such as vector edit distance or string formatting requirements.
-
-Some problems produce results that can better be handled by multiple error functions per training or test case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we simply produce multiple fitness values for a single case. Additionally, some problems may not necessitate the use of multiple fitness values per case, but we have found better performance when we use them.
-
 
 As discussed in Section \ref{synthProbSpec}, we have chosen to specify the data types relevant to each problem, and then include all instructions that use those data types in each problem's instruction set. Table \ref{tableDataTypes} presents the Push data types we chose for each problem. The ``exec'' column signifies instructions that use Push's exec stack, which typically perform control flow manipulations such as conditionals, iteration, and subfunctions defined through tagging \cite{Spector:2011:GECCO}. The ``print'' column includes instructions that print data to standard output, and ``file input'' includes a small set of file reading instructions. The data types for instructions will vary per system, and instruction categories should not be constrained to those used here.
 
@@ -580,7 +578,7 @@ Omitted for blind review.
 % produce the bibliography for the citations in your paper.
 \bibliographystyle{abbrv}
 \bibliography{gpBenchmarksReferences}  % sigproc.bib is the name of the Bibliography in this case
-% You must have a proper ".bib" file
+% You must have a proper ``.bib'' file
 %  and remember to run:
 % latex bibtex latex latex
 % to resolve all references
