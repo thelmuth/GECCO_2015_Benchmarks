@@ -12,6 +12,8 @@
 %
 % 1-4. Some citations - Some citations probably aren't necessary. I've marked a few in the text, especially with regards to lexicase selection, where I've cited multiple papers where a single citation might suffice. Also when citing PushGP. Also maybe the fmsb package citation for R.
 %
+% 8. Discussion of generalization in Experiments - this seems useful, but might be cutable
+%
 %%%%%
 
 \documentclass{sig-alternate}
@@ -320,25 +322,24 @@ The question of which instructions to make available for a synthesis system to u
 
 \section{System Parameters} \label{systemParamsSection}
 
-Where Section \ref{synthProbSpec} gave technique-independent recommendations for specifying the benchmark problems, this section will give more detail about the system-specific parameters and decisions that must be made in order to implement these problems in a given program synthesis system. This discussion will focus on genetic programming as the synthesis technique, but will also have relevance to non-evolutionary techniques. In this discussion we will give examples from our reference implementation, the PushGP genetic programming system.
+Where Section \ref{synthProbSpec} gave technique-independent recommendations for specifying the benchmark problems, this section will give more detail about the system-specific parameters and decisions that must be made in order to implement these problems in a given program synthesis system. This discussion will focus on genetic programming as the synthesis technique, but will also have relevance to non-evolutionary techniques. In this discussion we will give examples from our reference implementation in the PushGP genetic programming system.
 
-PushGP evolves programs in Push, a stack-based programming language designed specifically for GP \cite{spector2:2001:gecco, spector:2002:GPEM, 1068292}. % Maybe remove one or two of these citations?
+PushGP evolves programs in Push, a stack-based programming language designed specifically for GP \cite{spector2:2001:gecco}. %, spector:2002:GPEM, 1068292}. % Maybe remove one or two of these citations?
 Push provides many tools important for general program synthesis, such as multiple data types, control flow, and the use of input/output examples as specifications. While we chose PushGP as the reference implementation of these problems and for our example experiment, we emphasize that these are just examples, and that the problems here could be used in any system that meets the requirements in Section \ref{requirements}.
 
 The reference implementation of these problems in PushGP can be found in the GitHub repository\footnote{PUT REPOSITORY WEBSITE HERE}. In the rest of this section, we will describe some of the major decisions necessary for implementing these benchmark problems. As we will not have space to discuss every parameter and implementation choice, the problem files in the reference implementation can be used to illustrate the details we omit.
 
-When generating input examples to use for training and testing data, we use a combination of hand-picked edge cases that remain constant across runs and randomly generated inputs that vary each run. For each problem, we specify one or more ``data domains'' \cite{Helmuth:2014:GECCO}, which consist of either a set of hard-coded inputs or a random input generator, as well as the number of training and test cases that should come from each domain. Details of generating inputs from data domains can be found in \cite{Helmuth:2014:GECCO}, and our reference implementation gives our choices for data domains for each problem\footnotemark[1] (CORRECT?).
+When generating input examples to use for training and testing data, we use a combination of hand-picked edge cases that remain constant across runs and randomly generated inputs that vary each run. For each problem, we specify one or more ``data domains'' \cite{Helmuth:2014:GECCO}, which consist of either a set of hard-coded inputs or a random input generator, as well as the number of training and test cases that should come from each domain. Details of generating inputs from data domains can be found in \cite{Helmuth:2014:GECCO}, and our reference implementation gives our choices for data domains for each problem\footnotemark[2] (CORRECT FOOTNOTE \#?).
 
-When using this benchmark with genetic programming, we need not only the example input/output cases, but also a method of measuring how well a particular program performs on each case---the \textit{fitness function}. Fitness functions for these problems must not only match their respective output types, but must also give reasonable measurement of program performance, tailored to the problem. %maybe take out that last part.
-Still, we can present some generalities of our chosen fitness functions before pointing to the reference implementation for details.
+When using this benchmark suite with genetic programming, we need not only the example input/output cases, but also a method of measuring how well a particular program performs on each case---the \textit{fitness function}. Fitness functions for these problems must not only match their respective output types, but must also give reasonable measurement of program performance. Still, we can present some generalities of our chosen fitness functions before pointing to the reference implementation for details.
 
-Many of the problems in this suite print results to standard output. We treat these outputs as strings and usually use Levenshtein distance as the fitness function. Levenshtein distance is a string edit distance metric that we use to compare the desired output string and the one printed by the program. Other problems produce numeric outputs, including returned integers and floats as well as printed versions of each. For these problems we use absolute error for fitness. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a boolean fitness of 0 for right and 1 for wrong. Finally, some problems require very specific fitness functions, such as vector edit distance or string formatting requirements.
+Many of the problems in this suite print results to standard output. We treat these outputs as strings and usually use Levenshtein distance as the fitness function. Levenshtein distance is a string edit distance metric that we use to compare the desired output string and the one printed by the program. Other problems produce numeric outputs, including returned integers and floats as well as printed versions of each. For these problems we use absolute error for fitness, parsing printed numbers when necessary and possible. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a boolean fitness of 0 for right and 1 for wrong. Finally, some problems require problem-tailored fitness functions, such as vector edit distance or string formatting requirements.
 
-Some problems produce results that can better be handled by multiple error functions per training or test case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we simply produce multiple fitness values for a single case. Additionally, some problems may not necessitate the use of multiple fitness values per case, but we have found better performance when we use them.
+Some problems produce results that can better be handled by multiple error functions per training or test case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we simply produce multiple fitness values for a single case. Additionally, some problems may not necessitate the use of multiple fitness values per case, but we have observed better performance when we use them.
 
 \begin{table*}%[t]
 \centering
-\caption{Instructions and data types used in our PushGP implementation of each problem. The column ``\# Instructions'' reports the number of instructions, terminals, and ERCs used for each problem. The middle columns show which data types were used for each problem. For example, the Number IO problem used all instructions that use integers, floats, and printing. The last column lists the constants and ERCs used for the problem. Here, char constants are represented in the Clojure style, starting with a backslash, and strings are surrounded by double quotation marks. The ``Problems Using Type'' row simply counts how many problems use each data type. The ``Instructions for Type'' row shows the number of Push instructions that primarily use each data type; some use multiple types but are only counted once (e.g. \texttt{integer\_fromfloat}, which requires both integer and float to be used).}
+\caption{Instructions and data types used in our PushGP implementation of each problem. The column ``\# Instructions'' reports the number of instructions, terminals, and ERCs used for each problem. The middle columns show which data types were used for each problem. For example, the Number IO problem used all instructions relevant to integers, floats, and printing. The last column lists the constants and ERCs used for the problem. Here, char constants are represented in the Clojure style, starting with a backslash, and strings are surrounded by double quotation marks. The ``Problems Using Type'' row simply counts how many problems use each data type. The ``Instructions for Type'' row shows the number of Push instructions that primarily use each data type; some use multiple types but are only counted once.}
 \label{tableDataTypes}
 \begin{tabular}{|>{\raggedright}p{3.1cm}|c|ccccccccccc|>{\raggedright}p{5.5cm}|}
 \hline
@@ -413,65 +414,66 @@ Instructions for Type     &                 & 28   & 28      & 31    & 19      &
 
 As discussed in Section \ref{synthProbSpec}, we have chosen to specify the data types relevant to each problem, and then include all instructions that use those data types in each problem's instruction set. Table \ref{tableDataTypes} presents the Push data types we chose for each problem. The ``exec'' column signifies instructions that use Push's exec stack, which typically perform control flow manipulations such as conditionals, iteration, and subfunctions defined through tagging \cite{Spector:2011:GECCO}. The ``print'' column includes instructions that print data to standard output, and ``file input'' includes a small set of file reading instructions. The data types for instructions will vary per system, and instruction categories should not be constrained to those used here.
 
-Table \ref{tableDataTypes} also gives the terminals used for each problem, which encompass constants and ephemeral random constants (ERCs). ERCs allow for the creation of random constants in randomly generated code during initialization and mutation. We used problem-specific constant ranges, which can be found in the reference implementation\footnotemark[1] (CORRECT?).
+Table \ref{tableDataTypes} also gives the terminals used for each problem, which encompass constants and ephemeral random constants (ERCs). ERCs allow for the creation of random constants in randomly generated code during initialization and mutation. We used problem-specific constant ranges, which can be found in the reference implementation\footnotemark[2] (CORRECT FOOTNOTE NUMBE?).
 
-The second column in Table \ref{tableDataTypes} gives the number of instructions and terminals we used in our implementation of the benchmark problems in PushGP. The number of instructions used in other implementations of these problems will likely vary somewhat depending on the language in which programs are synthesized. These instructions should include a wide range of general purpose programming instructions similar to those used in modern high-level programming languages. The high numbers of instructions used for these general programming problems differs from most prior applications of GP and other program synthesis techniques, which often use small, domain-specific instruction sets.
+The second column in Table \ref{tableDataTypes} gives the number of instructions and terminals we used in our implementation of the benchmark problems in PushGP. The number of instructions used in other implementations of these problems will vary depending on the language in which programs are synthesized. These instructions should include a wide range of general purpose programming instructions similar to those used in modern high-level programming languages. The high numbers of instructions used for these general programming problems differs from most prior applications of GP and other program synthesis techniques, which often use small, domain-specific instruction sets.
 
-\begin{table}[h]
-\centering
-\caption{GP Parameters}
-\label{tableGPParameters}
-\begin{tabular}{|>{\raggedright}m{2.5cm} | >{\raggedleft}p{0.6cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}|}
-\hline
-Problem                    & Max Prog Size & Eval Limit & Max Gens & Program Evaluation Budget \tabularnewline
-\hline
-Number IO                  & 200           & 200            & 200      & 5,000,000                 \tabularnewline
-Small Or Large             & 200           & 300            & 300      & 30,000,000                \tabularnewline
-For Loop Index             & 300           & 600            & 300      & 30,000,000                \tabularnewline
-Compare String Lengths     & 400           & 600            & 300      & 30,000,000                \tabularnewline
-Double Letters             & 800           & 1600           & 300      & 30,000,000                \tabularnewline
-Collatz Numbers            & 600           & 15000          & 300      & 60,000,000                \tabularnewline
-Replace Space with Newline & 800           & 1600           & 300      & 30,000,000                \tabularnewline
-String Differences         & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
-Even Squares               & 400           & 2000           & 300      & 30,000,000                \tabularnewline
-Wallis Pi                  & 600           & 8000           & 300      & 45,000,000                \tabularnewline
-String Lengths Backwards   & 300           & 600            & 300      & 30,000,000                \tabularnewline
-Last Index of Zero         & 300           & 600            & 300      & 45,000,000                \tabularnewline
-Vector Average             & 400           & 800            & 300      & 30,000,000                \tabularnewline
-Count Odds                 & 500           & 1500           & 300      & 60,000,000                \tabularnewline
-Mirror Image               & 300           & 600            & 300      & 30,000,000                \tabularnewline
-Super Anagrams             & 800           & 1600           & 300      & 60,000,000                \tabularnewline
-Sum of Squares             & 400           & 4000           & 300      & 15,000,000                \tabularnewline
-Vectors Summed             & 500           & 1500           & 300      & 45,000,000                \tabularnewline
-X-Word Lines               & 800           & 1600           & 300      & 45,000,000                \tabularnewline
-Pig Latin                  & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
-Negative To Zero           & 500           & 1500           & 300      & 60,000,000                \tabularnewline
-Scrabble Score             & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
-Word Stats                 & 1000          & 6000           & 300      & 30,000,000                \tabularnewline
-Checksum                   & 800           & 1500           & 300      & 30,000,000                \tabularnewline
-Digits                     & 300           & 600            & 300      & 30,000,000                \tabularnewline
-Grade                      & 400           & 800            & 300      & 60,000,000                \tabularnewline
-Median                     & 200           & 200            & 200      & 20,000,000                \tabularnewline
-Smallest                   & 200           & 200            & 200      & 20,000,000                \tabularnewline
-Syllables                  & 800           & 1600           & 300      & 30,000,000                \tabularnewline
-\hline
-\end{tabular}
-\end{table}
+%\begin{table}[h]
+%\centering
+%\caption{GP Parameters}
+%\label{tableGPParameters}
+%\begin{tabular}{|>{\raggedright}m{2.5cm} | >{\raggedleft}p{0.6cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}|}
+%\hline
+%Problem                    & Max Prog Size & Eval Limit & Max Gens & Program Evaluation Budget \tabularnewline
+%\hline
+%Number IO                  & 200           & 200            & 200      & 5,000,000                 \tabularnewline
+%Small Or Large             & 200           & 300            & 300      & 30,000,000                \tabularnewline
+%For Loop Index             & 300           & 600            & 300      & 30,000,000                \tabularnewline
+%Compare String Lengths     & 400           & 600            & 300      & 30,000,000                \tabularnewline
+%Double Letters             & 800           & 1600           & 300      & 30,000,000                \tabularnewline
+%Collatz Numbers            & 600           & 15000          & 300      & 60,000,000                \tabularnewline
+%Replace Space with Newline & 800           & 1600           & 300      & 30,000,000                \tabularnewline
+%String Differences         & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
+%Even Squares               & 400           & 2000           & 300      & 30,000,000                \tabularnewline
+%Wallis Pi                  & 600           & 8000           & 300      & 45,000,000                \tabularnewline
+%String Lengths Backwards   & 300           & 600            & 300      & 30,000,000                \tabularnewline
+%Last Index of Zero         & 300           & 600            & 300      & 45,000,000                \tabularnewline
+%Vector Average             & 400           & 800            & 300      & 30,000,000                \tabularnewline
+%Count Odds                 & 500           & 1500           & 300      & 60,000,000                \tabularnewline
+%Mirror Image               & 300           & 600            & 300      & 30,000,000                \tabularnewline
+%Super Anagrams             & 800           & 1600           & 300      & 60,000,000                \tabularnewline
+%Sum of Squares             & 400           & 4000           & 300      & 15,000,000                \tabularnewline
+%Vectors Summed             & 500           & 1500           & 300      & 45,000,000                \tabularnewline
+%X-Word Lines               & 800           & 1600           & 300      & 45,000,000                \tabularnewline
+%Pig Latin                  & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
+%Negative To Zero           & 500           & 1500           & 300      & 60,000,000                \tabularnewline
+%Scrabble Score             & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
+%Word Stats                 & 1000          & 6000           & 300      & 30,000,000                \tabularnewline
+%Checksum                   & 800           & 1500           & 300      & 30,000,000                \tabularnewline
+%Digits                     & 300           & 600            & 300      & 30,000,000                \tabularnewline
+%Grade                      & 400           & 800            & 300      & 60,000,000                \tabularnewline
+%Median                     & 200           & 200            & 200      & 20,000,000                \tabularnewline
+%Smallest                   & 200           & 200            & 200      & 20,000,000                \tabularnewline
+%Syllables                  & 800           & 1600           & 300      & 30,000,000                \tabularnewline
+%\hline
+%\end{tabular}
+%\end{table}
 
-When considering system parameters for GP specifically, we keep most constant across all problems. The only crucial parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. (Either: [These are in Table \ref{tableGPParameters}.] or [GIVE BRIEF DESCRIPTION OF EACH AND SAY SEE REFERENCE IMPLEMENTATION WEBSITE FOR DETAILS.])
+When considering system parameters for GP specifically, we keep most constant across all problems. The only crucial parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. We used 300 maximum generations for every problem besides Number IO, Median, and Smallest, which we used 200 generations. Maximum program sizes varied more, from 200 to 1000 instructions depending on anticipated problem difficulty. We generally limited executions approximately 2 to 5 times as many instruction executions as the maximum program size, but included some larger values for problems that require many loops to solve. See the reference implementation for the specific values of these parameters.
+% (Either: [These are in Table \ref{tableGPParameters}.] or [GIVE BRIEF DESCRIPTION OF EACH AND SAY SEE REFERENCE IMPLEMENTATION WEBSITE FOR DETAILS.]) [I went with the latter for now to take up less space]
 
-Note that by specifying the maximum generations, the population size (1000 for all of our runs), and the size of the training set (see Table \ref{testCasesTable}), we also specify the program evaluation budget, which is the product of those values (AND GIVEN IN Table \ref{tableGPParameters}). For other systems, even non-GP systems, to produce comparable results, we recommend using the same program evaluation budget, regardless of other system settings.
+Note that by specifying the maximum generations, the population size (1000 for all of our runs), and the size of the training set (see Table \ref{testCasesTable}), we also specify the program evaluation budget, which is the product of those values. In our implementation, this budget falls between 5 and 60 million program evaluations per run for every problem. For other systems, even non-GP systems, to produce comparable results, we recommend using the similar program evaluation budgets, regardless of other system settings.
 
 \section{Experiment}
 
 Where the relevance of a benchmark suite is determined by how well its problems reflect potential applications of the test systems, its utility is based on how well it differentiates between different approaches. We aim to include problems with a large range of difficulties, from those that can be solved reliably to those that extend beyond the abilities of current program synthesis systems. More importantly, we hope to include problems that are solved more often with some systems or settings than others, allowing us to compare their performances on these problems.
 
-In this section we present a simple experiment showing the utility of the benchmark suite presented here. This experiment compares three parent selection algorithms: lexicase selection, tournament selection, and implicit fitness sharing.
+In this section we present a simple experiment showing the utility of the benchmark suite presented here. This experiment compares three parent selection algorithms: tournament selection, implicit fitness sharing, and lexicase selection.
 
-Lexicase selection \cite{Helmuth:2014:ieeeTEC, Spector:2012:APM:2330784.2330846}, %maybe remove the second citation here if need space?
- unlike tournament selection and implicit fitness sharing, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training cases to select individuals that perform as well as possible on a subset of the training cases even if they exhibit poor performance on other cases. Lexicase selection has been shown to improve performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
+Implicit fitness sharing (IFS) is a modification of tournament selection designed to encourage diversity preservation in the population \cite{McKay:2000:GECCO}. IFS selection greatly rewards individuals for solving training cases that are solved by few members of the population, and gives less reward for solving cases that are solved by more of the population. Most of the problems here produce non-binary error values, for which we use the non-binary adaptation of IFS found in \cite{Krawiec:2013:EvoIASP}. As required by this method, we normalize error values to $[0, 1]$ by dividing each error by a maximum allowed error value, which differs per problem based on the fitness function.
 
-Implicit fitness sharing (IFS) is a modification of tournament selection designed to encourage diversity preservation in the population \cite{McKay:2000:GECCO}. IFS selection greatly rewards individuals for solving training cases that are solved by few members of the population, and gives less reward for solving cases that are solved by more of the population. Most of the problems here produce non-binary error values, for which we use the non-binary adaptation of IFS found in \cite{Krawiec:2013:EvoIASP}. As required by this method, we normalize error values to $[0, 1]$ by dividing each error by a maximum allowed error value, which differs per problem. 
+Lexicase selection \cite{Helmuth:2014:ieeeTEC}, %, Spector:2012:APM:2330784.2330846}, %maybe remove the second citation here if need space?
+ unlike tournament selection and implicit fitness sharing, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training cases to select individuals that perform as well as possible on a subset of the training cases even if they exhibit poor performance on other cases. Lexicase selection has been shown to improve performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO}. %, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
 
 \begin{table}[t]
 \centering
@@ -517,11 +519,9 @@ Problems Solved (UPDATE)           & 21       & 13      & 14   \\
 \end{table}
 
 
-Table \ref{tableResults} displays the results of our parent selection experiment. Over the 29 problems, PushGP had at least one successful run on seven more problems than IFS and 8 more than tournament selection.
+Table \ref{tableResults} gives the results of our parent selection experiment. Over the 29 problems, PushGP had at least one successful run on seven more problems than IFS and 8 more than tournament selection.
 (UPDATE THESE NUMBERS WITH FINAL RESULTS)
-Additionally, there were 8 problems where using lexicase achieved a significantly higher number of successful runs, where IFS showed significant improvement on just one problem and tournament selection none. These results indicate the utility of lexicase selection for general program synthesis problems.
-
-
+Additionally, there were 8 problems where using lexicase achieved a significantly higher number of successful runs than the other two, where IFS showed significant improvement on just one problem and tournament selection none. These results strongly indicate the utility of lexicase selection for general program synthesis problems.
 
 The data in Table \ref{tableResults} only reflect solution problems that generalize by achieving zero error on the unseen test set. Some problems seem to lend themselves to generalization more than others; for example, PushGP using lexicase selection found 14 programs with zero error on the training set for the Super Anagrams problem, none of which generalized to the test set. For lexicase, five problems resulted in 20 or more runs that passed the training set that did not generalize (Small Or Large,
 Compare String Lengths,
