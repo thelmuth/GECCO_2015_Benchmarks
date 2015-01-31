@@ -81,21 +81,25 @@ We present results from illustrative experiments using our reference implementat
 
 \section{Introduction}
 
-Several genetic programming (GP) researchers have discussed the need for better benchmark problems to guide research in the field \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}. While benchmarks have been proposed, few are for general programming problems (also called ``traditional'' or ``algorithmic'' programming problems) even though this category received the second most votes in a community survey about the need for benchmarks \cite{White:2013:BGB:2441218.2441242}. 
+Several genetic programming (GP) researchers have discussed the need for better benchmark problems to guide research in the field \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}. While benchmarks have been proposed, few are for general programming problems (also called ``traditional'' or ``algorithmic'' programming problems) even though this category received the second highest interest in a community survey about the need for benchmarks \cite{White:2013:BGB:2441218.2441242}. 
 
 %[THE FOLLOWING HAS BEEN COPIED FROM THE INTRO OF THE WC PAPER; SOMETHING ALONG THESE LINES BUT CONDENSED BELONGS IN THE INTRO.]
 %The GP community has recently discussed the need for better benchmarks \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}. These discussions provide recommended benchmarks for some problem domains, but not for traditional programming problems (which they call ``algorithmic programming'' problems), despite the traditional programming category receiving the second most votes in a community survey asking what types of problems a GP benchmark suite should contain \cite{White:2013:BGB:2441218.2441242}. Traditional programming problems mimic the programming of human programmers, requiring multiple data types, control flow, and a large instruction set. Automating human programming tasks has long been a goal of GP, as articulated in Koza's first book \cite{koza:book} for example. The absence of traditional programming problems among current recommended benchmarks is unfortunate and should be addressed.
 
-Automating human programming has long been a goal of GP, as articulated for example in Koza's first book \cite{koza:book}, and the purpose of a general program synthesis benchmark is to help researchers assess the ability of a system to automate human programming. Such problems should require a range of programming ``skills'' including the use of control flow, modularity, and large, diverse instruction sets covering multiple data types and data structures. This contrasts with most existing GP benchmark problems, which prescribe small, domain-specific instruction sets and assess a system's abilities only on a narrow range of programming skills.
+Automating human programming has long been a goal of GP, as articulated for example in Koza's first book \cite{koza:book}. The purpose of a general program synthesis benchmark is to help researchers assess the ability of a system to automate human programming. Such problems should require a range of programming ``skills'' including the use of control flow, modularity, and large, diverse instruction sets covering multiple data types and data structures. This contrasts with most existing GP benchmark problems, which prescribe small, domain-specific instruction sets and assess a system's abilities only on a narrow range of programming skills.
 
 In this paper we present a suite of $29$ general program synthesis benchmark problems, systematically selected from sources of introductory computer science programming problems. While the problems are not particularly challenging for skilled human programmers, they are reasonably challenging for beginners and many are arguably too difficult for existing program synthesis systems, including GP. If our goal is to develop general program synthesis systems, using GP or other techniques, then these benchmark problems should be useful for assessing progress.
 
 In the sections below we first discuss issues related to the use of our benchmarks to assess and compare systems. We then describe the criteria used to select problems and each of the $29$ problems that we selected, each described in a technique- and system-independent way. We then present system-specific parameters for illustrative experiments using the PushGP system \cite{spector:2002:GPEM, 1068292}, followed by the results of these experiments and general conclusions.
 
 
+
+
 Somewhere in intro:
 - cite \cite{Woodward:2014:GECCOcomp} in the discussion of GP benchmarks
 - One of the main points of that paper is that benchmark problems should come from a distribution relevant to the class of problems you are interested in solving. Our class of problems is general programming problems. Since we (a) don't know how to sample from this class of problems, and (b) don't know if we'd be able to solve that difficult of problem anyway, we instead are providing a set of intro CS problems. By giving a large range of problems, we do get some sampling of the space. And by using intro CS problems, we are building toward larger general programming problems---a first step.
+
+One thing I might want to do is also discuss how the non-gp program synthesis lit does not have good benchmarks
 
 
 \section{Use of the Benchmarks}
