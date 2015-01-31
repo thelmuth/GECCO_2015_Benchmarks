@@ -77,9 +77,13 @@ Recent interest in the use and development of non-trivial benchmark problems in 
 \section{Introduction}
 
 
-
 [THE FOLLOWING HAS BEEN COPIED FROM THE INTRO OF THE WC PAPER; SOMETHING ALONG THESE LINES BUT CONDENSED BELONGS IN THE INTRO.]
 The GP community has recently discussed the need for better benchmarks \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}. These discussions provide recommended benchmarks for some problem domains, but not for traditional programming problems (which they call ``algorithmic programming'' problems), despite the traditional programming category receiving the second most votes in a community survey asking what types of problems a GP benchmark suite should contain \cite{White:2013:BGB:2441218.2441242}. Traditional programming problems mimic the programming of human programmers, requiring multiple data types, control flow, and a large instruction set. Automating human programming tasks has long been a goal of GP, as articulated in Koza's first book \cite{koza:book} for example. The absence of traditional programming problems among current recommended benchmarks is unfortunate and should be addressed.
+
+
+Somewhere in intro:
+- cite \cite{Woodward:2014:GECCOcomp} in the discussion of GP benchmarks
+- One of the main points of that paper is that benchmark problems should come from a distribution relevant to the class of problems you are interested in solving. Our class of problems is general programming problems. Since we (a) don't know how to sample from this class of problems, and (b) don't know if we'd be able to solve that difficult of problem anyway, we instead are providing a set of intro CS problems. By giving a large range of problems, we do get some sampling of the space. And by using intro CS problems, we are building toward larger general programming problems---a first step.
 
 
 
@@ -559,7 +563,7 @@ Of the seven problems on which PushGP found no generalizing solution, most are n
 %(Should we give the minimum size of a solution found by GP?
 %probably should use simplified programs.
 %gives idea of how large would need to search with something like brute-force search.)
-% -- probably not enough space, though it's interesting. I looked into it, and minimum sizes tend to be between 6 and 20, though a few were higher up to 53.
+% -- probably not enough space, though it's interesting. I looked into it, and minimum sizes tend to be between 6 and 20, though a few were higher up to 53. This is in Push points (i.e. the count-points function), since it is looking at simplified Push programs.
 
 
 
