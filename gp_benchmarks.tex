@@ -85,25 +85,17 @@ We present results from illustrative experiments using our reference implementat
 
 \section{Introduction}
 
-Several genetic programming (GP) researchers have discussed the need for better benchmark problems to guide research in the field \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}. While benchmarks have been proposed, few are for general programming problems (also called ``traditional'' or ``algorithmic'' programming problems) even though this category received the second highest level of interest in a recent community survey about the need for benchmarks \cite{White:2013:BGB:2441218.2441242}. 
+Several genetic programming (GP) researchers have highlighted the need for better benchmark problems to guide research in the field \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242, Woodward:2014:GECCOcomp}. While benchmarks have been proposed, few are for general programming problems (also called ``traditional'' or ``algorithmic'' programming problems) even though this category received the second highest level of interest in a recent community survey about the need for benchmarks \cite{White:2013:BGB:2441218.2441242}. 
 
-%[THE FOLLOWING HAS BEEN COPIED FROM THE INTRO OF THE WC PAPER; SOMETHING ALONG THESE LINES BUT CONDENSED BELONGS IN THE INTRO.]
-%The GP community has recently discussed the need for better benchmarks \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}. These discussions provide recommended benchmarks for some problem domains, but not for traditional programming problems (which they call ``algorithmic programming'' problems), despite the traditional programming category receiving the second most votes in a community survey asking what types of problems a GP benchmark suite should contain \cite{White:2013:BGB:2441218.2441242}. Traditional programming problems mimic the programming of human programmers, requiring multiple data types, control flow, and a large instruction set. Automating human programming tasks has long been a goal of GP, as articulated in Koza's first book \cite{koza:book} for example. The absence of traditional programming problems among current recommended benchmarks is unfortunate and should be addressed.
-
-Automating human programming has long been a goal of GP, as articulated for example in Koza's first book \cite{koza:book}. The purpose of a general program synthesis benchmark is to help researchers assess the ability of a system to automate human programming. Such problems should require a range of programming techniques including the use of control flow, modularity, and large, diverse instruction sets covering multiple data types and data structures. This contrasts with most existing GP benchmark problems, which prescribe small, domain-specific instruction sets and assess a system's abilities only on a narrow range of programming techniques.
+Automating human programming has long been a goal of GP, as articulated for example in Koza's first book \cite{koza:book}. The purpose of a general program synthesis benchmark is to help researchers assess the ability of a system to automate human programming. Such problems should require a range of programming techniques including the use of control flow, modularity, and large, diverse instruction sets covering multiple data types and data structures. This contrasts with most existing benchmark problems used in GP and other program synthesis fields, which prescribe small, domain-specific instruction sets and assess a system's abilities only on a narrow range of programming techniques.
 
 In this paper we present a suite of $29$ general program synthesis benchmark problems, systematically selected from sources of introductory computer science programming problems. While the problems are not particularly challenging for skilled human programmers, they are reasonably challenging for beginners and many are arguably too difficult for existing program synthesis systems, including GP. If our goal is to develop general program synthesis systems, using GP or other techniques, then these benchmark problems should be useful for assessing progress.
 
-In the sections below we first discuss issues related to the use of our benchmarks to assess and compare systems. We then describe the criteria used to select problems and each of the $29$ problems that we selected, each described in a technique- and system-independent way. We then present system-specific parameters for illustrative experiments using the PushGP system \cite{spector:2002:GPEM, 1068292}, followed by the results of these experiments and general conclusions.
+In the sections below we first discuss issues related to the use of our benchmarks to assess and compare systems. We then describe the criteria used to select problems and each of the $29$ problems that we selected. Next, we present example system-specific parameters for our reference implementation in the PushGP system \cite{spector:2002:GPEM, 1068292}, followed by the results of an illustrative experiment.
 
 
-
-
-<!--Somewhere in intro:
-- cite \cite{Woodward:2014:GECCOcomp} in the discussion of GP benchmarks
-- One of the main points of that paper is that benchmark problems should come from a distribution relevant to the class of problems you are interested in solving. Our class of problems is general programming problems. Since we (a) don't know how to sample from this class of problems, and (b) don't know if we'd be able to solve that difficult of problem anyway, we instead are providing a set of intro CS problems. By giving a large range of problems, we do get some sampling of the space. And by using intro CS problems, we are building toward larger general programming problems---a first step.
-
-One thing I might want to do is also discuss how the non-gp program synthesis lit does not have good benchmarks. (some of this is in third paragraph)
+%- cite \cite{Woodward:2014:GECCOcomp} in the discussion of GP benchmarks
+%- One of the main points of the \cite{Woodward:2014:GECCOcomp} paper is that benchmark problems should come from a distribution relevant to the class of problems you are interested in solving. Our class of problems is general programming problems. Since we (a) don't know how to sample from this class of problems, and (b) don't know if we'd be able to solve that difficult of problem anyway, we instead are providing a set of intro CS problems. By giving a large range of problems, we do get some sampling of the space. And by using intro CS problems, we are building toward larger general programming problems---a first step.
 
 
 \section{Benchmark-based comparisons}
@@ -137,7 +129,8 @@ The benchmarks should not be biased toward a particular method of synthesis; it 
 
 We have chosen our problems from pre-existing sources of introductory programming problems. By borrowing from these external sources, and using all problems from these sources that meet the requirements described above, we aim to avoid biasing the selection of problems.
 
-[BELONG ELSEWHERE? BETTER TRANSITION?] For a synthesis system to be applicable to the problems in this suite, it must take input/output examples as program specifications. It must be able to produce programs that manipulate the data types necessary to solve the problems, which includes the ability to print outputs and return functional results. Any synthesis system that meets these requirements may be applied to these problems.
+%[BELONG ELSEWHERE? BETTER TRANSITION? OR JUST REMOVE?]
+%For a synthesis system to be applicable to the problems in this suite, it must take input/output examples as program specifications. It must be able to produce programs that manipulate the data types necessary to solve the problems, which includes the ability to print outputs and return functional results. Any synthesis system that meets these requirements may be applied to these problems.
 
 
 \section{Problem Descriptions} \label{descriptionsSection}
@@ -151,7 +144,7 @@ We used two sources for problems: iJava \cite{iJava}, an interactive textbook fo
 
 iJava is an interactive introductory computer science text that contains a number of automatically graded programming problems \cite{iJava, Moll:2011:IOI:1968521.1968535}. These problems work well for general program synthesis from examples, since they are often graded by testing programs against a range of inputs.
 
-[THIS SENTENCE IS CONFUSING. Also, make sure clear these are my descriptions.] iJava contains some sections of problems that vary slightly but otherwise test similar programming skills; in these cases, we chose one representative problem from the group, ensuring a reasonable distribution of problem requirements. Below, we present a natural language description as might be given to human programmers for the 23 problems chosen from iJava, and provide the question or project number associated with the problem in iJava 3.1.
+Some sets of problems in iJava meet our criteria but test similar programming techniques; for each such set, we chose one representative problem from the group, ensuring a reasonable distribution of required programming techniques. Below, we present a natural language description as might be given to human programmers for the 23 problems chosen from iJava, and provide the question or project number associated with the problem in iJava 3.1.
 
 
 \subsubsection*{1. Number IO (Q 3.5.1)}
@@ -391,8 +384,8 @@ When using this benchmark suite with GP, we need not only the input/output cases
 %Fitness functions for these problems must not only match their respective output types, but must also give reasonable measurement of program performance. Still, we can present some generalities of our chosen fitness functions before pointing to the reference implementation for details.
 Many of the problems in this suite print results to standard output, and we generally treat these outputs as strings and use Levenshtein distance (a measure of string edit distance) as the fitness function. Other problems produce numeric outputs, either returned or printed; for these problems we use absolute error for fitness, parsing printed numbers when necessary and possible. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a fitness of 0 for right and 1 for wrong. Finally, some problems require problem-tailored fitness functions, such as vector edit distance or string formatting requirements.
 
-For some problems it is appropriate to use multiple error functions per case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we produce multiple fitness values for a single case. 
-[I THINK WE NEED THE NEXT SENTENCE OR SOMETHING LIKE IT] Additionally, some problems may not necessitate the use of multiple fitness values per case, but we have observed better performance when we use them. [One substantive issue that I didn't address in my edits: How are the multiple error values combined for tournament selection and IFS? Maybe we need to say something briefly about this both where we describe multiple error values and where we describe the selection methods. TMH - It's simple for tournament -- you just add them up. For IFS, each error is treated as a separate, well, error, which are then weighted normally by IFS. Even though these are pretty simple, we should maybe just mention that.]
+For some problems we found it appropriate to use multiple error [FITNESS?] functions per case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we produce multiple fitness values for a single case. Additionally, we find that PushGP performs better on other problems when we use more than one fitness value per case, even where not strictly necessary. For example, we found no solutions to the X-Word Lines problem when only using Levenshtein distance as the fitness function, but found solutions when adding additional error functions for the number of newline characters and summed errors of differences in number of words compared to correct. When using multiple error values for a single training case, we treat each error value as a separate case when the parent selection method requires it; in tournament selection, we simply sum all errors.
+
 
 \begin{table*}%[t]
 \centering
@@ -531,62 +524,61 @@ By specifying the maximum generations, the population size (1000 for all of our 
 
 \section{Experimental Results}
 
-[TMH: I FEEL LIKE SOMETHING LIKE THE FOLLOWING NEEDS TO BE IN HERE, UNLESS IT'S DISCUSSED LATER IN THIS SECTION] Where the relevance of a benchmark suite is determined by how well its problems reflect potential applications of the test systems, its utility is based on how well it differentiates between different approaches. We aim to include problems with a large range of difficulties, from those that can be solved reliably to those that extend beyond the abilities of current program synthesis systems. More importantly, we hope to include problems that are solved more often with some systems or settings than others, allowing us to compare their performances on these problems.
-
+%[TMH: I FEEL LIKE SOMETHING LIKE THE FOLLOWING NEEDS TO BE IN HERE, UNLESS IT'S DISCUSSED LATER IN THIS SECTION]
+Where the relevance of a benchmark suite is determined by how well its problems reflect potential applications of the test systems, its utility is based on how well it differentiates between different approaches. We aim to include problems with a large range of difficulties, from those that can be solved reliably to those that extend beyond the abilities of current program synthesis systems. More importantly, we hope to include problems that are solved more often with some systems or settings than others, allowing us to compare their performances on these problems.
 In this section we present a simple experiment showing the utility of the benchmark suite presented here. This experiment compares three parent selection algorithms: tournament selection, implicit fitness sharing, and lexicase selection.
 
 Implicit fitness sharing (IFS) is a modification of tournament selection designed to encourage diversity preservation in the population \cite{McKay:2000:GECCO}. IFS selection greatly rewards individuals for solving training cases that are solved by few members of the population, and gives less reward for solving cases that are solved by more of the population. Most of the problems here produce non-binary error values, for which we use the non-binary adaptation of IFS found in \cite{Krawiec:2013:EvoIASP}. As required by this method, we normalize error values to $[0, 1]$ by dividing each error by a maximum allowed error value, which differs per problem based on the fitness function.
 
 Lexicase selection \cite{Helmuth:2014:ieeeTEC}, %, Spector:2012:APM:2330784.2330846}, %maybe remove the second citation here if need space?
- unlike tournament selection and implicit fitness sharing, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training cases to select individuals that perform as well as possible on a subset of the training cases even if they exhibit poor performance on other cases. Lexicase selection has been shown to improve performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO}. %, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
+ unlike tournament selection and IFS, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training cases to select individuals that perform as well as possible on a subset of the training cases even if they exhibit poor performance on other cases. Lexicase selection has been shown to improve performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO}. %, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
 
 \begin{table}[t]
 \centering
-\caption{Number of successful runs out of 100 for each setting, where ``Tourney'' is size 7 tournament selection and ``IFS'' is implicit fitness sharing with size 7 tournaments. For each problem, bold indicates significant improvement over the other two at $p < 0.05$ based on a pairwise chi-square test with Holm correction \cite{R}, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5 \cite{fmsb}.}
+\caption{Number of successful runs out of 100 for each setting, where ``Tourney'' is size 7 tournament selection and ``IFS'' is implicit fitness sharing with size 7 tournaments. For each problem, underline indicates significant improvement over the other two selection methods at $p < 0.05$ based on a pairwise chi-square test with Holm correction \cite{R}, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5 \cite{fmsb}.}
 \label{tableResults}
 \rowcolors{3}{Gray}{white}
 \begin{tabular}{lrrr}
 \toprule
-Problem                    & Lexicase & Tourney & IFS \\
+Problem                    & Tourney & IFS & Lexicase \\
 \midrule
-Number IO                  & \textbf{98}       & 68      & 72  \\
-Small Or Large             & 5        & 3       & 3   \\
-For Loop Index             & 1        & 0       & 0   \\
-Compare String Lengths     & 7        & 3       & 6   \\
-Double Letters             & 6        & 0       & 0   \\ 
-Collatz Numbers            & 0        & 0       & 0   \\
-Replace Space with Newline & \textbf{51}       & 8       & 16  \\
-String Differences         & 0        & 0       & 0   \\
-Even Squares               & 2        & 0       & 0   \\
-Wallis Pi                  & 0        & 0       & 0   \\
-String Lengths Backwards   & \textbf{66}       & 7       & 10  \\
-Last Index of Zero         & \textbf{21}       & 8       & 4   \\
-Vector Average             & 16       & 14      & 13  \\
-Count Odds                 & \textbf{8}        & 0       & 0   \\
-Mirror Image               & \textbf{78}       & 46      & 64  \\
-Super Anagrams             & 0        & 0       & 0   \\
-Sum of Squares             & 6        & 2       & 0   \\
-Vectors Summed             & 1        & 0       & 0   \\
-X-Word Lines               & \textbf{8}        & 0       & 0   \\
-Pig Latin                  & 0        & 0       & 0   \\
-Negative To Zero           & \textbf{45}       & 10      & 8   \\
-Scrabble Score             & 2        & 0       & 0    \\
-Word Stats                 & 0        & 0       &  0   \\
-Checksum                   & 0         & 0        & 0    \\
-Digits                     & 7        & 0       & 1   \\
-Grade                      & 4        & 0       & 0   \\
-Median                     & 45       & 7       & 43  \\
-Smallest                   & 81       & 75      & \textbf{98}  \\
-Syllables                  & 18       & 1       & 7   \\
+Number IO                  & 68      & 72  & \underline{98}       \\
+Small Or Large             & 3       & 3   & 5        \\
+For Loop Index             & 0       & 0   & 1        \\
+Compare String Lengths     & 3       & 6   & 7        \\
+Double Letters             & 0       & 0   & 6        \\
+Collatz Numbers            & 0       & 0   & 0        \\
+Replace Space with Newline & 8       & 16  & \underline{51}       \\
+String Differences         & 0       & 0   & 0        \\
+Even Squares               & 0       & 0   & 2        \\
+Wallis Pi                  & 0       & 0   & 0        \\
+String Lengths Backwards   & 7       & 10  & \underline{66}       \\
+Last Index of Zero         & 8       & 4   & \underline{21}       \\
+Vector Average             & 14      & 13  & 16       \\
+Count Odds                 & 0       & 0   & 8        \\
+Mirror Image               & 46      & 64  & \underline{78}       \\
+Super Anagrams             & 0       & 0   & 0        \\
+Sum of Squares             & 2       & 0   & 6        \\
+Vectors Summed             & 0       & 0   & 1        \\
+X-Word Lines               & 0       & 0   & \underline{8}        \\
+Pig Latin                  & 0       & 0   & 0        \\
+Negative To Zero           & 10      & 8   & \underline{45}       \\
+Scrabble Score             & 0       & 0   & 2        \\
+Word Stats                 & 0       & 0   & 0        \\
+Checksum                   & 0       & 0   & 0        \\
+Digits                     & 0       & 1   & 7        \\
+Grade                      & 0       & 0   & 4        \\
+Median                     & 7       & 43  & 45       \\
+Smallest                   & 75      & \underline{98}  & 81       \\
+Syllables                  & 1       & 7   & 18       \\
 \midrule
-\rowcolor{white} Problems Solved          & 22       & 13      & 13   \\
+\rowcolor{white} Problems Solved          & 13       & 13      & 22   \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 
-Table \ref{tableResults} gives the results of our parent selection experiment. Over the 29 problems, PushGP with lexicase selection produced at least one successful run on seven more problems than IFS and 8 more than tournament selection.
-(UPDATE THESE NUMBERS WITH FINAL RESULTS)
+Table \ref{tableResults} gives the results of our parent selection experiment. Over the 29 problems, PushGP with lexicase selection produced at least one successful run on nine more problems than either tournament selection or IFS.
 Additionally, there were 8 problems where lexicase selection achieved a significantly higher number of successful runs than the other two, where IFS showed significant improvement on just one problem and tournament selection none. These results strongly indicate the utility of lexicase selection for general program synthesis problems.
 
 The data in Table \ref{tableResults} only reflect solutions that generalize by achieving zero error on the unseen test set. Some problems seem to lend themselves to generalization more than others; for example, PushGP using lexicase selection found 14 programs with zero error on the training set for the Super Anagrams problem, none of which generalized to the test set. For lexicase selection, five problems resulted in 20 or more runs that passed the training set that did not generalize (Small Or Large,
@@ -619,15 +611,21 @@ With regards to the problems themselves, this experiment illustrates the ability
 
 Of the seven problems on which PushGP found no generalizing solution, most are not surprising in that they require extensive use of different programming constructs, the linking of many distinct steps, or a deceptive fitness space where fitness improvements do not lead toward perfect programs. 
 %The lexicase selection runs found 14 non-generalizing solutions to the Super Anagrams problem, suggesting that it may be solvable, but that issues of generalization must be addressed to reliably generate general solution. 
-[LEE REMOVED THIS, MAYBE ADD BACK IN] Finally, we have written solutions to each of the unsolved problems ourselves to ensure that each problem is solvable within the constraints we make on the system and instruction set.
+Finally, we have written solutions to each of the unsolved problems ourselves to ensure that each problem is solvable within the constraints we make on the system and instruction set.
 
 
-
+Maybe something about smallest sizes of found programs here.
 
 %(Should we give the minimum size of a solution found by GP?
 %probably should use simplified programs.
 %gives idea of how large would need to search with something like brute-force search.)
 % -- probably not enough space, though it's interesting. I looked into it, and minimum sizes tend to be between 6 and 20, though a few were higher up to 53. This is in Push points (i.e. the count-points function), since it is looking at simplified Push programs.
+
+%I mean the sizes of the smallest simplified generalizing programs for each problem. I've scraped these sizes for the lexicase runs in the light green columns here. I think it's interesting in that it shows that a few of the problems have solution programs to be conceivably findable by brute-force search (probably only those with program sizes less than ~7, depending on the instruction set size). For example, the smallest program size with a small instruction set in our runs is for the Number IO problem, which found a solution with 6 instructions with an instruction set of size 50. Brute force testing every program of size 6 would require testing 6^50 programs on our 25 training cases, needing at most 3.9 × 10^11 program evaluations. We limited our runs to 5 * 10^5 evaluations, so much fewer. I'm sure other analytic synthesis methods can do much better than brute force, but that's a lot of ground to make up even on the simplest problem here. On the problems with smallest known solutions with 20+ instructions out of a 100+ instruction set, I doubt most analytic methods have a chance.
+%
+%Anyway, the reason I'm going into all of this is because one thing I think is important to emphasize in this paper that I'm not sure we've emphasized enough is that these problems use significantly bigger instruction sets and require significantly larger solution programs than other automatic program synthesis results I've seen, both inside and outside of GP. This is important for pushing the field forward and making sure we're not just using toy problems. I think that should be one of the big messages here, and showing that the problems require larger solution programs is part of that message.
+%
+%As for actually fitting something into the paper, one option is to add another column to the results table showing minimum sizes. I'm not sure if that would actually fit, and might be overkill. The other option is to have a short paragraph summarizing the data, saying things like "4 problems had smallest solutions between 5 and 10 instructions long, ...". I guess a third way would be a small table or figure that showed the summarized data. I'll think about this as I work on the paper today.
 
 
 
