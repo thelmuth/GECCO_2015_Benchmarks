@@ -102,7 +102,7 @@ In the sections below we first discuss issues related to the use of our benchmar
 One thing I might want to do is also discuss how the non-gp program synthesis lit does not have good benchmarks. (some of this is in third paragraph)
 
 
-\section{Use of the Benchmarks}
+\section{Benchmark-based comparisons}
 
 
 We designate the solution of a general program synthesis problem as a program that perfectly maps inputs to correct outputs. While one might argue that human-written software is often useful even if it has known bugs, the goal here is to pass all input/output tests. Therefore, we will not be interested in programs that are only approximately correct, as might be appropriate in the context of other problems for which GP is used, such as symbolic regression or classification. We therefore recommend that performance on the problems presented here be measured primarily in terms of success rates, quantifying how often a stochastic algorithm finds a successful program across a set of runs.\footnote{For deterministic synthesis algorithms other measures must be used, such as whether a correct program is found within a set period of time. A more thorough argument for assessment in terms of success rates can be found in \cite{Helmuth:2014:GECCO}.}
@@ -136,7 +136,8 @@ We have chosen our problems from pre-existing sources of introductory programmin
 For a synthesis system to be applicable to the problems in this suite, it must take input/output examples as program specifications. It must be able to produce programs that manipulate the data types necessary to solve the problems, which includes the ability to print outputs and return functional results. Any synthesis system that meets these requirements may be applied to these problems.
 
 
-\section{Programming Problems} \label{descriptionsSection}
+\section{Problem Descriptions} \label{descriptionsSection}
+% Other section title options: Problems or The Problems or The Benchmark Problems
 
 We have used two sources for problems: iJava \cite{iJava}, an interactive textbook for introductory computer science, and IntroClass \cite{ManyBugsAndIntroClass, Brun13TRgptest}, a set of problems originally used as benchmarks for automatic program repair. Below we describe each of these sources in further detail, along with the problems selected from each source.
 
@@ -264,7 +265,9 @@ Given 4 integers, print the smallest of them.
 \subsubsection*{29. Syllables}
 Given a string containing symbols, spaces, digits, and lowercase letters, count the number of occurrences of vowels (a, e, i, o, u, y) in the string and print that number as $X$ in \texttt{The number of syllables is X}.
 
-\section{Synthesis Problems} \label{synthProbSpec}
+\section{Synthesis Specifications} \label{synthProbSpec}
+% Other title options: Synthesis Parameters, Data and Instructions
+
 
 %The natural language descriptions of the benchmark problems in Section \ref{descriptionsSection} contain insufficient details to implement specifications for each desired program in a program synthesis system. In this section we discuss issues related to defining problems so that they are interpretable by program synthesis systems. These specifications will allow the benchmark problems to be implemented in a variety of systems and should be technique-independent, while ensuring that different implementations are solving the ``same problem''.
 
