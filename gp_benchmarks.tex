@@ -105,9 +105,6 @@ We designate the solution of a general program synthesis problem as a program th
 Furthermore, in order to be considered successful, a program must not only achieve zero error on all of the example data used to train the program (the ``training set''), but also on a set of withheld generalization data (the ``test set''). 
 %Since we do not want to require formal specifications for the problem, this test set is the best way to test whether a program actually solves the problem or instead memorizes the training set.
 
-%should we cite WC paragraph for having a more detailed discussion of these things somewhere in here? --> DONE: cited mid-paragraph above
-
-
 
 %Statistical procedure -- maybe leave out? Would talk about chi-square tests and Fisher's exact test. (leaving out for now)
 
@@ -258,7 +255,7 @@ Given a file, print the number of words containing $n$ characters for $n$ from 1
 \hspace*{1cm}words of length 3: 0 \\
 \hspace*{1cm}words of length 4: 5 \\
 \hspace*{1cm}... \\
-} %this looks terrible -- is there something better?
+}
 \noindent At the end of the output, print a line that gives the number of sentences and line that gives the average sentence length using the form:
 \texttt{ \\
 \hspace*{1cm}number of sentences: 4 \\
@@ -395,7 +392,7 @@ We also provide recommendations for numbers of cases to use in the training and 
 The question of which instructions to make available for a synthesis system to use for each problem is a complex one. It is important to not cherry pick a small set of instructions that are known to be sufficient to solve a problem; such a selection may be difficult for a real-world problem, where it might not be clear which instructions will be useful. On the other hand, using all available instructions for every problem expands the search space and may make problems more difficult than necessary. We recommend a compromise between these approaches
 % by first determining what data types are required for each instruction in the instruction set, and then deciding which data types could be useful in solving each problem and using the relevant instructions. 
 in which one first determines which data types are likely to be useful for solving the problem and then uses all instructions that operate on those data types.
-%For example, an instruction that compares the equality of two integers and returns a boolean would be included if the problem could potentially make use of integers and booleans. 
+For example, an instruction that compares the equality of two integers and returns a boolean would be included if the problem could potentially make use of integers and booleans. 
 By specifying only the data type requirements for a problem, we can limit the number of instructions without cherry picking. 
 
 
@@ -545,11 +542,11 @@ The second column in Table \ref{tableDataTypes} gives the number of instructions
 %\end{table}
 
 %When considering system parameters for GP specifically, 
-We keep most of our PushGP system parameters constant across all problems. The only significant parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. We used a maximum of 300 generations for every problem besides Number IO, Median, and Smallest, for which we used 200 generations. Maximum program sizes varied more, from 200 to 1000 instructions depending on anticipated problem difficulty. We limited instruction executions to approximately 2 to 5 times the maximum program size, but included some larger values for problems that require many loops. 
+We keep most of our PushGP system parameters constant across all problems, with specific details in \cite{helmuth:umass:tr}. The only significant parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. We used a maximum of 300 generations for every problem besides Number IO, Median, and Smallest, for which we used 200 generations. Maximum program sizes varied more, from 200 to 1000 instructions depending on anticipated problem difficulty. We limited instruction executions to approximately 2 to 5 times the maximum program size, but included some larger values for problems that require many loops. 
 %See the reference implementation for the specific values of these parameters.
 % (Either: [These are in Table \ref{tableGPParameters}.] or [GIVE BRIEF DESCRIPTION OF EACH AND SAY SEE REFERENCE IMPLEMENTATION WEBSITE FOR DETAILS.]) [I went with the latter for now to take up less space]
 By specifying the maximum generations, the population size (1000 for all of our runs), and the size of the training set (see Table \ref{testCasesTable}), we also specify the program evaluation budget, which is the product of those values. In our implementation, this budget falls between 5 and 60 million program evaluations per run for every problem. 
-%For other systems, even non-GP systems, to produce comparable results, we recommend using the similar program evaluation budgets, regardless of other system settings.
+
 
 \section{Experimental Results}
 
@@ -660,16 +657,23 @@ Maybe something about smallest sizes of found programs here.
 
 \section{Conclusions}
 
-We have presented a suite of $29$ general program synthesis benchmark problems, systematically selected from sources of introductory computer science programming problems. 
-The problems are appropriate for experiments with any program synthesis system driven by input/output examples. 
-We presented the criteria that we used to select the problems, we described the chosen problems in natural language, and we outlined the additional decisions that must be made in order to apply a program synthesis system to these problems. We have also provided recommendations for analysis of results of program synthesis experiments using our benchmarks.
+We have presented a suite of $29$ general program synthesis benchmark problems, systematically selected from sources of introductory computer science programming problems. Through exposition and experimentation, we have demonstrated the potential utility of this suite to assess the capabilities of program synthesis systems. We expect that the application of this suite can help advance multiple fields of automatic program synthesis, including genetic programming, that have long employed simple benchmark problems not attuned to potential real-world applications.
 
-As an illustrative example we presented the results of an experiment that used the benchmarks to assess the utility of three different parent selection methods in the PushGP system.% \cite{spector:2002:GPEM, 1068292}.
-The results of the specific experiment strongly suggest that lexicase selection %\cite{Helmuth:2014:ieeeTEC}
- is more useful than either standard tournament selection or implicit fitness sharing %\cite{McKay:2000:GECCO,Krawiec:2013:EvoIASP}
- in this context. The more general lesson of this experiment, however, is that the problems in the presented benchmark suite vary in difficulty, and that they can be useful for assessing the capabilities of a program synthesis system.
 
-[AS IS, THE CONCLUSIONS ARE A LITTLE WEAK -- JUST A RECAP OF THE PAPER. CAN WE GET MORE SUBSTANCE IN HERE? What can the suite provide in the future?]
+%We also hope to reinvigorate the use of genetic programming for general program synthesis, as most of its recent applications come in the form of small, domain-specific problems.
+
+
+
+%We have presented a suite of $29$ general program synthesis benchmark problems, systematically selected from sources of introductory computer science programming problems. 
+%The problems are appropriate for experiments with any program synthesis system driven by input/output examples. 
+%We presented the criteria that we used to select the problems, we described the chosen problems in natural language, and we outlined the additional decisions that must be made in order to apply a program synthesis system to these problems. We have also provided recommendations for analysis of results of program synthesis experiments using our benchmarks.
+%
+%As an illustrative example we presented the results of an experiment that used the benchmarks to assess the utility of three different parent selection methods in the PushGP system. % \cite{spector:2002:GPEM, 1068292}.
+%The results of the specific experiment strongly suggest that lexicase selection %\cite{Helmuth:2014:ieeeTEC}
+% is more useful than either standard tournament selection or implicit fitness sharing %\cite{McKay:2000:GECCO,Krawiec:2013:EvoIASP}
+% in this context. The more general lesson of this experiment, however, is that the problems in the presented benchmark suite vary in difficulty, and that they can be useful for assessing the capabilities of a program synthesis system.
+
+
 
 
 %ACKNOWLEDGMENTS are optional
