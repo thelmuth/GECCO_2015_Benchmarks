@@ -668,6 +668,9 @@ We have written solutions to each of the unsolved problems by hand to ensure tha
 
 The last column in Table \ref{tableResults} gives the size (in instructions) of the  smallest simplified solution program. Here, we've used post-run simplification to automatically reduce the sizes of solution programs without changing their semantics on the training data \cite{Spector:2014:GECCOcomp}. While this hill-climbing simplification is not guaranteed to find the smallest semantically equivalent program, it reliably removes bloat leaving the core functionality of the program \cite{Spector:2014:GECCOcomp}. The simplified program sizes present a reasonable proxy for the smallest solution program for each problem. While some problems can be solved with programs containing less than 10 instructions, none would likely be found using brute-force search over our instruction sets within the number of program evaluations allowed here. Searching over size 5 programs using the Number IO instruction set would require evaluating over 7 billion programs, much more than the 5 million we used in our GP runs. Other problems have smallest known solutions of over 20 instructions using instruction sets with more than 100 instructions, to our knowledge beyond the reach of all other non-GP program synthesis systems.
 
+% Maybe this paragraph should conclude with something overarching about how these program sizes indicate these problems are difficult? Or is that implied?
+
+
 %(Should we give the minimum size of a solution found by GP?
 %probably should use simplified programs.
 %gives idea of how large would need to search with something like brute-force search.)
