@@ -134,7 +134,8 @@ We used two sources for problems: iJava \cite{iJava}, an interactive textbook fo
 
 %In this section, we will describe the problems from iJava \cite{iJava, Moll:2011:IOI:1968521.1968535}. 
 
-iJava is an interactive introductory computer science text that contains a number of automatically graded programming problems \cite{iJava, Moll:2011:IOI:1968521.1968535}. These problems work well as general program synthesis problems, since they are often graded by testing programs against a range of inputs.
+iJava is an interactive introductory computer science text that contains a number of automatically graded programming problems \cite{iJava}. %, Moll:2011:IOI:1968521.1968535}.
+ These problems work well as general program synthesis problems, since they are often graded by testing programs against a range of inputs.
 
 Some sets of problems in iJava meet our criteria but test similar programming techniques; for each such set, we chose one representative problem from the group, ensuring a reasonable distribution of problem requirements. Along with each problem name and description, we provide the question or project number associated with the problem in iJava 3.1.
 
@@ -552,48 +553,78 @@ In this section we present a simple experiment showing the utility of the benchm
 Implicit fitness sharing (IFS) is a modification of tournament selection designed to encourage diversity preservation in the population \cite{McKay:2000:GECCO}. IFS selection greatly rewards individuals for solving training cases that are solved by a small fraction of the population, and gives less reward for solving cases that are solved by more of the population. Most of the problems here produce non-binary error values, for which we use the non-binary adaptation of IFS found in \cite{Krawiec:2013:EvoIASP}. As required by this method, we normalize error values to $[0, 1]$ by dividing each error by a maximum allowed error value, which differs per problem based on the fitness function.
 
 Lexicase selection \cite{Helmuth:2014:ieeeTEC}, %, Spector:2012:APM:2330784.2330846}, %maybe remove the second citation here if need space?
- unlike tournament selection and IFS, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training set to select individuals that perform as well as possible on a subset of the training set even if they exhibit poor performance on other cases. Lexicase selection has been shown to improve the performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
+ unlike tournament selection and IFS, does not base selection on a single fitness value derived from the errors calculated when running the program on the training set. Instead, it uses a random ordering of the training set to select individuals that perform as well as possible on a subset of the training set even if they exhibit poor performance on other cases. Lexicase selection has been shown to improve the performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO}.
+%, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
 
 \begin{table}[t]
 \centering
-\caption{Number of successful runs out of 100 for each setting, where ``Tourney'' is size 7 tournament selection and ``IFS'' is implicit fitness sharing with size 7 tournaments. For each problem, underline indicates significant improvement over the other two selection methods at $p < 0.05$ based on a pairwise chi-square test with Holm correction \cite{R}, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5 \cite{fmsb}.}
+\caption{Number of successful runs out of 100 for each setting, where ``Tourn'' is size 7 tournament selection, ``IFS'' is implicit fitness sharing with size 7 tournaments, and ``Lex'' is lexicase selection. For each problem, underline indicates significant improvement over the other two selection methods at $p < 0.05$ based on a pairwise chi-square test with Holm correction \cite{R}, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5 \cite{fmsb}. The ``Size'' column indicates the smallest size of any simplified solution program}
 \label{tableResults}
 \rowcolors{3}{Gray}{white}
-\begin{tabular}{lrrr}
+\begin{tabular}{lrrr|r}
 \toprule
-Problem                    & Tourney & IFS & Lexicase \\
+Problem                    & Tourn & IFS & Lex & Size \\
 \midrule
-Number IO                  & 68      & 72  & \underline{98}       \\
-Small Or Large             & 3       & 3   & 5        \\
-For Loop Index             & 0       & 0   & 1        \\
-Compare String Lengths     & 3       & 6   & 7        \\
-Double Letters             & 0       & 0   & 6        \\
-Collatz Numbers            & 0       & 0   & 0        \\
-Replace Space with Newline & 8       & 16  & \underline{51}       \\
-String Differences         & 0       & 0   & 0        \\
-Even Squares               & 0       & 0   & 2        \\
-Wallis Pi                  & 0       & 0   & 0        \\
-String Lengths Backwards   & 7       & 10  & \underline{66}       \\
-Last Index of Zero         & 8       & 4   & \underline{21}       \\
-Vector Average             & 14      & 13  & 16       \\
-Count Odds                 & 0       & 0   & 8        \\
-Mirror Image               & 46      & 64  & \underline{78}       \\
-Super Anagrams             & 0       & 0   & 0        \\
-Sum of Squares             & 2       & 0   & 6        \\
-Vectors Summed             & 0       & 0   & 1        \\
-X-Word Lines               & 0       & 0   & \underline{8}        \\
-Pig Latin                  & 0       & 0   & 0        \\
-Negative To Zero           & 10      & 8   & \underline{45}       \\
-Scrabble Score             & 0       & 0   & 2        \\
-Word Stats                 & 0       & 0   & 0        \\
-Checksum                   & 0       & 0   & 0        \\
-Digits                     & 0       & 1   & 7        \\
-Grade                      & 0       & 0   & 4        \\
-Median                     & 7       & 43  & 45       \\
-Smallest                   & 75      & \underline{98}  & 81       \\
-Syllables                  & 1       & 7   & 18       \\
+Number IO                  & 68      & 72  & 98       & 5    \\
+Small Or Large             & 3       & 3   & 5        & 27   \\
+For Loop Index             & 0       & 0   & 1        & 21   \\
+Compare String Lengths     & 3       & 6   & 7        & 11   \\
+Double Letters             & 0       & 0   & 6        & 20   \\
+Collatz Numbers            & 0       & 0   & 0        &     \\
+Replace Space with Newline & 8       & 16  & 51       & 9    \\
+String Differences         & 0       & 0   & 0        &     \\
+Even Squares               & 0       & 0   & 2        & 37   \\
+Wallis Pi                  & 0       & 0   & 0        &     \\
+String Lengths Backwards   & 7       & 10  & 66       & 9    \\
+Last Index of Zero         & 8       & 4   & 21       & 5    \\
+Vector Average             & 14      & 13  & 16       & 7    \\
+Count Odds                 & 0       & 0   & 8        & 7    \\
+Mirror Image               & 46      & 64  & 78       & 4    \\
+Super Anagrams             & 0       & 0   & 0        &     \\
+Sum of Squares             & 2       & 0   & 6        & 7    \\
+Vectors Summed             & 0       & 0   & 1        & 11   \\
+X-Word Lines               & 0       & 0   & 8        & 15   \\
+Pig Latin                  & 0       & 0   & 0        &     \\
+Negative To Zero           & 10      & 8   & 45       & 8    \\
+Scrabble Score             & 0       & 0   & 2        & 14   \\
+Word Stats                 & 0       & 0   & 0        &     \\
+Checksum                   & 0       & 0   & 0        &     \\
+Digits                     & 0       & 1   & 7        & 20   \\
+Grade                      & 0       & 0   & 4        & 52   \\
+Median                     & 7       & 43  & 45       & 10   \\
+Smallest                   & 75      & 98  & 81       & 8    \\
+Syllables                  & 1       & 7   & 18       & 14   \\
+%Number IO                  & 68      & 72  & \underline{98}       \\
+%Small Or Large             & 3       & 3   & 5        \\
+%For Loop Index             & 0       & 0   & 1        \\
+%Compare String Lengths     & 3       & 6   & 7        \\
+%Double Letters             & 0       & 0   & 6        \\
+%Collatz Numbers            & 0       & 0   & 0        \\
+%Replace Space with Newline & 8       & 16  & \underline{51}       \\
+%String Differences         & 0       & 0   & 0        \\
+%Even Squares               & 0       & 0   & 2        \\
+%Wallis Pi                  & 0       & 0   & 0        \\
+%String Lengths Backwards   & 7       & 10  & \underline{66}       \\
+%Last Index of Zero         & 8       & 4   & \underline{21}       \\
+%Vector Average             & 14      & 13  & 16       \\
+%Count Odds                 & 0       & 0   & 8        \\
+%Mirror Image               & 46      & 64  & \underline{78}       \\
+%Super Anagrams             & 0       & 0   & 0        \\
+%Sum of Squares             & 2       & 0   & 6        \\
+%Vectors Summed             & 0       & 0   & 1        \\
+%X-Word Lines               & 0       & 0   & \underline{8}        \\
+%Pig Latin                  & 0       & 0   & 0        \\
+%Negative To Zero           & 10      & 8   & \underline{45}       \\
+%Scrabble Score             & 0       & 0   & 2        \\
+%Word Stats                 & 0       & 0   & 0        \\
+%Checksum                   & 0       & 0   & 0        \\
+%Digits                     & 0       & 1   & 7        \\
+%Grade                      & 0       & 0   & 4        \\
+%Median                     & 7       & 43  & 45       \\
+%Smallest                   & 75      & \underline{98}  & 81       \\
+%Syllables                  & 1       & 7   & 18       \\
 \midrule
-\rowcolor{white} Problems Solved          & 13       & 13      & 22   \\
+\rowcolor{white} Problems Solved          & 13       & 13      & 22 &   \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -635,7 +666,7 @@ Of the seven problems on which PushGP found no generalizing solution, most are n
 We have written solutions to each of the unsolved problems by hand to ensure that each problem is solvable within the constraints we put on the system and instruction set.
 
 
-Maybe something about smallest sizes of found programs here.
+The last column in Table \ref{tableResults} gives the size (in instructions) of the  smallest simplified solution program. Here, we've used post-run simplification to automatically reduce the sizes of solution programs without changing their semantics on the training data \cite{Spector:2014:GECCOcomp}. While this hill-climbing simplification is not guaranteed to find the smallest semantically equivalent program, it reliably removes bloat leaving the core functionality of the program \cite{Spector:2014:GECCOcomp}. The simplified program sizes present a reasonable proxy for the smallest solution program for each problem. While some problems can be solved with programs containing less than 10 instructions, none would likely be found using brute-force search over our instruction sets within the number of program evaluations allowed here. Searching over size 5 programs using the Number IO instruction set would require evaluating over 7 billion programs, much more than the 5 million we used in our GP runs. Other problems have smallest known solutions of over 20 instructions using instruction sets with more than 100 instructions, to our knowledge beyond the reach of all other non-GP program synthesis systems.
 
 %(Should we give the minimum size of a solution found by GP?
 %probably should use simplified programs.
