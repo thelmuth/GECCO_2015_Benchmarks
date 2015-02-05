@@ -133,15 +133,15 @@ We have chosen our problems from pre-existing sources of introductory programmin
 \section{Problem Descriptions} \label{descriptionsSection}
 % Other section title options: Problems or The Problems or The Benchmark Problems
 
-We used two sources for problems: iJava \cite{iJava}, an interactive textbook for introductory computer science, and IntroClass \cite{ManyBugsAndIntroClass, Brun13TRgptest}, a set of problems originally used as benchmarks for automatic program repair. Below we describe each of these sources in further detail and present our natural language description of each problem, summarized from the original source. All problems use functional arguments as inputs and functional outputs as return values, besides one that requires reading input from a file.
+We used two sources for problems: iJava \cite{iJava}, an interactive textbook for introductory computer science, and IntroClass \cite{ManyBugsAndIntroClass, Brun13TRgptest}, a set of problems originally used as benchmarks for automatic program repair. Below we describe each of these sources in further detail and present our natural language description of each problem, summarized from the original source. All problems use functional arguments as inputs and functional outputs when returning values, besides one that requires reading input from a file.
 
 \subsection{iJava}
 
 %In this section, we will describe the problems from iJava \cite{iJava, Moll:2011:IOI:1968521.1968535}. 
 
-iJava is an interactive introductory computer science text that contains a number of automatically graded programming problems \cite{iJava, Moll:2011:IOI:1968521.1968535}. These problems work well for general program synthesis from examples, since they are often graded by testing programs against a range of inputs.
+iJava is an interactive introductory computer science text that contains a number of automatically graded programming problems \cite{iJava, Moll:2011:IOI:1968521.1968535}. These problems work well as general program synthesis problems, since they are often graded by testing programs against a range of inputs.
 
-Some sets of problems in iJava meet our criteria but test similar programming techniques; for each such set, we chose one representative problem from the group, ensuring a reasonable distribution of required programming techniques. Along with each problem name and description, we provide the question or project number associated with the problem in iJava 3.1.
+Some sets of problems in iJava meet our criteria but test similar programming techniques; for each such set, we chose one representative problem from the group, ensuring a reasonable distribution of problem requirements. Along with each problem name and description, we provide the question or project number associated with the problem in iJava 3.1.
 
 \begin{enumerate}
 \item
@@ -154,31 +154,31 @@ Given an integer $n$ in the range $[-10000, 10000]$, print ``small'' if $n < 100
 
 \item
 \textbf{For Loop Index (Q 4.11.7)}
-Given 3 integer inputs $start, finish,$ and $stepSize$, print the integers in the sequence
+Given 3 integer inputs $start, end,$ and $step$, print the integers in the sequence
 \begin{align*}
 n_0 &= start \\
-n_i &= n_{i-1} + stepSize
+n_i &= n_{i-1} + step
 \end{align*}
-for each $n_i < finish$, each on their own line.
+for each $n_i < end$, each on their own line.
 
 \item
 \textbf{Compare String Lengths (Q 4.11.13)}
 Given three strings $n1$, $n2$, and $n3$, return true if $length(n1) < length(n2) < length(n3)$, and false otherwise.
 
 \item
-\textbf{Double Letters (Project 4.1)}
+\textbf{Double Letters (P 4.1)}
 Given a string, print the string, doubling every letter character, and tripling every exclamation point. All other non-alphabetic and non-exclamation characters should be printed a single time each.
 
 \item
-\textbf{Collatz Numbers (Project 4.2)}
+\textbf{Collatz Numbers (P 4.2)}
 Given an integer, find the number of terms in the Collatz sequence starting from that integer.
 
 \item
-\textbf{Replace Space with Newline (Project 4.3)}
+\textbf{Replace Space with Newline (P 4.3)}
 Given a string input, print the string, replacing spaces with newlines. Also, return the integer count of the non-whitespace characters. The input string will not have tabs or newlines, but may have multiple spaces in a row.
 
 \item
-\textbf{String Differences (Project 4.4)}
+\textbf{String Differences (P 4.4)}
 Given 2 strings (without whitespace) as input, find the indices at which the strings have different characters, stopping at the end of the shorter one. For each such index, print a line containing the index as well as the character in each string. For example, if the strings are ``dealer'' and ``dollars'', the program should print:
 \texttt{\\*
 \hspace*{1cm}1 e o \\*
@@ -191,7 +191,7 @@ Given 2 strings (without whitespace) as input, find the indices at which the str
 Given an integer $n$, print all of the positive even perfect squares less than $n$ on separate lines.
 
 \item
-\textbf{Wallis Pi (Project 6.4))}
+\textbf{Wallis Pi (P 6.4))}
 John Wallis gave the following infinite product that converges to $\pi/4$:
 \[
 \frac{2}{3}\times \frac{4}{3}\times \frac{4}{5}\times \frac{6}{5}\times \frac{6}{7}\times \frac{8}{7}\times \frac{8}{9}\times \frac{10}{9} \times ...
@@ -216,10 +216,10 @@ Given a vector of integers, return the number of integers that are odd, without 
 
 \item
 \textbf{Mirror Image (Q 7.7.15)}
-Given two vectors of integers, return true if one vector is the reverse of the other, and false otherwise.
+Given two vectors of integers, return \texttt{true} if one vector is the reverse of the other, and \texttt{false} otherwise.
 
 \item
-\textbf{Super Anagrams (Project 7.3)}
+\textbf{Super Anagrams (P 7.3)}
 Given strings $x$ and $y$ of lowercase letters, return true if $y$ is a super anagram of $x$, which is the case if every character in $x$ is in $y$. To be true, $y$ may contain extra characters, but must have at least as many copies of each character as $x$ does.
 
 \item
@@ -228,26 +228,26 @@ Given integer $n$, return the sum of squaring each integer in the range $[1, n]$
 
 \item
 \textbf{Vectors Summed (Q 8.7.6)}
-Given two equal-size vectors of integers, return a vector of integers that contains the sum of the input vectors at each index.
+Given two equal-sized vectors of integers, return a vector of integers that contains the sum of the input vectors at each index.
 
 \item
-\textbf{X-Word Lines (Project 8.1)}
+\textbf{X-Word Lines (P 8.1)}
 Given an integer $X$  and a string that can contain spaces and newlines, print the string with exactly $X$ words per line. The last line may have fewer than $X$ words.
 
 \item
-\textbf{Pig Latin (Project 8.2)}
-Given a string containing lowercase words separated by single spaces, print the string with each word translated to pig Latin. More specifically, if a word starts with a vowel, it should have ``ay'' added to its end; otherwise, the first letter is moved to the end of the word, followed by ``ay''.
+\textbf{Pig Latin (P 8.2)}
+Given a string containing lowercase words separated by single spaces, print the string with each word translated to pig Latin. Specifically, if a word starts with a vowel, it should have ``ay'' added to its end; otherwise, the first letter is moved to the end of the word, followed by ``ay''.
 
 \item
 \textbf{Negative To Zero (Q 9.6.8)}
 Given a vector of integers, return the vector where all negative integers have been replaced by 0.
 
 \item
-\textbf{Scrabble Score (Project 10.1)}
+\textbf{Scrabble Score (P 10.1)}
 Given a string of visible ASCII characters, return the Scrabble score for that string. Each letter has a corresponding value according to normal Scrabble rules, and non-letter characters are worth zero.
 
 \item
-\textbf{Word Stats (Project 10.5)}
+\textbf{Word Stats (P 10.5)}
 Given a file, print the number of words containing $n$ characters for $n$ from 1 to the length of the longest word, in the format:
 \texttt{ \\
 \hspace*{1cm}words of length 1: 12 \\
@@ -269,16 +269,16 @@ Given a file, print the number of words containing $n$ characters for $n$ from 1
 
 %In this section, we will describe the problems from the IntroClass dataset \cite{ManyBugsAndIntroClass, Brun13TRgptest}. 
 
-The set of 6 problems in the IntroClass dataset \cite{ManyBugsAndIntroClass, Brun13TRgptest} was designed for the purpose of benchmarking automatic software defect repair systems. As such, the authors of this dataset provide a number of buggy programs written by students trying to solve each problem, taken from students in an introductory computer science class. For the purposes of automatic program synthesis from scratch, we will use the problems themselves but not the accompanying buggy programs. 
+The set of 6 problems in the IntroClass dataset \cite{ManyBugsAndIntroClass, Brun13TRgptest} was designed for the purpose of benchmarking automatic software defect repair systems. As such, the authors of this dataset provide a number of buggy programs written by students trying to solve each problem, taken from students in an introductory computer science class. For the purposes of general program synthesis from scratch, we will use the problems themselves but not the accompanying buggy programs. 
 %Since these problems were designed for automatic defect repair, they all can be tested on a range of inputs, and require outputs to be printed.
-Each of these problems can be tested on a range of inputs, and each requires outputs to be printed.
+%Each of these problems can be tested on a range of inputs, and each requires outputs to be printed.
 
 \begin{enumerate}
 \setcounter{enumi}{23}
 
 \item
 \textbf{Checksum}
-Given a string, compute the integer values of the characters in the string, sum them, take the sum modulo 64, add the integer value of the space character, and then convert that integer back into its corresponding character (the checksum character). The program must print \texttt{Check sum is X}, where $X$ is replaced by the correct checksum character.
+Given a string, compute the integer ASCII values of the characters in the string, sum them, take the sum modulo 64, add the integer value of the space character, and then convert that integer back into its corresponding character (the checksum character). The program must print \texttt{Check sum is X}, where $X$ is replaced by the correct checksum character.
 
 \item
 \textbf{Digits}
@@ -286,7 +286,7 @@ Given an integer, print that integer's digits each on their own line starting wi
 
 \item
 \textbf{Grade}
-Given 5 integers, the first four represent the lower numeric thresholds for achieving an A, B, C, and D, and will be distinct and in descending order. The fifth represents the student's numeric grade. The program must print \texttt{Student has a X grade.}, where $X$ is A, B, C, D, or F depending on the thresholds and their numeric grade.
+Given 5 integers, the first four represent the lower numeric thresholds for achieving an A, B, C, and D, and will be distinct and in descending order. The fifth represents the student's numeric grade. The program must print \texttt{Student has a X grade.}, where $X$ is A, B, C, D, or F depending on the thresholds and the numeric grade.
 
 \item
 \textbf{Median}
@@ -316,7 +316,7 @@ The natural language descriptions of the problems in Section \ref{descriptionsSe
 \label{testCasesTable}
 %{\renewcommand{\arraystretch}{1}%
 \rowcolors{3}{Gray}{white}
-\begin{tabular}{>{\raggedright}p{3.5cm}  >{\raggedright}p{7.4cm} l rr}
+\begin{tabular}{>{\raggedright}p{3.5cm}  >{\raggedright}p{7.4cm} >{\raggedright}p{2.3cm} rr}
 \toprule
 \textbf{Name} & \textbf{Inputs} & \textbf{Outputs} & \textbf{Train} & \textbf{Test} \\
 \midrule
@@ -385,7 +385,7 @@ Syllables & string of length $[0, 20]$ & printed string & 100 & 1000\\
 
 Table \ref{testCasesTable} presents recommendations regarding training and test data for each problem. While these are merely guidelines, and there may be good reasons to diverge from them when using different techniques or systems, adhering to these guidelines will clarify comparisons among techniques and systems. The table describes the data types of the inputs and outputs and gives reasonable ranges for program inputs. 
 
-We also provide recommendations for numbers of cases to use in the training and test sets for each problem in Table \ref{testCasesTable}. For most problems, we recommend between 100 and 200 training cases, depending on the difficulty of the problem as well as the dimensionality of the input space. A few problems use fewer, either because they have limited input spaces or are simple enough to solve with fewer cases. The size of the test set used to test generalization to unseen data is usually recommended to be ten times as large as the training set; again, there are exceptions for problems with limited input spaces. The method of producing the training and test cases is system-specific; we recommend a combination of hand-chosen edge cases with randomly generated cases, and will describe our method in more detail in Section \ref{systemParamsSection}.
+We also provide recommendations for numbers of cases to use in the training and test sets in Table \ref{testCasesTable}. For most problems, we recommend between 100 and 200 training cases, depending on the difficulty of the problem as well as the dimensionality of the input space. A few problems use fewer, either because they have limited input spaces or are simple enough to solve with fewer cases. We usually recommend using a test set ten times as large as the training set; again, there are exceptions for problems with limited input spaces. The method of producing the training and test cases is system-specific; we recommend a combination of hand-chosen edge cases with randomly generated cases, and will describe our method in more detail in Section \ref{systemParamsSection}.
 
 % Table 2 prior location
 
@@ -406,11 +406,11 @@ The reference implementation of our problems in PushGP can be found on GitHub\fo
 
 When generating training and testing data, we use a combination of hand-picked edge cases that remain constant across runs and randomly generated inputs that vary across runs. For each problem, we specify one or more ``data domains'' \cite{Helmuth:2014:GECCO}, which consist of either a set of hard-coded inputs or a random input generator, as well as the number of training and test cases that should come from each domain. Details on using data domains can be found in \cite{Helmuth:2014:GECCO}, and our technical report gives our choices for data domains for each problem \cite{helmuth:umass:tr}.
 
-When using this benchmark suite with GP, we need not only the input/output cases, but also a method of measuring how well a particular program performs on each case---the \textit{fitness function}. 
+When using this benchmark suite with GP, we not only need the input/output cases, but also a method of measuring how well a particular program performs on each case---the \textit{fitness function}. 
 %Fitness functions for these problems must not only match their respective output types, but must also give reasonable measurement of program performance. Still, we can present some generalities of our chosen fitness functions before pointing to the reference implementation for details.
-Many of the problems in this suite print results to standard output, and we generally treat these outputs as strings and use Levenshtein distance (a measure of string edit distance) as the fitness function. Other problems produce numeric outputs, either returned or printed; for these problems we use absolute error for fitness, parsing printed numbers when necessary and possible. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a fitness of 0 for right and 1 for wrong. Finally, some problems require problem-tailored fitness functions, such as vector edit distance or string formatting requirements.
+Many of the problems in this suite print results to standard output, and we generally treat these outputs as strings and use Levenshtein distance (a measure of string edit distance) as the fitness function. Other problems produce numeric outputs, either returned or printed; for these problems we use absolute error for fitness, parsing printed numbers when necessary and possible. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a fitness of 0 for right and 1 for wrong. Finally, some problems require problem-tailored fitness functions, such as vector edit distance or string formatting requirements. We give the details of each fitness function in \cite{helmuth:umass:tr}.
 
-For some problems we found it appropriate to use multiple error [FITNESS?] functions per case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we produce multiple fitness values for a single case. Additionally, we find that PushGP performs better on other problems when we use more than one fitness value per case, even where not strictly necessary. For example, we found no solutions to the X-Word Lines problem when only using Levenshtein distance as the fitness function, but found solutions when adding additional error functions for the number of newline characters and summed errors of differences in number of words compared to correct. When using multiple error values for a single training case, we treat each error value as a separate case when the parent selection method requires it; in tournament selection, we simply sum all errors.
+For some problems we found it appropriate to use multiple fitness functions per case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we produce multiple fitness values for a single case. Additionally, we find that PushGP performs better on some problems when we use more than one fitness value per case, even where not strictly necessary. For example, we found no solutions to the X-Word Lines problem when using Levenshtein distance as the only fitness function, but found solutions when adding additional fitness functions for the number of newline characters and summed errors of differences in number of words compared. When using multiple fitness values for a single training case, we treat each fitness value as a separate case when the parent selection method requires it; in tournament selection, we simply sum all fitness values.
 
 
 \begin{table*}%[t]
@@ -542,7 +542,7 @@ The second column in Table \ref{tableDataTypes} gives the number of instructions
 %\end{table}
 
 %When considering system parameters for GP specifically, 
-We keep most of our PushGP system parameters constant across all problems, with specific details in \cite{helmuth:umass:tr}. The only significant parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. We used a maximum of 300 generations for every problem besides Number IO, Median, and Smallest, for which we used 200 generations. Maximum program sizes varied more, from 200 to 1000 instructions depending on anticipated problem difficulty. We limited instruction executions to approximately 2 to 5 times the maximum program size, but included some larger values for problems that require many loops. 
+We keep most of our PushGP system parameters constant across all problems, with specific details in \cite{helmuth:umass:tr}. The only significant parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. We used a maximum of 300 generations for every problem besides Number IO, Median, and Smallest, for which we used 200 generations. Maximum program sizes varied more, from 200 to 1000 instructions depending on anticipated problem difficulty. We limited instruction executions to approximately 2 to 5 times the maximum program size, but included some larger settings for problems that require many loops.
 %See the reference implementation for the specific values of these parameters.
 % (Either: [These are in Table \ref{tableGPParameters}.] or [GIVE BRIEF DESCRIPTION OF EACH AND SAY SEE REFERENCE IMPLEMENTATION WEBSITE FOR DETAILS.]) [I went with the latter for now to take up less space]
 By specifying the maximum generations, the population size (1000 for all of our runs), and the size of the training set (see Table \ref{testCasesTable}), we also specify the program evaluation budget, which is the product of those values. In our implementation, this budget falls between 5 and 60 million program evaluations per run for every problem. 
