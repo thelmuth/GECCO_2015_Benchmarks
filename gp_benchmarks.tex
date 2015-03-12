@@ -565,34 +565,34 @@ Lexicase selection \cite{Helmuth:2014:ieeeTEC}, %, Spector:2012:APM:2330784.2330
 \toprule
 Problem                    & Tourn & IFS & Lex & Size \\
 \midrule
-Number IO                  & 68      & 72  & 98       & 5    \\
+Number IO                  & 68      & 72  & \underline{98}       & 5    \\
 Small Or Large             & 3       & 3   & 5        & 27   \\
 For Loop Index             & 0       & 0   & 1        & 21   \\
 Compare String Lengths     & 3       & 6   & 7        & 11   \\
 Double Letters             & 0       & 0   & 6        & 20   \\
 Collatz Numbers            & 0       & 0   & 0        &     \\
-Replace Space with Newline & 8       & 16  & 51       & 9    \\
+Replace Space with Newline & 8       & 16  & \underline{51}       & 9    \\
 String Differences         & 0       & 0   & 0        &     \\
 Even Squares               & 0       & 0   & 2        & 37   \\
 Wallis Pi                  & 0       & 0   & 0        &     \\
-String Lengths Backwards   & 7       & 10  & 66       & 9    \\
-Last Index of Zero         & 8       & 4   & 21       & 5    \\
+String Lengths Backwards   & 7       & 10  & \underline{66}       & 9    \\
+Last Index of Zero         & 8       & 4   & \underline{21}       & 5    \\
 Vector Average             & 14      & 13  & 16       & 7    \\
 Count Odds                 & 0       & 0   & 8        & 7    \\
-Mirror Image               & 46      & 64  & 78       & 4    \\
+Mirror Image               & 46      & 64  & \underline{78}       & 4    \\
 Super Anagrams             & 0       & 0   & 0        &     \\
 Sum of Squares             & 2       & 0   & 6        & 7    \\
 Vectors Summed             & 0       & 0   & 1        & 11   \\
-X-Word Lines               & 0       & 0   & 8        & 15   \\
+X-Word Lines               & 0       & 0   & \underline{8}        & 15   \\
 Pig Latin                  & 0       & 0   & 0        &     \\
-Negative To Zero           & 10      & 8   & 45       & 8    \\
+Negative To Zero           & 10      & 8   & \underline{45}       & 8    \\
 Scrabble Score             & 0       & 0   & 2        & 14   \\
 Word Stats                 & 0       & 0   & 0        &     \\
 Checksum                   & 0       & 0   & 0        &     \\
 Digits                     & 0       & 1   & 7        & 20   \\
 Grade                      & 0       & 0   & 4        & 52   \\
 Median                     & 7       & 43  & 45       & 10   \\
-Smallest                   & 75      & 98  & 81       & 8    \\
+Smallest                   & 75      & \underline{98}  & 81       & 8    \\
 Syllables                  & 1       & 7   & 18       & 14   \\
 %Number IO                  & 68      & 72  & \underline{98}       \\
 %Small Or Large             & 3       & 3   & 5        \\
@@ -666,7 +666,7 @@ Of the seven problems on which PushGP found no generalizing solution, most are n
 We have written solutions to each of the unsolved problems by hand to ensure that each problem is solvable within the constraints we put on the system and instruction set.
 
 
-The last column in Table \ref{tableResults} gives the size (in instructions) of the  smallest simplified solution program. Here, we've used post-run simplification to automatically reduce the sizes of solution programs without changing their semantics on the training data \cite{Spector:2014:GECCOcomp}. While this hill-climbing simplification is not guaranteed to find the smallest semantically equivalent program, it reliably removes bloat leaving the core functionality of the program \cite{Spector:2014:GECCOcomp}. The simplified program sizes present a reasonable proxy for the smallest solution program for each problem. While some problems can be solved with programs containing less than 10 instructions, none would likely be found using brute-force search over our instruction sets within the number of program evaluations allowed here. Searching over size 5 programs using the Number IO instruction set would require evaluating over 7 billion programs, much more than the 5 million we used in our GP runs. Other problems have smallest known solutions of over 20 instructions using instruction sets with more than 100 instructions, to our knowledge beyond the reach of all other non-GP program synthesis systems.
+The last column in Table \ref{tableResults} gives the size (in instructions) of the  smallest simplified solution program. Here, we've used post-run simplification to automatically reduce the sizes of solution programs without changing their semantics on the training data \cite{Spector:2014:GECCOcomp}. While this hill-climbing simplification is not guaranteed to find the smallest semantically equivalent program, it reliably removes excess code, leaving the core functionality of the program \cite{Spector:2014:GECCOcomp}. The simplified program sizes present a reasonable proxy for the smallest solution program for each problem. While some problems can be solved with programs containing less than 10 instructions, none would likely be found using brute-force search over our instruction sets within the number of program evaluations allowed here. Searching over size 5 programs using the Number IO instruction set would require evaluating over 7 billion programs, much more than the 5 million we used in our GP runs. Other problems have smallest known solutions of over 20 instructions using instruction sets with more than 100 instructions, to our knowledge beyond the reach of all other program synthesis systems.
 
 % Maybe this paragraph should conclude with something overarching about how these program sizes indicate these problems are difficult? Or is that implied?
 
