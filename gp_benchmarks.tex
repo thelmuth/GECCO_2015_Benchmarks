@@ -496,6 +496,95 @@ Table \ref{tableDataTypes} also gives the terminals used for each problem, which
 The second column in Table \ref{tableDataTypes} gives the number of instructions and terminals we used in our implementation of the benchmark problems in PushGP. 
 %The number of instructions used in other implementations of these problems will vary depending on the language in which programs are synthesized. These instructions should include a wide range of general purpose programming instructions similar to those used in modern high-level programming languages. The high numbers of instructions used for these general programming problems differs from most prior applications of GP and other program synthesis techniques, which often use small, domain-specific instruction sets.
 
+
+% NOTE: Instructions added after the fact, which will have to be re-added if have to get the instructions from Clojush again:
+% tag
+% tagged
+% file_readline
+% file_readchar
+% file_EOF
+% file_begin
+%    [Also: moved print instructions to be all together]
+\begin{table*}
+\centering
+\caption{Data types and instructions.}
+\label{typesAndInstructionsTable}
+\rowcolors{3}{Gray}{white}
+\begin{tabular}{>{\raggedright}p{4cm} >{\raggedright}p{13cm}}
+\toprule
+\textbf{Stacks} & \textbf{Instructions} \tabularnewline
+\midrule
+boolean & boolean\_empty, boolean\_swap, boolean\_eq, boolean\_invert\_first\_then\_and, boolean\_flush, boolean\_rot, boolean\_and, boolean\_invert\_second\_then\_and, boolean\_xor, boolean\_not, boolean\_or, boolean\_dup, boolean\_pop \tabularnewline
+boolean, char & char\_iswhitespace, char\_empty, char\_isletter, char\_eq, char\_isdigit \tabularnewline
+boolean, char, string & string\_containschar \tabularnewline
+boolean, exec & exec\_eq, exec\_when, exec\_if, exec\_do*while, exec\_while, exec\_empty \tabularnewline
+boolean, float & float\_lt, boolean\_fromfloat, float\_empty, float\_lte, float\_gte, float\_fromboolean, float\_gt, float\_eq \tabularnewline
+boolean, float, vector\_float & vector\_float\_contains \tabularnewline
+boolean, integer & integer\_eq, boolean\_yank, integer\_gte, integer\_lt, integer\_lte, boolean\_shove, integer\_empty, integer\_gt, integer\_fromboolean, boolean\_frominteger, boolean\_stackdepth, boolean\_yankdup \tabularnewline
+boolean, integer, vector\_integer & vector\_integer\_contains \tabularnewline
+boolean, string & string\_eq, string\_emptystring, string\_fromboolean, string\_contains, string\_empty \tabularnewline
+boolean, string, vector\_string & vector\_string\_contains \tabularnewline
+boolean, vector\_float & vector\_float\_emptyvector, vector\_float\_empty, vector\_float\_eq \tabularnewline
+boolean, vector\_integer & vector\_integer\_eq, vector\_integer\_empty, vector\_integer\_emptyvector \tabularnewline
+boolean, vector\_string & vector\_string\_empty, vector\_string\_emptyvector, vector\_string\_eq \tabularnewline
+char & char\_dup, char\_swap, char\_flush, char\_rot, char\_pop \tabularnewline
+char, exec, string & exec\_string\_iterate \tabularnewline
+char, float & char\_fromfloat, float\_fromchar \tabularnewline
+char, integer & char\_shove, char\_stackdepth, integer\_fromchar, char\_yank, char\_yankdup, char\_frominteger \tabularnewline
+char, integer, string & string\_occurrencesofchar, string\_setchar, string\_nth, string\_indexofchar \tabularnewline
+char, string & string\_removechar, char\_allfromstring, string\_replacefirstchar, string\_replacechar, string\_conjchar, string\_fromchar, string\_first, string\_last \tabularnewline
+exec & exec\_y, exec\_pop, exec\_rot, exec\_s, exec\_k, exec\_flush, exec\_swap, exec\_dup, exec\_noop, tag, tagged \tabularnewline
+exec, float, vector\_float & exec\_do*vector\_float \tabularnewline
+exec, integer & exec\_stackdepth, exec\_do*times, exec\_do*count, exec\_do*range, exec\_yank, exec\_yankdup, exec\_shove \tabularnewline
+exec, integer, vector\_integer & exec\_do*vector\_integer \tabularnewline
+exec, string, vector\_string & exec\_do*vector\_string \tabularnewline
+file & file\_readline, file\_readchar, file\_EOF, file\_begin \tabularnewline
+float & float\_rot, float\_sin, float\_cos, float\_swap, float\_div, float\_inc, float\_sub, float\_flush, float\_add, float\_tan, float\_mult, float\_max, float\_pop, float\_min, float\_dup, float\_dec, float\_mod \tabularnewline
+float, integer & float\_yank, float\_frominteger, float\_stackdepth, float\_shove, float\_yankdup, integer\_fromfloat \tabularnewline
+float, integer, vector\_float & vector\_float\_indexof, vector\_float\_occurrencesof, vector\_float\_nth, vector\_float\_set \tabularnewline
+float, string & float\_fromstring, string\_fromfloat \tabularnewline
+float, vector\_float & vector\_float\_conj, vector\_float\_remove, vector\_float\_last, vector\_float\_first, vector\_float\_replacefirst, vector\_float\_pushall, vector\_float\_replace \tabularnewline
+integer & integer\_add, integer\_swap, integer\_yank, integer\_dup, integer\_yankdup, integer\_flush, integer\_shove, integer\_mult, integer\_stackdepth, integer\_div, integer\_inc, integer\_max, integer\_sub, integer\_mod, integer\_rot, integer\_dec, integer\_min, integer\_pop \tabularnewline
+integer, string & string\_substring, string\_take, string\_frominteger, string\_stackdepth, integer\_fromstring, string\_yank, string\_yankdup, string\_length, string\_shove \tabularnewline
+integer, string, vector\_string & vector\_string\_indexof, vector\_string\_set, vector\_string\_nth, vector\_string\_occurrencesof \tabularnewline
+integer, vector\_float & vector\_float\_shove, vector\_float\_length, vector\_float\_stackdepth, vector\_float\_subvec, vector\_float\_yank, vector\_float\_take, vector\_float\_yankdup \tabularnewline
+integer, vector\_integer & vector\_integer\_remove, vector\_integer\_pushall, vector\_integer\_yank, vector\_integer\_subvec, vector\_integer\_last, vector\_integer\_first, vector\_integer\_shove, vector\_integer\_indexof, vector\_integer\_occurrencesof, vector\_integer\_replace, vector\_integer\_replacefirst, vector\_integer\_take, vector\_integer\_stackdepth, vector\_integer\_nth, vector\_integer\_set, vector\_integer\_length, vector\_integer\_yankdup, vector\_integer\_conj \tabularnewline
+integer, vector\_string & vector\_string\_stackdepth, vector\_string\_subvec, vector\_string\_take, vector\_string\_shove, vector\_string\_yank, vector\_string\_length, vector\_string\_yankdup \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\caption{Data types and instructions 2.}
+\label{typesAndInstructionsTable2}
+\rowcolors{3}{Gray}{white}
+\begin{tabular}{>{\raggedright}p{3cm} >{\raggedright}p{14cm}}
+\toprule
+\textbf{Stacks} & \textbf{Instructions} \tabularnewline
+\midrule
+print & print\_newline \tabularnewline
+print, boolean & print\_boolean \tabularnewline
+print, char & print\_char \tabularnewline
+print, exec & print\_exec \tabularnewline
+print, float & print\_float \tabularnewline
+print, integer & print\_integer \tabularnewline
+print, string & print\_string \tabularnewline
+print, vector\_float & print\_vector\_float \tabularnewline
+print, vector\_integer & print\_vector\_integer \tabularnewline
+print, vector\_string & print\_vector\_string \tabularnewline
+string & string\_pop, string\_rot, string\_rest, string\_parse\_to\_chars, string\_reverse, string\_swap, string\_split, string\_flush, string\_replacefirst, string\_butlast, string\_concat, string\_replace, string\_dup \tabularnewline
+string, vector\_string & vector\_string\_remove, vector\_string\_conj, vector\_string\_first, vector\_string\_pushall, vector\_string\_last, vector\_string\_replacefirst, vector\_string\_replace \tabularnewline
+vector\_float & vector\_float\_dup, vector\_float\_pop, vector\_float\_rot, vector\_float\_swap, vector\_float\_flush, vector\_float\_reverse, vector\_float\_rest, vector\_float\_concat, vector\_float\_butlast \tabularnewline
+vector\_integer & vector\_integer\_swap, vector\_integer\_butlast, vector\_integer\_flush, vector\_integer\_rest, vector\_integer\_concat, vector\_integer\_rot, vector\_integer\_reverse, vector\_integer\_pop, vector\_integer\_dup \tabularnewline
+vector\_string & vector\_string\_dup, vector\_string\_rot, vector\_string\_rest, vector\_string\_reverse, vector\_string\_butlast, vector\_string\_concat, vector\_string\_pop, vector\_string\_flush, vector\_string\_swap \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+
+
 %\begin{table}[h]
 %\centering
 %\caption{GP Parameters}
