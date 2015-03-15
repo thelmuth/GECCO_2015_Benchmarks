@@ -398,9 +398,65 @@ Whereas Section \ref{synthProbSpec} gave technique-independent recommendations f
 
 PushGP evolves programs in Push, a stack-based programming language designed specifically for GP \cite{spector:2002:GPEM, 1068292}. % Maybe remove one or two of these citations?
 %PushGP has many features useful for general program synthesis, such as supporting multiple data types, control flow, and the use of input/output examples as specifications. 
-The reference implementation of our problems in PushGP can be found on GitHub\footnote{Omitted for blind review.}. In the rest of this section, we will describe some of the major decisions necessary for implementing these benchmark problems in this environment. As we do not have space to discuss every parameter and implementation choice, the technical report accompanying this paper supplements the information presented here \cite{helmuth:umass:tr}.
+The reference implementation of our problems in PushGP can be found on GitHub\footnote{Omitted for blind review.}. In the rest of this section, we will describe some of the major decisions necessary for implementing these benchmark problems in this environment.
+% As we do not have space to discuss every parameter and implementation choice, the technical report accompanying this paper supplements the information presented here \cite{helmuth:umass:tr}.
 
-When generating training and testing data, we use a combination of hand-picked edge cases that remain constant across runs and randomly generated inputs that vary across runs. For each problem, we specify one or more ``data domains'' \cite{Helmuth:2014:GECCO}, which consist of either a set of hard-coded inputs or a random input generator, as well as the number of training and test cases that should come from each domain. Details on using data domains can be found in \cite{Helmuth:2014:GECCO}, and our technical report gives our choices for data domains for each problem \cite{helmuth:umass:tr}.
+\subsection{Training and Test Data}
+
+When generating training and test data, we use a combination of hand-picked edge cases that remain constant across runs and randomly generated inputs that vary across runs. For each problem, we specify one or more ``data domains'' \cite{Helmuth:2014:GECCO}, which consist of either a set of hard-coded inputs or a random input generator, as well as the number of training and test cases that should come from each domain. % Details on using data domains can be found in \cite{Helmuth:2014:GECCO}, and our technical report gives our choices for data domains for each problem \cite{helmuth:umass:tr}.
+
+
+%%% start copying from WC paper
+
+In order to facilitate this creation of training and test data, we designed a general system for automatic data generation based on data domains. A ``data domain'' $D$ is a set of program inputs described by either a list of inputs or a random input generator function. The sets $\{$\texttt{"hi"}, \texttt{"hello"}, \texttt{"howdy"}, \texttt{"hey"}$\}$ and $\{s | ``zoo" \text{ is a substring of } s; \text{len}(s) <= 100] \}$ are examples of data domains, where the former is an enumerated set of four inputs and the latter is a large set containing all strings of length less than or equal to 100 that contain the substring \texttt{"zoo"}. Along with each data domain $D$, the user must provide the integers $train(D)$ and $test(D)$ that indicate the number of training and test cases respectively to generate from $D$.
+
+To generate training and test data from a set of data domains $\{D_1, D_2, ..., D_n \}$, we simply take each domain and create the required number of cases. If the domain $D_i$ is an enumerated list of inputs, we select $train(D_i)$ and $test(D_i)$ of them at random, without replacement within the training cases or test cases. If the domain is described by a random input generator, we run it $train(D_i)$ and $test(D_i)$ times (with replacement) to create the data. This automatic data generation system allows for the generation of training and test cases for a wide range of problems.
+
+%%% end copying from WC paper
+
+- mention that the ranges for the random number generators are in table 1, unless stated otherwise
+
+- unless otherwise stated, RNGs are uniform over integers/floats
+
+- ranges such as [40,50] include every integer, inclusive
+
+- HC = hard coded
+
+%%% Start info about our specific data domains
+
+
+\begin{table*}[t]
+\centering
+\caption{Data Domains.}
+\label{whatwhat}
+\rowcolors{3}{Gray}{white}
+\begin{tabular}{lllrr}
+\toprule
+\textbf{Name} & \textbf{Type} & \textbf{Domain} & \textbf{Train} & \textbf{Test} \\
+\midrule
+Number IO & RNG & integer, float & 25 & 1000 \tabularnewline
+%\midrule
+Small Or Large & HC & -10000, 0, 980, 1020, 1980, 2020, 10000, [995, 1004], [1995, 2004] & 27 & 0 \tabularnewline
+ & HC & [980, 1019], [1980, 2019] & 0 & 80 \tabularnewline
+ & RNG & integer & 73 & 920 \tabularnewline
+%\midrule
+For Loop Index & RNG & integers: $\texttt{start} < 0 < \texttt{end}$, $ \texttt{start} + (20 \times \texttt{step}) + 1 > \texttt{end}$ & 10 & 100 \tabularnewline
+ & RNG & integers: $\texttt{start} < \texttt{end}$, $ \texttt{start} + (20 \times \texttt{step}) + 1 > \texttt{end}$ & 90 & 900 \tabularnewline
+ &  &  &  &  \tabularnewline
+ &  &  &  &  \tabularnewline
+ &  &  &  &  \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+
+%%% end info about our specific data domains
+
+
+
+
+\subsection{Fitness Functions}
 
 When using this benchmark suite with GP, we not only need the input/output cases, but also a method of measuring how well a particular program performs on each case---the \textit{fitness function}. 
 %Fitness functions for these problems must not only match their respective output types, but must also give reasonable measurement of program performance. Still, we can present some generalities of our chosen fitness functions before pointing to the reference implementation for details.
@@ -489,12 +545,13 @@ Syllables                  & 141             & x    & x       &       & x       
 \end{tabular}
 \end{table*}
 
-As discussed in Section \ref{synthProbSpec}, we have chosen to specify the data types relevant to each problem, and then include all instructions that use those data types in each problem's instruction set. Table \ref{tableDataTypes} presents the Push data types we chose for each problem. The ``exec'' column signifies instructions that use Push's exec stack, which typically perform control flow manipulations such as conditionals, iteration, and subfunctions defined through tagging \cite{Spector:2011:GECCO}. The ``print'' column includes instructions that print data to standard output, and ``file input'' includes a small set of file reading instructions. 
-%The data types for instructions will vary per system, and instruction categories should not be constrained to those used here.
+\subsection{Instruction Sets}
 
-Table \ref{tableDataTypes} also gives the terminals used for each problem, which encompass constants and ephemeral random constants (ERCs). ERCs allow for the creation of random constants in randomly generated code during initialization and mutation. We used problem-specific constant ranges, which can be found in the technical report \cite{helmuth:umass:tr}.
+As discussed in Section \ref{synthProbSpec}, we have chosen to specify the data types relevant to each problem, and then include all instructions that use those data types in each problem's instruction set. Table \ref{tableDataTypes} presents the Push data types we chose for each problem. The ``exec'' column signifies instructions that use Push's exec stack, which typically perform control flow manipulations such as conditionals, iteration, and subfunctions defined through tagging \cite{Spector:2011:GECCO}. The ``print'' column includes instructions that print data to standard output, and ``file input'' includes a small set of file reading instructions. 
+
+
+Table \ref{tableDataTypes} also presents the terminals used for each problem, which encompass constants and ephemeral random constants (ERCs). ERCs allow for the creation of random constants in randomly generated code during initialization and mutation. We used problem-specific constant ranges, which can be found in the technical report \cite{helmuth:umass:tr}.
 The second column in Table \ref{tableDataTypes} gives the number of instructions and terminals we used in our implementation of the benchmark problems in PushGP. 
-%The number of instructions used in other implementations of these problems will vary depending on the language in which programs are synthesized. These instructions should include a wide range of general purpose programming instructions similar to those used in modern high-level programming languages. The high numbers of instructions used for these general programming problems differs from most prior applications of GP and other program synthesis techniques, which often use small, domain-specific instruction sets.
 
 
 % NOTE: Instructions added after the fact, which will have to be re-added if have to get the instructions from Clojush again:
@@ -507,12 +564,12 @@ The second column in Table \ref{tableDataTypes} gives the number of instructions
 %    [Also: moved print instructions to be all together]
 \begin{table*}
 \centering
-\caption{Data types and instructions.}
+\caption{Push data types and instructions used in our experiments. For each combination of data types listed in the first column, we list all of the Push instructions that are included in the instruction set when those data types are present for the problem. Continued in Table \ref{typesAndInstructionsTable2}.}
 \label{typesAndInstructionsTable}
 \rowcolors{3}{Gray}{white}
 \begin{tabular}{>{\raggedright}p{4cm} >{\raggedright}p{13cm}}
 \toprule
-\textbf{Stacks} & \textbf{Instructions} \tabularnewline
+\textbf{Data Types} & \textbf{Instructions} \tabularnewline
 \midrule
 boolean & boolean\_empty, boolean\_swap, boolean\_eq, boolean\_invert\_first\_then\_and, boolean\_flush, boolean\_rot, boolean\_and, boolean\_invert\_second\_then\_and, boolean\_xor, boolean\_not, boolean\_or, boolean\_dup, boolean\_pop \tabularnewline
 boolean, char & char\_iswhitespace, char\_empty, char\_isletter, char\_eq, char\_isdigit \tabularnewline
@@ -556,12 +613,12 @@ integer, vector\_string & vector\_string\_stackdepth, vector\_string\_subvec, ve
 
 \begin{table*}[t]
 \centering
-\caption{Data types and instructions 2.}
+\caption{Continuation of Table \ref{typesAndInstructionsTable}.}
 \label{typesAndInstructionsTable2}
 \rowcolors{3}{Gray}{white}
 \begin{tabular}{>{\raggedright}p{3cm} >{\raggedright}p{14cm}}
 \toprule
-\textbf{Stacks} & \textbf{Instructions} \tabularnewline
+\textbf{Data Types} & \textbf{Instructions} \tabularnewline
 \midrule
 print & print\_newline \tabularnewline
 print, boolean & print\_boolean \tabularnewline
@@ -582,55 +639,60 @@ vector\_string & vector\_string\_dup, vector\_string\_rot, vector\_string\_rest,
 \end{tabular}
 \end{table*}
 
+Tables \ref{typesAndInstructionsTable} and \ref{typesAndInstructionsTable2} show every Push instruction used in our experiments, and the data types that they require. For example, the string\_containschar instruction requires that the boolean, char, and string data types be used for a problem in order to be included; this is because it must use a string and a char as inputs, and returns a boolean of whether the input string contains the input char. These tables are intended to give an idea of the scope and complexity of the instructions used in our experiments. Attempting the problems here in another system would obviously require a different set of instructions specific to the programming language of the search. While we would expect such a system to use different instructions, we would also expect similar numbers of instructions that are not cherry-picked for the individual problems.
 
 
+\subsection{GP Parameters}
 
-%\begin{table}[h]
-%\centering
-%\caption{GP Parameters}
-%\label{tableGPParameters}
-%\begin{tabular}{|>{\raggedright}m{2.5cm} | >{\raggedleft}p{0.6cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}|}
-%\hline
-%Problem                    & Max Prog Size & Eval Limit & Max Gens & Program Evaluation Budget \tabularnewline
-%\hline
-%Number IO                  & 200           & 200            & 200      & 5,000,000                 \tabularnewline
-%Small Or Large             & 200           & 300            & 300      & 30,000,000                \tabularnewline
-%For Loop Index             & 300           & 600            & 300      & 30,000,000                \tabularnewline
-%Compare String Lengths     & 400           & 600            & 300      & 30,000,000                \tabularnewline
-%Double Letters             & 800           & 1600           & 300      & 30,000,000                \tabularnewline
-%Collatz Numbers            & 600           & 15000          & 300      & 60,000,000                \tabularnewline
-%Replace Space with Newline & 800           & 1600           & 300      & 30,000,000                \tabularnewline
-%String Differences         & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
-%Even Squares               & 400           & 2000           & 300      & 30,000,000                \tabularnewline
-%Wallis Pi                  & 600           & 8000           & 300      & 45,000,000                \tabularnewline
-%String Lengths Backwards   & 300           & 600            & 300      & 30,000,000                \tabularnewline
-%Last Index of Zero         & 300           & 600            & 300      & 45,000,000                \tabularnewline
-%Vector Average             & 400           & 800            & 300      & 30,000,000                \tabularnewline
-%Count Odds                 & 500           & 1500           & 300      & 60,000,000                \tabularnewline
-%Mirror Image               & 300           & 600            & 300      & 30,000,000                \tabularnewline
-%Super Anagrams             & 800           & 1600           & 300      & 60,000,000                \tabularnewline
-%Sum of Squares             & 400           & 4000           & 300      & 15,000,000                \tabularnewline
-%Vectors Summed             & 500           & 1500           & 300      & 45,000,000                \tabularnewline
-%X-Word Lines               & 800           & 1600           & 300      & 45,000,000                \tabularnewline
-%Pig Latin                  & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
-%Negative To Zero           & 500           & 1500           & 300      & 60,000,000                \tabularnewline
-%Scrabble Score             & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
-%Word Stats                 & 1000          & 6000           & 300      & 30,000,000                \tabularnewline
-%Checksum                   & 800           & 1500           & 300      & 30,000,000                \tabularnewline
-%Digits                     & 300           & 600            & 300      & 30,000,000                \tabularnewline
-%Grade                      & 400           & 800            & 300      & 60,000,000                \tabularnewline
-%Median                     & 200           & 200            & 200      & 20,000,000                \tabularnewline
-%Smallest                   & 200           & 200            & 200      & 20,000,000                \tabularnewline
-%Syllables                  & 800           & 1600           & 300      & 30,000,000                \tabularnewline
-%\hline
-%\end{tabular}
-%\end{table}
-
-%When considering system parameters for GP specifically, 
 We keep most of our PushGP system parameters constant across all problems, with specific details in \cite{helmuth:umass:tr}. The only significant parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. We used a maximum of 300 generations for every problem besides Number IO, Median, and Smallest, for which we used 200 generations. Maximum program sizes varied more, from 200 to 1000 instructions depending on anticipated problem difficulty. We limited instruction executions to approximately 2 to 5 times the maximum program size, but included some larger settings for problems that require many loops.
 %See the reference implementation for the specific values of these parameters.
 % (Either: [These are in Table \ref{tableGPParameters}.] or [GIVE BRIEF DESCRIPTION OF EACH AND SAY SEE REFERENCE IMPLEMENTATION WEBSITE FOR DETAILS.]) [I went with the latter for now to take up less space]
 By specifying the maximum generations, the population size (1000 for all of our runs), and the size of the training set (see Table \ref{testCasesTable}), we also specify the program evaluation budget, which is the product of those values. In our implementation, this budget falls between 5 and 60 million program evaluations per run for every problem. 
+
+
+
+
+\begin{table}[t]
+\centering
+\caption{GP Parameters. EXPLAIN THESE}
+\label{tableGPParameters}
+\rowcolors{3}{Gray}{white}
+\begin{tabular}{>{\raggedright}m{2.5cm} >{\raggedleft}p{0.6cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}}
+\toprule
+Problem                    & Max Prog Size & Eval Limit & Max Gens & Program Evaluation Budget \tabularnewline
+\midrule
+Number IO                  & 200           & 200            & 200      & 5,000,000                 \tabularnewline
+Small Or Large             & 200           & 300            & 300      & 30,000,000                \tabularnewline
+For Loop Index             & 300           & 600            & 300      & 30,000,000                \tabularnewline
+Compare String Lengths     & 400           & 600            & 300      & 30,000,000                \tabularnewline
+Double Letters             & 800           & 1600           & 300      & 30,000,000                \tabularnewline
+Collatz Numbers            & 600           & 15000          & 300      & 60,000,000                \tabularnewline
+Replace Space with Newline & 800           & 1600           & 300      & 30,000,000                \tabularnewline
+String Differences         & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
+Even Squares               & 400           & 2000           & 300      & 30,000,000                \tabularnewline
+Wallis Pi                  & 600           & 8000           & 300      & 45,000,000                \tabularnewline
+String Lengths Backwards   & 300           & 600            & 300      & 30,000,000                \tabularnewline
+Last Index of Zero         & 300           & 600            & 300      & 45,000,000                \tabularnewline
+Vector Average             & 400           & 800            & 300      & 30,000,000                \tabularnewline
+Count Odds                 & 500           & 1500           & 300      & 60,000,000                \tabularnewline
+Mirror Image               & 300           & 600            & 300      & 30,000,000                \tabularnewline
+Super Anagrams             & 800           & 1600           & 300      & 60,000,000                \tabularnewline
+Sum of Squares             & 400           & 4000           & 300      & 15,000,000                \tabularnewline
+Vectors Summed             & 500           & 1500           & 300      & 45,000,000                \tabularnewline
+X-Word Lines               & 800           & 1600           & 300      & 45,000,000                \tabularnewline
+Pig Latin                  & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
+Negative To Zero           & 500           & 1500           & 300      & 60,000,000                \tabularnewline
+Scrabble Score             & 1000          & 2000           & 300      & 60,000,000                \tabularnewline
+Word Stats                 & 1000          & 6000           & 300      & 30,000,000                \tabularnewline
+Checksum                   & 800           & 1500           & 300      & 30,000,000                \tabularnewline
+Digits                     & 300           & 600            & 300      & 30,000,000                \tabularnewline
+Grade                      & 400           & 800            & 300      & 60,000,000                \tabularnewline
+Median                     & 200           & 200            & 200      & 20,000,000                \tabularnewline
+Smallest                   & 200           & 200            & 200      & 20,000,000                \tabularnewline
+Syllables                  & 800           & 1600           & 300      & 30,000,000                \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table}
 
 
 \section{Experimental Results}
