@@ -417,34 +417,55 @@ To generate training and test data from a set of data domains $\{D_1, D_2, ..., 
 - mention that the ranges for the random number generators are in table 1, unless stated otherwise
 
 - unless otherwise stated, RNGs are uniform over integers/floats
+- unless otherwise stated, string RNGs are of uniform length between 1 and max length in Table 1, and uniform distribution of visible ASCII characters and space/newline/tab
 
 - ranges such as [40,50] include every integer, inclusive
 
 - HC = hard coded
 
+- \textvisiblespace for space, \textbackslash t for tab, etc.
+
 %%% Start info about our specific data domains
 
 
-\begin{table*}[t]
+\begin{table*}
 \centering
-\caption{Data Domains.}
+\caption{Data Domains. (IMPROVE THIS TEXT) Ranges for the random number generators are in table 1, unless stated otherwise. unless otherwise stated, RNGs are uniform over integers/floats. unless otherwise stated, string RNGs are of uniform length between 1 and max length in Table 1, and uniform distribution of visible ASCII characters and space/newline/tab. ranges such as [40,50] include every integer, inclusive. HC = hard coded, RNG = randomly generated. We use \textvisiblespace for space, \textbackslash t for tab, etc.}
 \label{whatwhat}
 \rowcolors{3}{Gray}{white}
-\begin{tabular}{lllrr}
+\begin{tabular}{>{\raggedright}p{3.5cm} l >{\raggedright}p{9.8cm} rr}
 \toprule
 \textbf{Name} & \textbf{Type} & \textbf{Domain} & \textbf{Train} & \textbf{Test} \\
 \midrule
 Number IO & RNG & integer, float & 25 & 1000 \tabularnewline
 %\midrule
 Small Or Large & HC & -10000, 0, 980, 1020, 1980, 2020, 10000, [995, 1004], [1995, 2004] & 27 & 0 \tabularnewline
+%\rowcolor{Gray}
  & HC & [980, 1019], [1980, 2019] & 0 & 80 \tabularnewline
  & RNG & integer & 73 & 920 \tabularnewline
 %\midrule
 For Loop Index & RNG & integers: $\texttt{start} < 0 < \texttt{end}$, $ \texttt{start} + (20 \times \texttt{step}) + 1 > \texttt{end}$ & 10 & 100 \tabularnewline
  & RNG & integers: $\texttt{start} < \texttt{end}$, $ \texttt{start} + (20 \times \texttt{step}) + 1 > \texttt{end}$ & 90 & 900 \tabularnewline
+Compare String Lengths & HC & \texttt{["", "", ""]} & 1 & 0 \tabularnewline
+ & HC & all permutations of \texttt{["", "a", "bc"]} & 6 & 0 \tabularnewline
+ & RNG & all permutations of 2 empty strings and a string (repeated twice) & 6 & 0 \tabularnewline
+ & RNG & all permutations of 2 copies of a string and another string (repeated 3 times) & 9 & 0 \tabularnewline
+ & RNG & random string repeated 3 times & 3 & 100 \tabularnewline
+ & RNG & 3 strings in sorted length order & 25 & 200 \tabularnewline
+ & RNG & 3 strings & 50 & 700 \tabularnewline
+Double Letters & HC & \texttt{["", "A", "!", "\textvisiblespace", "*", "\textbackslash t", "\textbackslash n", "B\textbackslash n", "\textbackslash n\textbackslash n", "CD", "ef", "!!", "q!", "!R", "!\#", "@!", "!F!", "T\$L", "4ps", "q\textbackslash t ", "!!!", "i:!i:!i:!i:!i", "88888888888888888888", "\textvisiblespace\textvisiblespace\textvisiblespace\textvisiblespace \textvisiblespace\textvisiblespace\textvisiblespace\textvisiblespace \textvisiblespace\textvisiblespace\textvisiblespace\textvisiblespace \textvisiblespace\textvisiblespace\textvisiblespace\textvisiblespace \textvisiblespace\textvisiblespace\textvisiblespace\textvisiblespace", "ssssssssssssssssssss", "!!!!!!!!!!!!!!!!!!!!", "Ha\textvisiblespace Ha\textvisiblespace Ha\textvisiblespace Ha\textvisiblespace Ha\textvisiblespace Ha\textvisiblespace Ha", "x\textbackslash ny!x\textbackslash ny!x\textbackslash ny!x\textbackslash ny!x\textbackslash ny!", "1!1!1!1!1!1!1!1!1!1!", "G5G5G5G5G5G5G5G5G5G5", ">_=]>_=]>_=]>_=]>_=]", "k!!k!!k!!k!!k!!k!!k!"]} & 32 & 0 \tabularnewline
+ & RNG & string & 68 & 1000 \tabularnewline
+Collatz Numbers & HC & 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 6171, 6943, 7963, 9257, 9999, 10000 & 16 & 0 \tabularnewline
+ & RNG & integer & 184 & 2000 \tabularnewline
+Replace Space With Newline & HC & \texttt{["", "A", "*", "\textvisiblespace ", "s", "B\textvisiblespace ", "\textvisiblespace \textvisiblespace ", "\textvisiblespace D", "ef", "!!", "\textvisiblespace F\textvisiblespace ", "T\textvisiblespace L", "4ps", "q\textvisiblespace \textvisiblespace ", "\textvisiblespace \textvisiblespace \textvisiblespace ", "\textvisiblespace \textvisiblespace e", "hi\textvisiblespace ", "\textvisiblespace \textvisiblespace \$\textvisiblespace \textvisiblespace ", "\textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace 9", "i\textvisiblespace !i\textvisiblespace !i\textvisiblespace !i\textvisiblespace !i", "88888888888888888888", "\textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace \textvisiblespace ", "ssssssssssssssssssss", "1\textvisiblespace 1\textvisiblespace 1\textvisiblespace 1\textvisiblespace 1\textvisiblespace 1\textvisiblespace 1\textvisiblespace 1\textvisiblespace 1\textvisiblespace 1\textvisiblespace ", "\textvisiblespace v\textvisiblespace v\textvisiblespace v\textvisiblespace v\textvisiblespace v\textvisiblespace v\textvisiblespace v\textvisiblespace v\textvisiblespace v\textvisiblespace v", "Ha\textvisiblespace Ha\textvisiblespace Ha\textvisiblespace Ha\textvisiblespace Ha\textvisiblespace Ha\textvisiblespace Ha", "x\textvisiblespace y!x\textvisiblespace y!x\textvisiblespace y!x\textvisiblespace y!x\textvisiblespace y!", "G5G5G5G5G5G5G5G5G5G5", ">_=]>_=]>_=]>_=]>_=]", "\textasciicircum _\textasciicircum \textvisiblespace \textasciicircum _\textasciicircum \textvisiblespace \textasciicircum _\textasciicircum \textvisiblespace \textasciicircum _\textasciicircum \textvisiblespace \textasciicircum _\textasciicircum \textvisiblespace "]} & 30 & 0 \tabularnewline
+ & RNG & string (with \texttt{\textvisiblespace} as 20\% of characters) & 70 & 1000 \tabularnewline
+String Differences & HC & pairs of strings: \texttt{["" ""], ["" "hi"], ["ThereWorld" ""], ["A" "A"], ["B" "C"], ["\&" "\#"], ["4" "456789"], ["rat" "hat"], ["new" "net"], ["big" "bag"], ["STOP" "SIGN"], ["abcde" "a"], ["abcde" "abcde"], ["abcde" "edcba"], ["2n" "nn"], ["hi" "zipper"], ["dealer" "dollars"], ["nacho" "cheese"], ["loud" "louder"], ["qwertyuiop" "asdfghjkl;"], ["LALALALALA" "LLLLLLLLLL"], ["!!!!!!" ".?."], ["9r2334" "9223d4r"], ["WellWell" "wellwell"], ["TakeThat!" "TAKETHAT!!"], ["CHOCOLATE\textasciicircum " "CHOCOLATE\textasciicircum "], ["ssssssssss" "\~{}\~{}\~{}\~{}\~{}\~{}\~{}\~{}\~{}\~{}"], [">_=]>_=]>_" "q_q_q_q_q_"], ["()()()()()" "pp)pp)pp)p"], ["HaHaHaHaHa" "HiHiHiHiHi"]} & 30 & 0 \tabularnewline
+ & RNG & pair of strings, length $> 1$ & 170 & 0 \tabularnewline
+ & RNG & pair of strings & 0 & 2000 \tabularnewline
  &  &  &  &  \tabularnewline
  &  &  &  &  \tabularnewline
  &  &  &  &  \tabularnewline
+% &  &  &  &  \tabularnewline
 \bottomrule
 \end{tabular}
 \end{table*}
