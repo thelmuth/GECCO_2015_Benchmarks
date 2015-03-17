@@ -462,6 +462,43 @@ Replace Space With Newline & HC & \texttt{["", "A", "*", "\textvisiblespace ", "
 String Differences & HC & pairs of strings: \texttt{["" ""], ["" "hi"], ["ThereWorld" ""], ["A" "A"], ["B" "C"], ["\&" "\#"], ["4" "456789"], ["rat" "hat"], ["new" "net"], ["big" "bag"], ["STOP" "SIGN"], ["abcde" "a"], ["abcde" "abcde"], ["abcde" "edcba"], ["2n" "nn"], ["hi" "zipper"], ["dealer" "dollars"], ["nacho" "cheese"], ["loud" "louder"], ["qwertyuiop" "asdfghjkl;"], ["LALALALALA" "LLLLLLLLLL"], ["!!!!!!" ".?."], ["9r2334" "9223d4r"], ["WellWell" "wellwell"], ["TakeThat!" "TAKETHAT!!"], ["CHOCOLATE\textasciicircum " "CHOCOLATE\textasciicircum "], ["ssssssssss" "\~{}\~{}\~{}\~{}\~{}\~{}\~{}\~{}\~{}\~{}"], [">_=]>_=]>_" "q_q_q_q_q_"], ["()()()()()" "pp)pp)pp)p"], ["HaHaHaHaHa" "HiHiHiHiHi"]} & 30 & 0 \tabularnewline
  & RNG & pair of strings, length $> 1$ & 170 & 0 \tabularnewline
  & RNG & pair of strings & 0 & 2000 \tabularnewline
+Even Squares & HC & 1, 2, 3, 4, 5, 6, 15, 16, 17, 18, 36, 37, 64, 65, 9600, 9700, 9999 & 17 & 0 \tabularnewline
+ & RNG & integer & 83 & 1000 \tabularnewline
+Wallis Pi & HC & 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 198, 199, 200 & 15 & 0 \tabularnewline
+ & RNG & integer & 135 & 50 \tabularnewline
+String Lengths Backwards & HC & vectors of strings: \texttt{[], [""], ["" ""], ["" "" ""], ["" "" "" "" "" "" "" "" "" ""], ["abcde"], ["1"], ["abc" "hi\textvisiblespace there"], ["!@\#" "\textbackslash n\textbackslash n\textbackslash t\textbackslash t" "5552\textbackslash na\textvisiblespace r"], ["tt" "333" "1" "ccc"]} & 10 & 0 \tabularnewline
+ & RNG & vectors of strings & 90 & 1000 \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}
+\centering
+\caption{Data Domains 2}
+\label{whatwhat2}
+\rowcolors{3}{Gray}{white}
+\begin{tabular}{>{\raggedright}p{3.5cm} l >{\raggedright}p{9.8cm} rr}
+\toprule
+\textbf{Name} & \textbf{Type} & \textbf{Domain} & \textbf{Train} & \textbf{Test} \\
+\midrule
+Last Index of Zero & HC & vectors of integers: \texttt{[0 1], [1 0], [7 0], [0 8], [0 -1], [-1 0], [-7 0], [0 -8]} & 8 & 0 \tabularnewline
+ & HC & every vector of zeros of length between 1 and 50 & 30 & 20 \tabularnewline
+ & HC & all permutations of vector \texttt{[0 5 -8 9]} & 20 & 4 \tabularnewline
+ & HC & all permutations of vector \texttt{[0 0 -8 9]} & 10 & 2 \tabularnewline
+ & HC & all permutations of vector \texttt{[0 0 0 9]} & 4 & 0 \tabularnewline
+ & RNG & vector of integers with at least one 0 & 78 & 974 \tabularnewline
+Vector Average & HC & \texttt{[0.0], [100.0], [-100.0], [2.0 129.0], [0.12345 -4.678], [999.99 74.113]} & 6 & 0 \tabularnewline
+ & RNG & length 50 vectors of floats & 4 & 50 \tabularnewline
+ & RNG & vectors of floats & 90 & 950 \tabularnewline
+Count Odds & HC & \texttt{[], [-10], [-9], [-8], [-7], [-6], [-5], [-4], [-3], [-2], [-1], [0], [1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [-947], [-450], [303], [886], [0 0], [0 1], [7 1], [-9 -1], [-11 40], [944 77]} & 32 & 0 \tabularnewline
+ & RNG & vector of integers, all odd & 9 & 100 \tabularnewline
+ & RNG & vector of integers, all even & 9 & 100 \tabularnewline
+ & RNG & vector of integers, random probability of odd per vector & 150 & 1800 \tabularnewline
+Mirror Image &  &  &  &  \tabularnewline
+ &  &  &  &  \tabularnewline
+ &  &  &  &  \tabularnewline
+ &  &  &  &  \tabularnewline
+ &  &  &  &  \tabularnewline
  &  &  &  &  \tabularnewline
  &  &  &  &  \tabularnewline
  &  &  &  &  \tabularnewline
