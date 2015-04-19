@@ -47,18 +47,18 @@
 \author{
 % 1st. author
 \alignauthor
-Author omitted\\
-       \affaddr{.}\\
-       \affaddr{.}\\
-       \affaddr{.}\\
-       \email{.}
+Thomas Helmuth\\
+       \affaddr{Computer Science}\\
+       \affaddr{University of Massachusetts}\\
+       \affaddr{Amherst, MA 01003}\\
+       \email{thelmuth@cs.umass.edu}
 % 2nd. author
 \alignauthor
-Author omitted\\
-       \affaddr{.}\\
-       \affaddr{.}\\
-       \affaddr{.}\\
-       \email{.}
+Lee Spector\\
+       \affaddr{Cognitive Science}\\
+       \affaddr{Hampshire College}\\
+       \affaddr{Amherst, MA 01002}\\
+       \email{lspector@hampshire.edu}
 }
 
 \maketitle
@@ -398,7 +398,7 @@ Whereas Section \ref{synthProbSpec} gave technique-independent recommendations f
 
 PushGP evolves programs in Push, a stack-based programming language designed specifically for GP \cite{spector:2002:GPEM, 1068292}. % Maybe remove one or two of these citations?
 %PushGP has many features useful for general program synthesis, such as supporting multiple data types, control flow, and the use of input/output examples as specifications. 
-The reference implementation of our problems in PushGP can be found on GitHub\footnote{Omitted for blind review.}. In the rest of this section, we will describe some of the major decisions necessary for implementing these benchmark problems in this environment. As we do not have space to discuss every parameter and implementation choice, the technical report accompanying this paper supplements the information presented here \cite{helmuth:umass:tr}.
+The reference implementation of our problems in PushGP can be found on GitHub\footnote{\url{http://thelmuth.github.io/GECCO_2015_Benchmarks_Materials/}}. In the rest of this section, we will describe some of the major decisions necessary for implementing these benchmark problems in this environment. As we do not have space to discuss every parameter and implementation choice, the technical report accompanying this paper supplements the information presented here \cite{helmuth:umass:tr}.
 
 When generating training and testing data, we use a combination of hand-picked edge cases that remain constant across runs and randomly generated inputs that vary across runs. For each problem, we specify one or more ``data domains'' \cite{Helmuth:2014:GECCO}, which consist of either a set of hard-coded inputs or a random input generator, as well as the number of training and test cases that should come from each domain. Details on using data domains can be found in \cite{Helmuth:2014:GECCO}, and our technical report gives our choices for data domains for each problem \cite{helmuth:umass:tr}.
 
@@ -707,7 +707,9 @@ We have presented a suite of $29$ general program synthesis benchmark problems, 
 
 %ACKNOWLEDGMENTS are optional
 \section{Acknowledgments}
-Omitted for blind review.
+
+Thanks to the members of the Hampshire College Computational Intelligence Lab, Nicholas Freitag McPhee, Yuriy Brun, and David Jensen for discussions that helped to improve the work described in this paper, to Josiah Erikson for systems support, and to Hampshire College for support for the Hampshire College Institute for Computational Intelligence. This material is based upon work supported by the National Science Foundation under Grants No. 1017817, 1129139, and 1331283. Any opinions, findings, and conclusions or recommendations expressed in this publication are those of the authors and do not necessarily reflect the views of the National Science Foundation.
+
 
 %
 % The following two commands are all you need in the
