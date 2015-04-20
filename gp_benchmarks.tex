@@ -84,9 +84,10 @@ Several genetic programming (GP) researchers have highlighted the need for bette
 
 Automating human programming has long been a goal of GP, as articulated for example in Koza's first book \cite{koza:book}. The purpose of a general program synthesis benchmark is to help researchers assess the ability of a system to automate human programming. Such problems should require a range of programming techniques including the use of control flow, modularity, and large, diverse instruction sets covering multiple data types and data structures. Also, minimal sizes for solution programs should cover a range beyond what could be found using brute-force search. This contrasts with most existing benchmark problems used in GP and other program synthesis fields, which prescribe small, domain-specific instruction sets and assess a system's abilities only on a narrow range of programming techniques.
 
-In this paper we present a suite of $29$ general program synthesis benchmark problems, systematically selected from sources of introductory computer science programming problems. We present each problem's specifications in the form of input/output examples, making them suitable to a wide range of program synthesis techniques, including GP. While the problems are not particularly challenging for skilled human programmers, they are reasonably challenging for beginners and many are arguably too difficult for existing program synthesis systems, including GP. These benchmark problems should prove useful for assessing progress toward the goal of developing general program synthesis systems.
+In this paper we present a suite of $29$ general program synthesis benchmark problems, systematically selected from sources of introductory computer science programming problems. We present each problem's specifications in the form of input/output examples, making them suitable to a wide range of program synthesis techniques, including GP. While the problems are not particularly challenging for skilled human programmers, they are reasonably challenging for beginners and many are arguably too difficult for existing program synthesis systems, including GP. As textbook problems, they are not likely representative of real general program synthesis applications, yet they should prove useful for assessing progress toward this goal.
+% These benchmark problems should prove useful for assessing progress toward the goal of developing general program synthesis systems.
 
-In the sections below we first discuss issues related to the use of our benchmarks to assess and compare systems. We then describe the criteria used to select problems and each of the $29$ problems that we selected. Next, we present example system-specific parameters for our reference implementation in the PushGP system \cite{spector:2002:GPEM, 1068292}, followed by the results of an illustrative experiment.
+%In the sections below we first discuss issues related to the use of our benchmarks to assess and compare systems. We then describe the criteria used to select problems and each of the $29$ problems that we selected. Next, we present example system-specific parameters for our reference implementation in the PushGP system \cite{spector:2002:GPEM, 1068292}, followed by the results of an illustrative experiment.
 
 
 %- cite \cite{Woodward:2014:GECCOcomp} in the discussion of GP benchmarks
@@ -111,7 +112,7 @@ When using this benchmark suite to compare different settings within one system,
 In this section we describe the criteria we used when selecting problems for the benchmark suite. Several of our criteria overlap with those described in the GP benchmarks papers \cite{McDermott:2012:GECCO, White:2013:BGB:2441218.2441242}, such as being varied, relevant, realistically difficult, representation-independent, and precisely defined. 
 %Other proposed requirements have less relevance to this set of problems because of the general program synthesis domain we target.
 
-This benchmark suite is designed for systems that use example inputs and their corresponding outputs as the specifications for desired programs. In the context of GP, we call the input/output pairs \textit{fitness cases} for the problem. Thus, a problem must be defined on a range of inputs that have known correct outputs; it cannot simply specify the calculation of a single value. For example, a problem that requires the program to calculate the number of prime numbers less than 1000 would not qualify, since it only has one answer; but, a similar problem that requires the program to calculate the number of prime numbers less than an input integer $n$ would meet this requirement, since we could then provide example inputs for $n$ and their corresponding outputs. This requirement also ensures that fitness cases can be generated to fill the training and test set, as required to test generalization of successful programs.
+This benchmark suite is designed for systems that use example inputs and their corresponding outputs as the specifications for desired programs. In the context of GP, we call the input/output pairs \textit{test cases} for the problem. Thus, a problem must be defined on a range of inputs that have known correct outputs; it cannot simply specify the calculation of a single value. For example, a problem that requires the program to calculate the number of prime numbers less than 1000 would not qualify, since it only has one answer; but, a similar problem that requires the program to calculate the number of prime numbers less than an input integer $n$ would meet this requirement, since we could then provide example inputs for $n$ and their corresponding outputs. This requirement also ensures that test cases can be generated to fill the training and test set, as required to test generalization of successful programs.
 
 Problems in the suite should present challenges typical of real programming tasks. 
 %The goal of a benchmark problem is to measure the characteristics of a system on a problem that mimics some aspects of the real applications on which it is expected to function. 
@@ -119,7 +120,7 @@ This criterion leads us to choose problems that call for a range of programming 
 
 The benchmarks should not be biased toward a particular method of synthesis; it should be possible to attempt to solve them using various GP systems as well as analytic and search-based program synthesis systems. Since systems generate programs in a variety of languages, we avoid problems that require a specific language feature or non-standard data type (such as Java objects).
 
-We have chosen our problems from pre-existing sources of introductory programming problems. By borrowing from these external sources, and using all problems from these sources that meet the criteria described above, we aim to avoid biasing the selection of problems.
+We have chosen our problems from pre-existing sources of introductory programming problems. By borrowing from these external sources, and using all problems from these sources that meet the criteria described above, we aim to avoid biasing the selection of problems. We rejected problems from other sources, such as the inductive programming benchmark repository\footnote{\url{http://www.inductive-programming.org/repository.html}}, other program synthesis and inductive programming papers, and programming competitions, as they did not meet our criteria.
 
 %[BELONG ELSEWHERE? BETTER TRANSITION? OR JUST REMOVE?]
 %For a synthesis system to be applicable to the problems in this suite, it must take input/output examples as program specifications. It must be able to produce programs that manipulate the data types necessary to solve the problems, which includes the ability to print outputs and return functional results. Any synthesis system that meets these requirements may be applied to these problems.
@@ -128,16 +129,17 @@ We have chosen our problems from pre-existing sources of introductory programmin
 \section{Problem Descriptions} \label{descriptionsSection}
 % Other section title options: Problems or The Problems or The Benchmark Problems
 
-We used two sources for problems: iJava \cite{iJava}, an interactive textbook for introductory computer science, and IntroClass \cite{ManyBugsAndIntroClass, Brun13TRgptest}, a set of problems originally used as benchmarks for automatic program repair. Below we describe each of these sources in further detail and present our natural language description of each problem, summarized from the original source. All problems use functional arguments as inputs and functional outputs when returning values, besides one that requires reading input from a file.
+We used two sources for problems: iJava \cite{iJava}, an interactive textbook for introductory computer science, and IntroClass \cite{ManyBugsAndIntroClass, Brun13TRgptest}, a set of problems originally used as benchmarks for automatic program repair. Below we describe each of these sources in further detail and present our natural language description of each problem, summarized from the original source. All problems use functional arguments as inputs besides one that requires reading input from a file. Some problems require programs to return functional outputs, where others require the program to print results to standard output.
 
 \subsection{iJava}
 
 %In this section, we will describe the problems from iJava \cite{iJava, Moll:2011:IOI:1968521.1968535}. 
 
-iJava is an interactive introductory computer science text that contains a number of automatically graded programming problems \cite{iJava}. %, Moll:2011:IOI:1968521.1968535}.
- These problems work well as general program synthesis problems, since they are often graded by testing programs against a range of inputs.
+iJava is an interactive introductory computer science textbook that contains a number of automatically graded programming problems \cite{iJava}. %, Moll:2011:IOI:1968521.1968535}.
+ Many of its problems are graded by testing programs against a range of inputs, making them easy to convert into benchmark problems
 
-Some sets of problems in iJava meet our criteria but test similar programming techniques; for each such set, we chose one representative problem from the group, ensuring a reasonable distribution of problem requirements. Along with each problem name and description, we provide the question or project number associated with the problem in iJava 3.1.
+
+Some sets of problems in iJava meet our criteria but test similar programming techniques; for these sets, we chose one representative problem from the group, ensuring a reasonable distribution of problem requirements. Along with each problem name and description, we provide the question or project number associated with the problem in iJava 3.1.
 
 \begin{enumerate}
 \item
@@ -167,7 +169,7 @@ Given a string, print the string, doubling every letter character, and tripling 
 
 \item
 \textbf{Collatz Numbers (P 4.2)}
-Given an integer, find the number of terms in the Collatz sequence starting from that integer.
+Given an integer, find the number of terms in the Collatz (hailstone) sequence starting from that integer.
 
 \item
 \textbf{Replace Space with Newline (P 4.3)}
