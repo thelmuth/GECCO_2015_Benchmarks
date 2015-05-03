@@ -562,9 +562,51 @@ Syllables & HC & \texttt{"", "a", "v", "4", "o", "\textvisiblespace ", "aei", "o
 
 \subsection{Fitness Functions}
 
+\begin{table*}[t]
+\centering
+\caption{The fitness functions used for each problem. For problems that require the program to print, we usually use Levenshtein distance on the printed string and the correct output. Additionally, many problems parse part or all of a printed string as a different data type and use another fitness function. For example, for the Number IO problem, if the printed output can be parsed as a float, it is done so and used as a float error. For such problems, an output that cannot be parsed correctly receives a penalty error.}
+\label{tableFitnessFunctions}
+\rowcolors{3}{Gray}{white}
+\begin{tabular}{>{\raggedright}p{4cm} >{\raggedright}p{11cm}}
+\toprule
+\textbf{Problem}               & \textbf{Fitness Function}                                                                                                                        \tabularnewline
+\midrule
+Number IO                  & printed string Levenshtein distance; printed float error                                                                              \tabularnewline
+Small Or Large             & printed string Levenshtein distance                                                                                                   \tabularnewline
+For Loop Index             & printed string Levenshtein distance                                                                                                   \tabularnewline
+Compare String Lengths     & boolean error                                                                                                                  \tabularnewline
+Double Letters             & printed string Levenshtein distance                                                                                                   \tabularnewline
+Collatz Numbers            & integer error                                                                                                                  \tabularnewline
+Replace Space with Newline & printed string Levenshtein distance; integer error                                                                                    \tabularnewline
+String Differences         & printed string Levenshtein distance; numeric difference in number of lines with correct format                                                \tabularnewline
+Even Squares               & printed string Levenshtein distance; numeric difference in number of lines with correct format; printed integer error on each line                        \tabularnewline
+Wallis Pi                  & float error; Levenshtein distance of string version of float                                                                          \tabularnewline
+String Lengths Backwards   & printed string Levenshtein distance                                                                                                   \tabularnewline
+Last Index of Zero         & integer error                                                                                                                  \tabularnewline
+Vector Average             & float error                                                                                                                    \tabularnewline
+Count Odds                 & integer error                                                                                                                  \tabularnewline
+Mirror Image               & boolean error                                                                                                                  \tabularnewline
+Super Anagrams             & boolean error                                                                                                                  \tabularnewline
+Sum of Squares             & integer error                                                                                                                  \tabularnewline
+Vectors Summed             & integer error at each position in vector \tabularnewline
+X-Word Lines               & printed string Levenshtein distance; integer error for number of newlines; numeric difference in correct words on each line summed over lines \tabularnewline
+Pig Latin                  & printed string Levenshtein distance                                                                                                   \tabularnewline
+Negative To Zero           & integer vector Levenshtein distance                                                                                                   \tabularnewline
+Scrabble Score             & integer error                                                                                                                  \tabularnewline
+Word Stats                 & printed string Levenshtein distance; integer error for printed number of sentences; float error for printed average sentence length             \tabularnewline
+Checksum                   & printed string Levenshtein distance; for last printed char in string, ASCII value error \tabularnewline
+Digits                     & printed string Levenshtein distance                                                                                                   \tabularnewline
+Grade                      & printed string Levenshtein distance; printed char error for grade char \tabularnewline
+Median                     & printed string right/wrong \tabularnewline
+Smallest                   & printed string right/wrong \tabularnewline
+Syllables                  & printed string Levenshtein distance; printed integer error  \tabularnewline     
+\bottomrule
+\end{tabular}
+\end{table*}
+
 When using this benchmark suite with GP, we not only need the input/output cases, but also a method of measuring how well a particular program performs on each case---the \textit{fitness function}. 
 %Fitness functions for these problems must not only match their respective output types, but must also give reasonable measurement of program performance. Still, we can present some generalities of our chosen fitness functions before pointing to the reference implementation for details.
-Many of the problems in this suite print results to standard output, and we generally treat these outputs as strings and use Levenshtein distance (a measure of string edit distance) as the fitness function. Other problems produce numeric outputs, either returned or printed; for these problems we use absolute error for fitness, parsing printed numbers when necessary and possible. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a fitness of 0 for right and 1 for wrong. Finally, some problems require problem-tailored fitness functions, such as vector edit distance or string formatting requirements. We give the details of each fitness function in \cite{helmuth:umass:tr}.
+Many of the problems in this suite print results to standard output, and we generally treat these outputs as strings and use Levenshtein distance (a measure of string edit distance) as the fitness function. Other problems produce numeric outputs, either returned or printed; for these problems we use absolute error for fitness, parsing printed numbers when necessary and possible. Some problems produce boolean values, or are best measured by a simple binary right or wrong; here, we use a fitness of 0 for right and 1 for wrong. Finally, some problems require problem-tailored fitness functions, such as vector edit distance or string formatting requirements. We give the details of each fitness function in Table \ref{tableFitnessFunctions}.
 
 For some problems we found it appropriate to use multiple fitness functions per test case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we produce multiple fitness values for a single case. Additionally, we find that PushGP performs better on some problems when we use more than one fitness value per case, even where not strictly necessary. For example, we found no solutions to the X-Word Lines problem when using Levenshtein distance as the only fitness function, but found solutions when adding additional fitness functions for the number of newline characters and summed errors of differences in number of words compared. When using multiple fitness values for a single training case, we treat each fitness value separately when the parent selection method requires it; in tournament selection, we simply sum all fitness values.
 
@@ -790,18 +832,58 @@ Tables \ref{typesAndInstructionsTable} and \ref{typesAndInstructionsTable2} show
 
 \subsection{GP Parameters}
 
-We keep most of our PushGP system parameters constant across all problems, with specific details in \cite{helmuth:umass:tr}. The only significant parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. We used a maximum of 300 generations for every problem besides Number IO, Median, and Smallest, for which we used 200 generations. Maximum program sizes varied more, from 200 to 1000 instructions depending on anticipated problem difficulty. We limited instruction executions to approximately 2 to 5 times the maximum program size, but included some larger settings for problems that require many loops.
 
-%See the reference implementation for the specific values of these parameters.
-% (Either: [These are in Table \ref{tableGPParameters}.] or [GIVE BRIEF DESCRIPTION OF EACH AND SAY SEE REFERENCE IMPLEMENTATION WEBSITE FOR DETAILS.]) [I went with the latter for now to take up less space]
-By specifying the maximum generations, the population size (1000 for all of our runs), and the size of the training set (see Table \ref{testCasesTable}), we also specify the program evaluation budget, which is the product of those values. In our implementation, this budget falls between 5 and 60 million program evaluations per run for every problem. 
+In the most recent version of PushGP, genomes are represented by flat sequences of instructions that may have one or more epigenetic markers attached to each instruction. In this work, we use the default epigenetic markers, which only include a marker that tells how many pairs of parentheses to close after each instruction when translating the genome into a Push program. We initialize genomes by selecting a genome size uniformly between 0 and the maximum initial genome size, which for these runs we set to half of the maximum genome size. Each gene is composed of an instruction taken uniformly from the available instructions and literals, as well as an epigenetic marker for parentheses ranging from 0 to 3, weighted toward 0.
 
-
-
-
-\begin{table}[t]
+\begin{table}%[t]
 \centering
-\caption{GP Parameters. EXPLAIN THESE}
+\caption{The PushGP parameters that were held constant across the problems. Alternation is a uniform crossover operator similar to ULTRA \cite{spector:2014:GPTP}. Uniform mutation has a constant probability of replacing each instruction. Uniform close mutation increases or decreases the number of closing parentheses after each instruction probabilistically. Alignment deviation is the standard deviation of index changes during alternation, and for four problems was set to 5 (Number IO, Small Or Large, Median, and Smallest).}
+\label{tableGPconstantParams}
+%\rowcolors{3}{Gray}{white}
+\begin{tabular}{l r}
+\toprule
+Parameter & Value \tabularnewline
+\midrule
+population size & 1000 \tabularnewline
+alternation rate & 0.01 \tabularnewline
+alignment deviation & 10 \tabularnewline
+uniform mutation rate & 0.01 \tabularnewline
+uniform close mutation rate & 0.1 \tabularnewline
+\midrule
+Genetic Operator & Prob \tabularnewline
+\midrule
+alternation & 0.2 \tabularnewline
+uniform mutation & 0.2 \tabularnewline
+uniform close mutation & 0.1 \tabularnewline
+alternation followed by uniform mutation & 0.5 \tabularnewline
+\bottomrule
+\end{tabular}
+\end{table}
+
+%\begin{table}
+%\centering
+%\caption{SOMETHING}
+%\label{tableGeneticOperators}
+%\rowcolors{3}{Gray}{white}
+%\begin{tabular}{lr}
+%\toprule
+%Genetic Operator & Probability \tabularnewline
+%\midrule
+%alternation & 0.2 \tabularnewline
+%uniform mutation & 0.2 \tabularnewline
+%uniform close mutation & 0.1 \tabularnewline
+%alternation followed by uniform mutation & 0.5 \tabularnewline
+%\bottomrule
+%\end{tabular}
+%\end{table}
+
+
+
+
+
+\begin{table}%[t]
+\centering
+\caption{The PushGP parameters that we varied per problem. ``Max Prog Size'' gives the maximum number of instructions that can appear in an individual's genome. ``Eval Limit'' is the number of steps of the Push interpreter that are executed before stopping a program's execution; programs halted in this way will may still achieve good results if they print or return results before they are stopped. ``Max Gens'' gives the maximum number of generations in a single PushGP run. ``Program Evaluation Budget'' is the maximum number of programs that will be evaluated before a run is terminated.}
 \label{tableGPParameters}
 \rowcolors{3}{Gray}{white}
 \begin{tabular}{>{\raggedright}m{2.5cm} >{\raggedleft}p{0.6cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}}
@@ -842,6 +924,10 @@ Syllables                  & 800           & 1600           & 300      & 30,000,
 \end{table}
 
 
+In our experiment, we keep most of our PushGP system parameters constant across all problems, with specific details in Table \ref{tableGPconstantParams}. The genetic operators in our system work on the linear Push genomes as described in Table \ref{tableGPconstantParams}.
+The only significant PushGP parameters that we vary per problem are the maximum program size, the maximum number of instruction evaluations that a program may use per execution, and the maximum number of generations per run. We varied these parameters based on expected problem difficulty and expected program size necessary to solve each problem; the exact values are given in Table \ref{tableGPParameters}. By specifying the maximum generations, the population size (1000 for all of our runs), and the size of the training set (see Table \ref{testCasesTable}), we also specify the program evaluation budget, which is the product of those values.
+
+
 \section{Experimental Results}
 
 %[TMH: I FEEL LIKE SOMETHING LIKE THE FOLLOWING NEEDS TO BE IN HERE, UNLESS IT'S DISCUSSED LATER IN THIS SECTION]
@@ -854,82 +940,125 @@ Lexicase selection \cite{Helmuth:2014:ieeeTEC}, %, Spector:2012:APM:2330784.2330
  unlike tournament selection and IFS, does not base selection on a single fitness value. Instead, it uses a random ordering of the training set to select individuals that perform as well as possible on a subset of the cases even if they exhibit poor performance on other cases. Lexicase selection has been shown to improve the performance of a GP system on a variety of problems \cite{Helmuth:2014:ieeeTEC, Helmuth:2014:GECCO}.
 %, Helmuth:2013:GECCOcomp}. %Maybe take out the last reference here if need room
 
-\begin{table}[t]
+%\begin{table}[t]
+%\centering
+%\caption{Number of successful runs out of 100 for each setting, where ``Tourn'' is size 7 tournament selection, ``IFS'' is implicit fitness sharing with size 7 tournaments, and ``Lex'' is lexicase selection. For each problem, \underline{underline} indicates significant improvement over the other two selection methods at $p < 0.05$ based on a pairwise chi-square test with Holm correction \cite{R}, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5 \cite{fmsb}. The ``Size'' column indicates the smallest size of any simplified solution program.}
+%\label{tableResults}
+%\rowcolors{3}{Gray}{white}
+%\begin{tabular}{lrrr|r}
+%\toprule
+%Problem                    & Tourn & IFS & Lex & Size \\
+%\midrule
+%Number IO                  & 68      & 72  & \underline{98}       & 5    \\
+%Small Or Large             & 3       & 3   & 5        & 27   \\
+%For Loop Index             & 0       & 0   & 1        & 21   \\
+%Compare String Lengths     & 3       & 6   & 7        & 11   \\
+%Double Letters             & 0       & 0   & 6        & 20   \\
+%Collatz Numbers            & 0       & 0   & 0        &     \\
+%Replace Space with Newline & 8       & 16  & \underline{51}       & 9    \\
+%String Differences         & 0       & 0   & 0        &     \\
+%Even Squares               & 0       & 0   & 2        & 37   \\
+%Wallis Pi                  & 0       & 0   & 0        &     \\
+%String Lengths Backwards   & 7       & 10  & \underline{66}       & 9    \\
+%Last Index of Zero         & 8       & 4   & \underline{21}       & 5    \\
+%Vector Average             & 14      & 13  & 16       & 7    \\
+%Count Odds                 & 0       & 0   & \underline{8}        & 7    \\
+%Mirror Image               & 46      & 64  & \underline{78}       & 4    \\
+%Super Anagrams             & 0       & 0   & 0        &     \\
+%Sum of Squares             & 2       & 0   & 6        & 7    \\
+%Vectors Summed             & 0       & 0   & 1        & 11   \\
+%X-Word Lines               & 0       & 0   & \underline{8}        & 15   \\
+%Pig Latin                  & 0       & 0   & 0        &     \\
+%Negative To Zero           & 10      & 8   & \underline{45}       & 8    \\
+%Scrabble Score             & 0       & 0   & 2        & 14   \\
+%Word Stats                 & 0       & 0   & 0        &     \\
+%Checksum                   & 0       & 0   & 0        &     \\
+%Digits                     & 0       & 1   & 7        & 20   \\
+%Grade                      & 0       & 0   & 4        & 52   \\
+%Median                     & 7       & 43  & 45       & 10   \\
+%Smallest                   & 75      & \underline{98}  & 81       & 8    \\
+%Syllables                  & 1       & 7   & 18       & 14   \\
+%%Number IO                  & 68      & 72  & \underline{98}       \\
+%%Small Or Large             & 3       & 3   & 5        \\
+%%For Loop Index             & 0       & 0   & 1        \\
+%%Compare String Lengths     & 3       & 6   & 7        \\
+%%Double Letters             & 0       & 0   & 6        \\
+%%Collatz Numbers            & 0       & 0   & 0        \\
+%%Replace Space with Newline & 8       & 16  & \underline{51}       \\
+%%String Differences         & 0       & 0   & 0        \\
+%%Even Squares               & 0       & 0   & 2        \\
+%%Wallis Pi                  & 0       & 0   & 0        \\
+%%String Lengths Backwards   & 7       & 10  & \underline{66}       \\
+%%Last Index of Zero         & 8       & 4   & \underline{21}       \\
+%%Vector Average             & 14      & 13  & 16       \\
+%%Count Odds                 & 0       & 0   & 8        \\
+%%Mirror Image               & 46      & 64  & \underline{78}       \\
+%%Super Anagrams             & 0       & 0   & 0        \\
+%%Sum of Squares             & 2       & 0   & 6        \\
+%%Vectors Summed             & 0       & 0   & 1        \\
+%%X-Word Lines               & 0       & 0   & \underline{8}        \\
+%%Pig Latin                  & 0       & 0   & 0        \\
+%%Negative To Zero           & 10      & 8   & \underline{45}       \\
+%%Scrabble Score             & 0       & 0   & 2        \\
+%%Word Stats                 & 0       & 0   & 0        \\
+%%Checksum                   & 0       & 0   & 0        \\
+%%Digits                     & 0       & 1   & 7        \\
+%%Grade                      & 0       & 0   & 4        \\
+%%Median                     & 7       & 43  & 45       \\
+%%Smallest                   & 75      & \underline{98}  & 81       \\
+%%Syllables                  & 1       & 7   & 18       \\
+%\midrule
+%\rowcolor{white} Problems Solved          & 13       & 13      & 22 &   \\
+%\bottomrule
+%\end{tabular}
+%\end{table}
+
+\begin{table*}[t]
 \centering
-\caption{Number of successful runs out of 100 for each setting, where ``Tourn'' is size 7 tournament selection, ``IFS'' is implicit fitness sharing with size 7 tournaments, and ``Lex'' is lexicase selection. For each problem, \underline{underline} indicates significant improvement over the other two selection methods at $p < 0.05$ based on a pairwise chi-square test with Holm correction \cite{R}, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5 \cite{fmsb}. The ``Size'' column indicates the smallest size of any simplified solution program.}
+\caption{The first three columns give the number of successful runs out of 100 for each setting, where ``Tourn'' is size 7 tournament selection, ``IFS'' is implicit fitness sharing with size 7 tournaments, and ``Lex'' is lexicase selection. For each problem, \underline{underline} indicates significant improvement over the other two selection methods at $p < 0.05$ based on a pairwise chi-square test with Holm correction \cite{R}, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5 \cite{fmsb}. The columns ``Lex$-$Tourn'' and ``Lex$-$IFS'' give the differences in success rate (successful runs divided by total runs) between lexicase and the other two settings. The columns ``Lex$-$Tourn CI'' and ``Lex$-$IFS CI'' give 95\% confidence intervals of the differences in success rate. The ``Size'' column indicates the smallest size of any simplified solution program.}
 \label{tableResults}
 \rowcolors{3}{Gray}{white}
-\begin{tabular}{lrrr|r}
+\begin{tabular}{lrrr|rrrr|r}
 \toprule
-Problem                    & Tourn & IFS & Lex & Size \\
+Problem & Tourn & IFS & Lex & Lex$-$Tourn & Lex$-$Tourn CI & Lex$-$IFS & Lex$-$IFS CI & Size \tabularnewline
 \midrule
-Number IO                  & 68      & 72  & \underline{98}       & 5    \\
-Small Or Large             & 3       & 3   & 5        & 27   \\
-For Loop Index             & 0       & 0   & 1        & 21   \\
-Compare String Lengths     & 3       & 6   & 7        & 11   \\
-Double Letters             & 0       & 0   & 6        & 20   \\
-Collatz Numbers            & 0       & 0   & 0        &     \\
-Replace Space with Newline & 8       & 16  & \underline{51}       & 9    \\
-String Differences         & 0       & 0   & 0        &     \\
-Even Squares               & 0       & 0   & 2        & 37   \\
-Wallis Pi                  & 0       & 0   & 0        &     \\
-String Lengths Backwards   & 7       & 10  & \underline{66}       & 9    \\
-Last Index of Zero         & 8       & 4   & \underline{21}       & 5    \\
-Vector Average             & 14      & 13  & 16       & 7    \\
-Count Odds                 & 0       & 0   & \underline{8}        & 7    \\
-Mirror Image               & 46      & 64  & \underline{78}       & 4    \\
-Super Anagrams             & 0       & 0   & 0        &     \\
-Sum of Squares             & 2       & 0   & 6        & 7    \\
-Vectors Summed             & 0       & 0   & 1        & 11   \\
-X-Word Lines               & 0       & 0   & \underline{8}        & 15   \\
-Pig Latin                  & 0       & 0   & 0        &     \\
-Negative To Zero           & 10      & 8   & \underline{45}       & 8    \\
-Scrabble Score             & 0       & 0   & 2        & 14   \\
-Word Stats                 & 0       & 0   & 0        &     \\
-Checksum                   & 0       & 0   & 0        &     \\
-Digits                     & 0       & 1   & 7        & 20   \\
-Grade                      & 0       & 0   & 4        & 52   \\
-Median                     & 7       & 43  & 45       & 10   \\
-Smallest                   & 75      & \underline{98}  & 81       & 8    \\
-Syllables                  & 1       & 7   & 18       & 14   \\
-%Number IO                  & 68      & 72  & \underline{98}       \\
-%Small Or Large             & 3       & 3   & 5        \\
-%For Loop Index             & 0       & 0   & 1        \\
-%Compare String Lengths     & 3       & 6   & 7        \\
-%Double Letters             & 0       & 0   & 6        \\
-%Collatz Numbers            & 0       & 0   & 0        \\
-%Replace Space with Newline & 8       & 16  & \underline{51}       \\
-%String Differences         & 0       & 0   & 0        \\
-%Even Squares               & 0       & 0   & 2        \\
-%Wallis Pi                  & 0       & 0   & 0        \\
-%String Lengths Backwards   & 7       & 10  & \underline{66}       \\
-%Last Index of Zero         & 8       & 4   & \underline{21}       \\
-%Vector Average             & 14      & 13  & 16       \\
-%Count Odds                 & 0       & 0   & 8        \\
-%Mirror Image               & 46      & 64  & \underline{78}       \\
-%Super Anagrams             & 0       & 0   & 0        \\
-%Sum of Squares             & 2       & 0   & 6        \\
-%Vectors Summed             & 0       & 0   & 1        \\
-%X-Word Lines               & 0       & 0   & \underline{8}        \\
-%Pig Latin                  & 0       & 0   & 0        \\
-%Negative To Zero           & 10      & 8   & \underline{45}       \\
-%Scrabble Score             & 0       & 0   & 2        \\
-%Word Stats                 & 0       & 0   & 0        \\
-%Checksum                   & 0       & 0   & 0        \\
-%Digits                     & 0       & 1   & 7        \\
-%Grade                      & 0       & 0   & 4        \\
-%Median                     & 7       & 43  & 45       \\
-%Smallest                   & 75      & \underline{98}  & 81       \\
-%Syllables                  & 1       & 7   & 18       \\
+Number IO                  & 68      & 72  & \underline{98} & $0.30$ & $[0.19, 0.41]$ & $0.26$ & $[0.16, 0.36]$ & 5 \tabularnewline
+Small Or Large             & 3       & 3   & 5         & $0.02$ & $[-0.04, 0.08]$ & $0.02$ & $[-0.04, 0.08]$ & 27 \tabularnewline
+For Loop Index             & 0       & 0   & 1      & $0.01$ & $[-0.02, 0.04]$ & $0.01$ & $[-0.02, 0.04]$ & 21 \tabularnewline
+Compare String Lengths     & 3       & 6   & 7      & $0.04$ & $[-0.03, 0.11]$ & $0.01$ & $[-0.07, 0.09]$ & 11 \tabularnewline
+Double Letters             & 0       & 0   & 6  & $0.06$ & $[0.00, 0.12]$ & $0.06$ & $[0.00, 0.12]$ & 20 \tabularnewline
+Collatz Numbers            & 0       & 0   & 0        &   $0$ & $-$ & $0$ & $-$ &  \tabularnewline
+Replace Space with Newline & 8       & 16  & \underline{51}       & $0.43$ & $[0.31, 0.55]$ & $0.35$ & $[0.22, 0.48]$ & 9 \tabularnewline
+String Differences         & 0       & 0   & 0        & $0$ & $-$ & $0$ & $-$ &  \tabularnewline
+Even Squares               & 0       & 0   & 2        & $0.02$ & $[-0.02, 0.06]$ & $0.02$ & $[-0.02, 0.06]$ & 37 \tabularnewline
+Wallis Pi                  & 0       & 0   & 0        &   $0$ & $-$ & $0$ & $-$ &  \tabularnewline
+String Lengths Backwards   & 7       & 10  & \underline{66}       & $0.59$ & $[0.47, 0.71]$ & $0.56$ & $[0.44, 0.68]$ & 9 \tabularnewline
+Last Index of Zero         & 8       & 4   & \underline{21}       & $0.13$ & $[0.02, 0.24]$ & $0.17$ & $[0.07, 0.27]$ & 5 \tabularnewline
+Vector Average             & 14      & 13  & 16       & $0.02$ & $[-0.09, 0.13]$ & $0.03$ & $[-0.08, 0.14]$ & 7 \tabularnewline
+Count Odds                 & 0       & 0   & \underline{8}        & $0.08$ & $[0.02, 0.14]$ & $0.08$ & $[0.02, 0.14]$ & 7 \tabularnewline
+Mirror Image               & 46      & 64  & \underline{78}       & $0.32$ & $[0.18, 0.46]$ & $0.14$ & $[0.01, 0.27]$ & 4 \tabularnewline
+Super Anagrams             & 0       & 0   & 0        & $0$ & $-$ & $0$ & $-$ &  \tabularnewline
+Sum of Squares             & 2       & 0   & 6        & $0.04$ & $[-0.02, 0.10]$ & $0.06$ & $[0.00, 0.12]$ & 7 \tabularnewline
+Vectors Summed             & 0       & 0   & 1        & $0.01$ & $[-0.02, 0.04]$ & $0.01$ & $[-0.02, 0.04]$ & 11 \tabularnewline
+X-Word Lines               & 0       & 0   & \underline{8}        & $0.08$ & $[0.02, 0.14]$ & $0.08$ & $[0.02, 0.14]$ & 15 \tabularnewline
+Pig Latin                  & 0       & 0   & 0        &   $0$ & $-$ & $0$ & $-$ &  \tabularnewline
+Negative To Zero           & 10      & 8   & \underline{45}       & $0.35$ & $[0.23, 0.47]$ & $0.37$ & $[0.25, 0.49]$ & 8 \tabularnewline
+Scrabble Score             & 0       & 0   & 2        & $0.02$ & $[-0.02, 0.06]$ & $0.02$ & $[-0.02, 0.06]$ & 14 \tabularnewline
+Word Stats                 & 0       & 0   & 0        & $0$ & $-$ & $0$ & $-$ &  \tabularnewline
+Checksum                   & 0       & 0   & 0        &  $0$ & $-$ & $0$ & $-$ &  \tabularnewline
+Digits                     & 0       & 1   & 7        & $0.07$ & $[0.01, 0.13]$ & $0.06$ & $[0.00, 0.12]$ & 20 \tabularnewline
+Grade                      & 0       & 0   & 4        & $0.04$ & $[-0.01, 0.09]$ & $0.04$ & $[-0.01, 0.09]$ & 52 \tabularnewline
+Median                     & 7       & 43  & 45       & $0.38$ & $[0.26, 0.50]$ & $0.02$ & $[-0.13, 0.17]$ & 10 \tabularnewline
+Smallest                   & 75      & \underline{98}  & 81       & $0.06$ & $[-0.06, 0.18]$ & $-0.17$ & $[-0.26, -0.08]$ & 8 \tabularnewline
+Syllables                  & 1       & 7   & 18       & $0.17$ & $[0.08, 0.26]$ & $0.11$ & $[0.01, 0.21]$ & 14 \tabularnewline
 \midrule
-\rowcolor{white} Problems Solved          & 13       & 13      & 22 &   \\
+\rowcolor{white} Problems Solved          & 13       & 13      & 22 & & & & &   \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 
-Table \ref{tableResults} gives the results of our parent selection experiment. Over the 29 problems, PushGP with lexicase selection produced at least one successful run on nine more problems than either tournament selection or IFS.
-Additionally, there were 8 problems where lexicase selection achieved a significantly higher number of successful runs than the other two, where IFS showed significant improvement on just one problem and tournament selection none. These results strongly indicate the utility of lexicase selection for general program synthesis problems.
+Table \ref{tableResults} gives the results of our parent selection experiment. Over the 29 problems, PushGP with lexicase selection produced at least one successful run on nine more problems than either tournament selection or IFS. Additionally, there were 8 problems where lexicase selection achieved a significantly higher number of successful runs than the other two, where IFS showed significant improvement on just one problem and tournament selection none. Similarly, the confidence intervals of the difference in success rate between lexicase and tournament or IFS generally show neutral to positive effects of lexicase. These results strongly indicate the utility of lexicase selection for general program synthesis problems.
 
 The data in Table \ref{tableResults} only reflect solutions that generalize by achieving zero error on the unseen test set. Some problems seem to lend themselves to generalization more than others; for example, PushGP using lexicase selection found 14 programs with zero error on the training set for the Super Anagrams problem, none of which generalized to the test set. For lexicase selection, five problems resulted in 20 or more runs that passed the training set that did not generalize (Small Or Large,
 Compare String Lengths,
