@@ -610,6 +610,10 @@ Many of the problems in this suite print results to standard output, and we gene
 
 For some problems we found it appropriate to use multiple fitness functions per test case. For example, the Replace Space With Newline problem requires both a printed string and a returned integer. For problems like this, we produce multiple fitness values for a single case. Additionally, we find that PushGP performs better on some problems when we use more than one fitness value per case, even where not strictly necessary. For example, we found no solutions to the X-Word Lines problem when using Levenshtein distance as the only fitness function, but found solutions when adding additional fitness functions for the number of newline characters and summed errors of differences in number of words compared. When using multiple fitness values for a single training case, we treat each fitness value separately when the parent selection method requires it; in tournament selection, we simply sum all fitness values.
 
+% Standard: 11111 11111 11111 1111 (string Levenshtein; integer error; boolean error; float error; integer error at each index of integer vector)
+% Non-standard: 11111 11111
+Since these problems aim to test how well a system would perform on real program synthesis applications, we try to keep fitness functions simple to resemble those that might be used by practitioners. For the majority of the problems in this suite (19 out of 29), we use a basic fitness function based on the type of the output. The basic fitness function for integers and floats is absolute numeric distance; for booleans it is right/wrong; for printed strings it is either right/wrong or Levenshtein distance. Most of the problems for which we use problem-specific fitness functions require a printed string as output, and attempt to parse that string to provide extra information based on the problem's expected output. We try to not put too much knowledge about a problem into the problem-specific fitness functions, but instead choose functions that are fairly obvious based on the problem descriptions.
+
 
 \begin{table*}%[t]
 \centering
