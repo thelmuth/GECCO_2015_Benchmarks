@@ -1062,7 +1062,18 @@ Syllables                  & 1       & 7   & 18       & $0.17$ & $[0.08, 0.26]$ 
 \end{table*}
 
 
-Table \ref{tableResults} gives the results of our parent selection experiment. Over the 29 problems, PushGP with lexicase selection produced at least one successful run on nine more problems than either tournament selection or IFS. Additionally, there were 8 problems where lexicase selection achieved a significantly higher number of successful runs than the other two, where IFS showed significant improvement on just one problem and tournament selection none. Similarly, the confidence intervals of the difference in success rate between lexicase and tournament or IFS generally show neutral to positive effects of lexicase. These results strongly indicate the utility of lexicase selection for general program synthesis problems.
+Table \ref{tableResults} gives the results of our parent selection experiment. Over the 29 problems, PushGP with lexicase selection produced at least one successful run on nine more problems than either tournament selection or IFS. Additionally, there were 8 problems where lexicase selection achieved a significantly higher number of successful runs than the other two, where IFS showed significant improvement on just one problem and tournament selection none. Similarly, the confidence intervals of the difference in success rate between lexicase and tournament or IFS generally show neutral to positive effects of lexicase.
+
+To examine aggregate performance, we calculate the average rank for each method across the 29 problems, with 1 being best and 3 being worst:
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Lexicase & IFS & Tournament \\
+1.28 & 2.26 & 2.47 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Lexicase achieves the lowest average rank, unsurprising considering it has the most or tied for the most successes on every problem except for one. The Friedman test on this data gives us a \textit{p}-value $< 0.001$, indicating that at least one method performs significantly differently from the others. A post-hoc Wilcoxon-Nemenyi-McDonald-Thompson test \cite{hollander1999nonparametric} indicates that lexicase outranks both IFS and tournament at the $0.05$ significance level. These results strongly indicate the utility of lexicase selection for general program synthesis problems.
 
 The data in Table \ref{tableResults} only reflect solutions that generalize by achieving zero error on the unseen test set. Some problems seem to lend themselves to generalization more than others; for example, PushGP using lexicase selection found 14 programs with zero error on the training set for the Super Anagrams problem, none of which generalized to the test set. For lexicase selection, five problems resulted in 20 or more runs that passed the training set that did not generalize (Small Or Large,
 Compare String Lengths,
