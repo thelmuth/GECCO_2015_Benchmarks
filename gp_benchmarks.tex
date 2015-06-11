@@ -733,7 +733,7 @@ Table \ref{tableDataTypes} also gives the terminals used for each problem, which
 \rowcolors{3}{Gray}{white}
 \begin{tabular}{l>{\raggedright}p{10.6cm}}
 \toprule
-Problem                    & ERC Ranges \tabularnewline
+\textbf{Problem}                    & \textbf{ERC Ranges} \tabularnewline
 \midrule
 Number IO                  & integer ERC $[-100, 100]$, float ERC $[-100.0, 100.0)$ \tabularnewline
 Small Or Large             & integer ERC $[-10000,10000]$        \tabularnewline
@@ -870,7 +870,7 @@ In the most recent version of PushGP, genomes are represented by flat sequences 
 %\rowcolors{3}{Gray}{white}
 \begin{tabular}{l r}
 \toprule
-Parameter & Value \tabularnewline
+\textbf{Parameter} & \textbf{Value} \tabularnewline
 \midrule
 population size & 1000 \tabularnewline
 alternation rate & 0.01 \tabularnewline
@@ -878,7 +878,7 @@ alignment deviation & 10 \tabularnewline
 uniform mutation rate & 0.01 \tabularnewline
 uniform close mutation rate & 0.1 \tabularnewline
 \midrule
-Genetic Operator & Prob \tabularnewline
+\textbf{Genetic Operator} & \textbf{Prob} \tabularnewline
 \midrule
 alternation & 0.2 \tabularnewline
 uniform mutation & 0.2 \tabularnewline
@@ -911,12 +911,12 @@ alternation followed by uniform mutation & 0.5 \tabularnewline
 
 \begin{table}%[t]
 \centering
-\caption{The PushGP parameters that we varied per problem. ``Max Prog Size'' gives the maximum number of instructions that can appear in an individual's genome. ``Eval Limit'' is the number of steps of the Push interpreter that are executed before stopping a program's execution; programs halted in this way may still achieve good results if they print or return results before they are stopped. ``Max Gens'' gives the maximum number of generations in a single PushGP run. ``Program Evaluation Budget'' is the maximum number of programs that will be evaluated before a run is terminated.}
+\caption{The PushGP parameters that we varied per problem. ``Max Size'' gives the maximum number of instructions that can appear in an individual's genome. ``Eval Limit'' is the number of steps of the Push interpreter that are executed before stopping a program's execution; programs halted in this way may still achieve good results if they print or return results before they are stopped. ``Max Gens'' gives the maximum number of generations in a single PushGP run. ``Prog Eval Budget'' is the maximum number of programs that will be evaluated before a run is terminated.}
 \label{tableGPParameters}
 \rowcolors{3}{Gray}{white}
-\begin{tabular}{>{\raggedright}m{2.5cm} >{\raggedleft}p{0.6cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}}
+\begin{tabular}{>{\raggedright}m{2.5cm} >{\raggedleft}p{0.7cm} >{\raggedleft}p{0.8cm} >{\raggedleft}p{0.6cm}   >{\raggedleft}p{1.6cm}}
 \toprule
-Problem                    & Max Prog Size & Eval Limit & Max Gens & Program Evaluation Budget \tabularnewline
+\textbf{Problem}                    & \textbf{Max Size} & \textbf{Eval Limit} & \textbf{Max Gens} & \textbf{Prog Eval Budget} \tabularnewline
 \midrule
 Number IO                  & 200           & 200            & 200      & 5,000,000                 \tabularnewline
 Small Or Large             & 200           & 300            & 300      & 30,000,000                \tabularnewline
@@ -1045,9 +1045,9 @@ Lexicase selection \cite{Helmuth:2014:ieeeTEC, Spector:2012:APM:2330784.2330846}
 \caption{The first three columns give the number of successful runs out of 100 for each setting, where ``Lex'' is lexicase selection, ``Tourn'' is size 7 tournament selection, and ``IFS'' is implicit fitness sharing with size 7 tournaments. For each problem, \underline{underline} indicates significant improvement over the other two selection methods at $p < 0.05$ based on a pairwise chi-square test with Holm correction \cite{R}, or a pairwise Fisher's exact test with Holm correction if any number of successes is below 5 \cite{fmsb}. The columns ``Lex$-$Tourn'' and ``Lex$-$IFS'' give the differences in success rate (successful runs divided by total runs) between lexicase and the other two settings. The columns ``Lex$-$Tourn CI'' and ``Lex$-$IFS CI'' give 95\% confidence intervals of the differences in success rate. The ``Size'' column indicates the smallest size of any simplified solution program.}
 \label{tableResults}
 \rowcolors{3}{Gray}{white}
-\begin{tabular}{lrrr|rrrr|r}
+\begin{tabular}{>{\raggedright}m{3.7cm} rrr|rrrr|r}
 \toprule
-Problem & Lex & Tourn & IFS & Lex$-$Tourn & Lex$-$Tourn CI & Lex$-$IFS & Lex$-$IFS CI & Size \tabularnewline
+\textbf{Problem} & \textbf{Lex} & \textbf{Tourn} & \textbf{IFS} & \textbf{Lex$-$Tourn} & \textbf{Lex$-$Tourn CI} & \textbf{Lex$-$IFS} & \textbf{Lex$-$IFS CI} & \textbf{Size} \tabularnewline
 \midrule
 Number IO  & \underline{98}                 & 68      & 72  & $0.30$ & $[0.19, 0.41]$ & $0.26$ & $[0.16, 0.36]$ & 5 \tabularnewline
 Small Or Large  & 5            & 3       & 3           & $0.02$ & $[-0.04, 0.08]$ & $0.02$ & $[-0.04, 0.08]$ & 27 \tabularnewline
